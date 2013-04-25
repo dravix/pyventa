@@ -1,0 +1,25 @@
+class Qt:
+  WindowStaysOnTopHint=0x00040000
+  NonModal=0	#The window is not modal and does not block input to other windows.
+  WindowModal=1	#
+  ApplicationModal=2 #
+  NoPen=0	#no line at all. For example, QPainter::drawRect() fills but does not draw any boundary line.
+  SolidLine=1	#A plain line.
+  DashLine=2	#Dashes separated by a few pixels.
+  DotLine=3	#Dots separated by a few pixels.
+  DashDotLine=4	#Alternate dots and dashes.
+  DashDotDotLine=5	#One dash, two dots, one dash, two dots.
+  CustomDashLine=6	#A custom pattern defined using QPainterPathStroker::setDashPattern().
+  Widget=0x00000000	
+  Window=0x00000001	
+  Dialog=0x00000002 
+  Sheet=0x00000004 
+  Drawer=0x00000006 
+  Popup=0x00000008 
+  Tool=0x0000000a 
+  ToolTip=0x0000000c 
+  SplashScreen=0x0000000e
+  Desktop=0x00000010 
+  SubWindow=0x00000012
+  white=3
+  black=2
