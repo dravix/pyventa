@@ -17,32 +17,25 @@ class configurador(QtGui.QDialog, Ui_Dialog):
 		self.password=''
 		self.db='tpv'
 		if configFile!=-1:
-		  self.configFile=configFile
-		  print self.configFile
+		  self.cfg=configFile
 		  self.iniciar()
 
     def iniciar(self):
-	self.cfg = ConfigParser.ConfigParser()
-	if(self.cfg.read([self.configFile])):
 	  self.tserver.setText(self.cfg.get('mysql','host'))
 	  self.tuser.setText(self.cfg.get('mysql','user'))
 	  self.tpass.setText(self.cfg.get('mysql','pass'))
 	  self.tdb.setText(self.cfg.get('mysql','db'))
-	else:
-	  print "No se encontro"+self.configFile
+
 	  
     def setDB(self):
-	self.cfg = ConfigParser.ConfigParser()
-	if(self.cfg.read([self.configFile])):
-	  print self.configFile
+
 	  self.cfg.set('mysql','host',self.host)
 	  self.cfg.set('mysql','user',self.user)
 	  self.cfg.set('mysql','pass',base64.b64encode(self.password))
 	  self.cfg.set('mysql','db',self.db)
-	  self.cfg.write(open(self.configFile,"w+"))
+	  self.cfg.guardar()
 	  self.done(1)
-	else:
-	  print "No se encontro"+self.configFile
+
 	  
     def crearDB(self):
 		progress=QtGui.QProgressDialog("Cargando la base de datos","Cerrar", 0, 4, self)

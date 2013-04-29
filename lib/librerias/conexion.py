@@ -31,7 +31,7 @@ class Conexion:
 
     def asistente(self):
 	print "Configurando base de datos"
-	ui = BDConfig(join(home,"config.cfg"))
+	ui = BDConfig(self.cfg)
 	dialog=ui.exec_()
 	if (dialog==1):
 	  self.__init__(self.parent)  

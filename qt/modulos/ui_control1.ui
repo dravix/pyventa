@@ -127,11 +127,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit">
-             <property name="placeholderText">
-              <string>Busque por descripcion, referencia o codigo</string>
-             </property>
-            </widget>
+            <widget class="QLineEdit" name="lineEdit"/>
            </item>
           </layout>
          </widget>

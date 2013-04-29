@@ -25,7 +25,7 @@ class Configurador():
 		ret=msgBox.exec_()
 		if ret==QMessageBox.Yes:
 		    if sys.platform == 'linux2':   
-			  os.system("cp -r perfil {0}".format(home))
+			  os.system("cp -r /usr/share/pyventa/perfil {0}".format(home))
 		    else:
 			  os.system("xcopy perfil \"%s\" /i /a /e /k"%self.home)
 		    msgBox=QMessageBox(QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Se han cargado las configuraciones por defecto, ahora usted puede configurar el sistema. Gracias.</p>.",QMessageBox.Close,self.parent)
@@ -55,8 +55,8 @@ class Configurador():
 		    self.cfg.set(str(modulo),str(propiedad),str(valor))
 	    except ConfigParser.Error,e: 
 		    raise(e)
-	    else:
-		    self.guardar()	
+	    #else:
+		    #self.guardar()	
 	    
     def getDato(self,modulo,propiedad):
 	    if self.cfg.has_option(modulo,propiedad):
@@ -71,6 +71,7 @@ class Configurador():
     def guardar(self):
 #Escribe todo el archivo con los cambios que se hayan realizado
 	    self.cfg.write(open(self.ruta,"w+"))
+	    print "Guardando configuracion"
 
     def setCambio(self,modulo,propiedad,valor):
 #Registra el valor de un campo(propiedad) de un modulo  

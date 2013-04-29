@@ -669,7 +669,7 @@
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>8</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1154,11 +1154,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lepFiltro">
-                        <property name="placeholderText">
-                         <string>Busque por descripcion, referencia o codigo</string>
-                        </property>
-                       </widget>
+                       <widget class="QLineEdit" name="lepFiltro"/>
                       </item>
                       <item>
                        <widget class="QToolButton" name="tbpBuscar">
@@ -2801,9 +2797,6 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                              <verstretch>0</verstretch>
                             </sizepolicy>
                            </property>
-                           <property name="placeholderText">
-                            <string>Busque por descripcion, referencia o codigo</string>
-                           </property>
                           </widget>
                          </item>
                          <item>
@@ -3902,11 +3895,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lepFiltro_6">
-                        <property name="placeholderText">
-                         <string>Busque por descripcion, referencia o codigo</string>
-                        </property>
-                       </widget>
+                       <widget class="QLineEdit" name="lepFiltro_6"/>
                       </item>
                       <item>
                        <widget class="QLabel" name="label_14">
@@ -4792,11 +4781,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lepFiltro_5">
-                        <property name="placeholderText">
-                         <string>Busque por descripcion, referencia o codigo</string>
-                        </property>
-                       </widget>
+                       <widget class="QLineEdit" name="lepFiltro_5"/>
                       </item>
                       <item>
                        <widget class="QLabel" name="label_65">
@@ -5683,11 +5668,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="leOFIltro">
-                        <property name="placeholderText">
-                         <string>Busque por referencia</string>
-                        </property>
-                       </widget>
+                       <widget class="QLineEdit" name="leOFIltro"/>
                       </item>
                       <item>
                        <widget class="QLabel" name="label_15">
@@ -6104,11 +6085,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="leuFiltro">
-                        <property name="placeholderText">
-                         <string>Busque por descripcion, referencia o codigo</string>
-                        </property>
-                       </widget>
+                       <widget class="QLineEdit" name="leuFiltro"/>
                       </item>
                      </layout>
                     </widget>

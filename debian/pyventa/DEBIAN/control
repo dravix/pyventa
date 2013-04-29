@@ -1,0 +1,13 @@
+Package: pyventa
+Version: 2.346
+Architecture: i386
+Maintainer: dave <david@pyventa.com>
+Installed-Size: 4227
+Depends: python-mysqldb (>= 1.2), libqtcore4 (>= 4.4.3), python-qt4
+Section: publishing
+Priority: extra
+Homepage: pyventa.com
+Description: Punto de venta para pequenos negocios
+ Pyventa es un software administrativo disenado para su facil utilizacion
+ en el control de productos, ventas, clientes. Pyventa permite generar registros
+ de ventas, imprime tickets, e imprime en formatos especificos.

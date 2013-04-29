@@ -1,0 +1,6 @@
+pyventa (2.346) quantal; urgency=medium
+
+  * Correccion en contro de codigos alternativos
+
+
+ -- dave <david@pyventa.com>  Tue, 01 April 2013 15:30:17 -0600

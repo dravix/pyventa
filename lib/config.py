@@ -81,7 +81,9 @@ class Configs(QtGui.QDialog, Ui_Form):
 	self.connect(self.chbRecibePagos,QtCore.SIGNAL("stateChanged ( int  )"),self.setRecibePagos)
 	self.connect(self.chbImprimirCopia,QtCore.SIGNAL("stateChanged ( int  )"),self.setImprimeCopiaRecibo)
 	self.connect(self.chbImprimirTicket,QtCore.SIGNAL("stateChanged ( int  )"),self.setImprimeTicket)
-
+	self.connect(self.dsbTicketTigger,QtCore.SIGNAL("valueChanged ( float  )"),self.setTicketTrigger)
+	self.connect(self.dsbCopia,QtCore.SIGNAL("valueChanged ( float  )"),self.setCopiaTrigger)
+      
 	#self.connect(self.gbTickets,QtCore.SIGNAL("clicked()"),lambda: self.setCambio('ticket','default',self.boolint(self.gbTickets.isChecked())))
 	#self.connect(self.gbFacturas,QtCore.SIGNAL("clicked()"),lambda: self.setCambio('facturas','default',self.boolint(self.gbFacturas.isChecked())))		#self.connect(self.bfSave, QtCore.SIGNAL("clicked()"), self.cambiarFolderFacturas )
 	self.mysql={'host':'','user':'','pass':'','db':'tpv'}
@@ -90,6 +92,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 	#self.cfg = ConfigParser.ConfigParser()
 	self.modulos={'empresa':{},'respaldo':{},'mysql':{},'ticket':{},'factura':{},'nota':{},'pyventa':{}}
 	self.inicia()
+
 	self.checkRespaldo()
 	self.setupMenus()
 	#self.listarImp()
@@ -156,7 +159,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 		  tipo=name.split('.')
 		  if tipo[1]=='css':
 		    self.cbEstilos.addItem(str(name))
-	
+
 	#----Impresiones
 	try:
 	  conn = cups.Connection ()
@@ -168,11 +171,15 @@ class Configs(QtGui.QDialog, Ui_Form):
 	  
 	self.dsbCopia.setValue(float(self.kfg.getDato("ticket","copia-trigger")))  
 	self.dsbTicketTigger.setValue(float(self.kfg.getDato("ticket","trigger")))  	
+
 	self.chbImprimirCopia.setCheckState(int(self.kfg.getDato("ticket","copia")))  
-	self.chbImprimirTicket.setCheckState(int(self.kfg.getDato("ticket","default")))  
+	self.chbImprimirTicket.setCheckState(int(self.kfg.getDato("ticket","default"))) 
+	
 	driverpath=join(self.parent.home,'drivers')
 	self.cbDrivers.addItems([ f[0:-3] for f in os.listdir(driverpath) if isfile(join(driverpath,f)) and f[-1]=='y' ])
+
 	self.cbDrivers.setCurrentIndex(self.cbDrivers.findText(self.kfg.getDato("ticket","driver")))
+
 
 	
     def setupMenus(self):
@@ -215,7 +222,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 	      except ConfigParser.Error,e:
 		print "({0},{1},{2}), No se guardo la configuracion".format(modulo,propiedad,valor),e
 	      else:
-		self.cfg.guardar()
+		#self.cfg.guardar()
 		self.parent.cfg=self.cfg
 		
     def setDB(self):
@@ -446,6 +453,13 @@ class Configs(QtGui.QDialog, Ui_Form):
 	self.setCambio('ticket','default',bo)
 	if bo:
 	  self.setCambio('ticket','trigger',str(self.dsbTicketTigger.value()))
+	  
+    def setTicketTrigger(self,val):
+      self.setCambio('ticket','trigger',str(self.dsbTicketTigger.value()))
+      
+    def setCopiaTrigger(self, val):
+       self.setCambio('ticket','copia-trigger',str(self.dsbCopia.value()))
+      
       #====GETTERS====
 	
     def datos(self):
@@ -455,6 +469,9 @@ class Configs(QtGui.QDialog, Ui_Form):
     #recibe un booleano y lo transforma en 1 o 0
       if not boo: return 0
       else: return 1
+      
+    def closeEvent(self,event):
+      self.cfg.guardar()
       
 if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)

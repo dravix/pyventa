@@ -122,7 +122,6 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		if self.cfg.stat:
 		  self.conexion=Conexion(self,self.cfg)
 		  self.caja=self.cfg.get('pyventa','caja')
-
 		  if self.conexion.stat:
 		    self.cursor=self.conexion.cursor
 		    self.curser=self.conexion.curser
@@ -150,6 +149,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.fecha=str(hoy.strftime("%d-%m-%Y"))
 		self.datos['fecha']=self.fecha
 		self.hlm.addWidget(self.bventa)
+		
 		self.modulos["config"]=Configs(self,self.stack.count())
 		#self.stack.addWidget(self.modulos["config"])
 		self.modulos["buscador"]=Buscador(self,self.stack.count())
@@ -217,24 +217,24 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
       self.tabla.addAction(modific)
       self.tabla.addAction(self.removerProducto)
       
-    def check(self):
-	if not os.path.exists(os.path.join(self.home,"config.cfg")):
-	    	msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Question,"No se ha detectado el archivo de configuracion","Desea que el sistema asigne  una configuracion por defecto? ",QtGui.QMessageBox.Yes|QtGui.QMessageBox.No,self)
-		ret=msgBox.exec_()
-		if ret==QtGui.QMessageBox.Yes:
-		    if sys.platform == 'linux2':   
-			  os.system("cp -r /usr/share/pyventa/perfil/ "+self.home)
-		    else:
-			  os.system("xcopy \usr\share\pyventa\perfil \"%s\" /i /a /e /k"%self.home)
-		    msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Ahora se recopilaran los datos necesarios para la base de datos, despues de eso el programa se cerrara para establecer las configuraciones.</p>.",QtGui.QMessageBox.Close,self)
-		    msgBox.exec_()
-		    self.conexion()     
-		else:
-		    print "El programa no puede continuar porque no existe el archivo de configuracion."
-		    self.close()
-	else:
-	      sys.path.append(os.path.join(self.home,'drivers'))
-	      self.ticketDriver=__import__("perfil.drivers.{}".format(self.cfg.get('ticket','driver')),globals(),locals(),[])
+    #def check(self):
+	#if not os.path.exists(os.path.join(self.home,"config.cfg")):
+	    	#msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Question,"No se ha detectado el archivo de configuracion","Desea que el sistema asigne  una configuracion por defecto? ",QtGui.QMessageBox.Yes|QtGui.QMessageBox.No,self)
+		#ret=msgBox.exec_()
+		#if ret==QtGui.QMessageBox.Yes:
+		    #if sys.platform == 'linux2':   
+			  #os.system("cp -r /usr/share/pyventa/perfil/ "+self.home)
+		    #else:
+			  #os.system("xcopy \usr\share\pyventa\perfil \"%s\" /i /a /e /k"%self.home)
+		    #msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Ahora se recopilaran los datos necesarios para la base de datos, despues de eso el programa se cerrara para establecer las configuraciones.</p>.",QtGui.QMessageBox.Close,self)
+		    #msgBox.exec_()
+		    #self.conexion()     
+		#else:
+		    #print "El programa no puede continuar porque no existe el archivo de configuracion."
+		    #self.close()
+	#else:
+	      #sys.path.append(os.path.join(self.home,'drivers'))
+	      #self.ticketDriver=__import__("perfil.drivers.{}".format(self.cfg.get('ticket','driver')),globals(),locals(),[])
 		   
     def iniVal(self):
 	self.datos={'total':0,'subtotal':0,'descuento':0,'fecha':0}
@@ -256,36 +256,36 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	self.lnota.setText("Ultima Nota: <b>#"+self.nota+"</b>")	
 	self.codigo.setFocus()
 	
-    def conexion(self):
-		self.check()
-		self.cfg = ConfigParser.ConfigParser()
-		if self.cfg.read([os.path.join(self.home,"config.cfg")]):
-			if self.cfg.has_option("mysql", "user"):
-				try:
-				  host = self.cfg.get("mysql", "host")  
-				  user = self.cfg.get("mysql", "user")  
-				  password = base64.b64decode(self.cfg.get("mysql", "pass"))
-				  data = self.cfg.get("mysql", "db")
-				  db = MySQLdb.connect(host, user, password,data)
+    #def conexion(self):
+		#self.check()
+		#self.cfg = ConfigParser.ConfigParser()
+		#if self.cfg.read([os.path.join(self.home,"config.cfg")]):
+			#if self.cfg.has_option("mysql", "user"):
+				#try:
+				  #host = self.cfg.get("mysql", "host")  
+				  #user = self.cfg.get("mysql", "user")  
+				  #password = base64.b64decode(self.cfg.get("mysql", "pass"))
+				  #data = self.cfg.get("mysql", "db")
+				  #db = MySQLdb.connect(host, user, password,data)
 
-				except:
-				      self.configBd()
-				else:
-				    self.cursor = db.cursor()
-				    self.curser= db.cursor(MySQLdb.cursors.DictCursor)
-				    self.cursor.execute("select `id` from notas order by `id` desc limit 1;")
-				    nota=self.cursor.fetchone()
-				    if (nota!=None):
-				      self.nota=str(nota[0])
-				      self.lnota.setText("Ultima Nota: <b>#"+self.nota+"</b>")
+				#except:
+				      #self.configBd()
+				#else:
+				    #self.cursor = db.cursor()
+				    #self.curser= db.cursor(MySQLdb.cursors.DictCursor)
+				    #self.cursor.execute("select `id` from notas order by `id` desc limit 1;")
+				    #nota=self.cursor.fetchone()
+				    #if (nota!=None):
+				      #self.nota=str(nota[0])
+				      #self.lnota.setText("Ultima Nota: <b>#"+self.nota+"</b>")
 
-			else:
-				print "Iniciando el configurador"
-				self.configBd()
+			#else:
+				#print "Iniciando el configurador"
+				#self.configBd()
 
-		else:  
-		      print "No se encontro el nombre en el archivo de configuracion.\nIniciando el configurador"
-		      self.configBd()
+		#else:  
+		      #print "No se encontro el nombre en el archivo de configuracion.\nIniciando el configurador"
+		      #self.configBd()
 		      
     def iniciarMenus(self):
 	self.popLista2=QtGui.QMenu(self)
@@ -309,7 +309,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	  
     def configBd(self):
 	print "Configurando base de datos"
-	ui = configurador(os.path.join(self.home,"config.cfg"))
+	ui = configurador(self.cfg)
 	dialog=ui.exec_()
 	if (dialog==1):
 	  self.conexion()  

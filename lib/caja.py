@@ -182,8 +182,9 @@ class Cajas(QtGui.QDialog, Ui_Form):
 	
     def detallarGastos(self):
 	self.stack.setCurrentIndex(1)
-	head=['if','Fecha','Usuario','Concepto','Cantidad']
-	periodo=self.periodo.replace("fecha", "G.fecha")
+	head=['Num','Fecha','Usuario','Caja','Concepto','Cantidad']
+	#periodo=self.periodo.replace("fecha", "G.fecha")
+	sql="SELECT num_gasto,fecha, usuarios.nombre,cajas.nombre,concepto,cantidad  FROM gastos,cajas, usuarios where usuario=usuarios.id_usuario and caja=num_caja and "+self.periodo
 	self.parent.tabular(self.twGastos,sql,head)
 	self.detallarCompras()
 	

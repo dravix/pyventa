@@ -199,9 +199,6 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
-                 <property name="placeholderText">
-                  <string>Cantidad</string>
-                 </property>
                 </widget>
                </item>
               </layout>
@@ -870,6 +867,9 @@ p, li { white-space: pre-wrap; }
                    </property>
                    <property name="selectionBehavior">
                     <enum>QAbstractItemView::SelectRows</enum>
+                   </property>
+                   <property name="showGrid">
+                    <bool>false</bool>
                    </property>
                    <property name="sortingEnabled">
                     <bool>true</bool>
