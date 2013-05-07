@@ -136,41 +136,47 @@ def setComboModelKey(combo, key): #Establece el combo en el valor de la llave
   
   
   
-def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css=""): #opc(titulo:true,cabezas:true,enumerado:false)
-  ide=titulo.lower().replace(' ','')
+def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css="", anchos=False,width="100%"): #opc(titulo:true,cabezas:true,enumerado:false)
+  ide="tabla"
   locale.setlocale(locale.LC_ALL, 'en_US.utf8')
   html="""<style> table {{border-collapse:collapse;}}
 .odd{{background:#efefef}}
-.{0} .cab{{background:{1}; color:{2};}}
-.{0} .cabeza{{background:{1}; color:{2}; font-weight:700;border:0px solid #333}}
-table.{0} {{border-style:solid; font-size:{4}px;}}
-.{0} th {{font-size:{5}}}
-{3}
-</style>""".format(ide,fondo,color,css,tfuente,tfuente+1)
+.{ide} .cab{{background:{fondo}; color:{color};}}
+.{ide} .titulo{{background:{fondo}; color:{color};font-size:{fuente1}; font-weight:700;border:0px solid #333}}
+table.{ide} {{border-style:solid; font-size:{fuente}px;}}
+.{ide} th {{font-size:{fuente1}}}
+{css}</style>
+<table class="{ide}" width="{width}" valign="top"  cellspacing="0" cellpadding="5" align="center"  >
+""".format(ide=ide,fondo=fondo,color=color,css=css,fuente=tfuente,fuente1=tfuente+1,width=width)
+  if isinstance(cabezas,str):
+    cabezas=','.join(cabezas)
+  if not anchos:
+      anchos=['']*len(lista[0])
+  else:
+      anchos=['width="{0}%"'.format(item) for item in anchos]
+            
   if opc[0]=='1' and len(titulo)>0: #si se quiere mostrar el titulo
-    html+="""<table class="{0}" width="100%" valign="top"  cellspacing="0" cellpadding="5" align="center"  ><tr class="cabeza" ><th colspan="{1}">{3}</th></tr>\n""".format(ide, len(cabezas),tfuente+4,titulo)
+    html+="""<tr class="titulo" ><th colspan="{0}">{1}</th></tr>\n""".format( len(cabezas),titulo)
   #html+="""<table width="100%%" border="0" cellspacing="0" cellpadding="5">"""
   if opc[1]=='1' and len(cabezas)>0: #si se quiere mostrar las cabezas
-    html+="""<tr class="cab"> """
-    width=False
-    for item in cabezas:
-      if isinstance(item,list) and len(item)>1:
-	html+="""<th width="{ancho}"><span>{texto}</span></th>""".format(ancho=item[0],texto=item[1])
-      else:
-	html+="""<th ><span>%s</span></th>"""%(item)
-    html+="""</tr>\n"""
+    html+="""<tr class="cab"> """       
+    for i,item in enumerate(cabezas):
+	if i>=len(anchos):
+	  anchos.append('')
+	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente+1,dato=item)
+    html+="""</tr>"""
 
-  for i,li in enumerate(lista):
-    if i%2==0  :
-      html+="""<tr class="odd" valign='top'>"""
+  for j,li in enumerate(lista):
+    if j%2==0  :
+      html+="""\t<tr class="odd" valign='top'>\n"""
     else:
-      html+="""<tr  valign='top'>"""
-    for col in li:
+      html+="""\t<tr  valign='top'>\n"""
+    for i,col in enumerate(li):
       if col!=None :
 	if isinstance(col,float):
-	    html+="""<td align="right" >{:,.2f}</td>""".format(col)
+	    html+="""\t\t<td align="right" {ancho} class="celda" >{dato:,.2f}</td>\n""".format(dato=col,ancho=anchos[i])
 	elif isinstance(col,int):
-	    html+="""<td align="right" >{:,}</td>""".format(col)
+	    html+="""\t\t<td align="right"  {ancho} class="celda">{dato:,}</td>\n""".format(dato=col,ancho=anchos[i])
 	elif isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
 	#cuando detecte que es un numero 
 	  if isinstance(col,int):
@@ -181,14 +187,63 @@ table.{0} {{border-style:solid; font-size:{4}px;}}
 	    dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
 	  else:
 	    dato=col
-	  html+="""<td align="right" >{:}</td>""".format(dato)
+	  html+="""\t<td align="right"  {ancho} class="celda">{dato}</td>\n""".format(dato=dato,ancho=anchos[i])
 	else: # Es una cadena
-	  html+="""<td align="left">%s</td>"""%(col)
-    html+="""</tr>\n"""
+	  html+="""\t\t<td align="left"  {ancho} class="celda">{dato}</td>\n""".format(dato=col,ancho=anchos[i])
+    html+="""\t</tr>\n"""
   html+="""</table>\n"""
   return html
 
+def listaHtml1(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css="",anchos=False,espacio=0): #opc(titulo:true,cabezas:true,enumerado:false)
+  ide=titulo.lower().replace(' ','')
+  locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+  html="""<style type="text/css">
+table{border-collapse:collapse;}
+.%s .odd{background:#efefef}
+.%s .cab{background:%s; color:%s;}
+.%s .cabeza{background:%s; color:%s; font-weight:700;border:2px solid #333}
+table{border-style:solid}
+%s
+</style>"""%(ide,ide,fondo,color,ide,fondo,color,css)
+  if opc[0]=='1' and len(titulo)>0: #si se quiere mostrar el titulo
+    html+="""<table class="%s" width="100%%" valign="top"  cellspacing="0px" cellpadding="%s"  ><tr class="cabeza" ><th colspan=%s><span style="font-size:%spx;">%s</span></th></tr>"""%(ide,espacio, len(cabezas),tfuente+4,titulo)
+  #html+="""<table width="100%%" border="0" cellspacing="0" cellpadding="5">"""
+  if not anchos:
+      anchos=['']*len(lista[0])
+  else:
+      anchos=['width="{0}%"'.format(item) for item in anchos]  
+  if opc[1]=='1' and len(cabezas)>0: #si se quiere mostrar las cabezas
+    html+="""<tr class="cab"> """       
+    for item in cabezas:
+	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente+1,dato=item[1])
+    html+="""</tr>"""
 
+  for j,li in enumerate(lista):
+    if j%2==0  :
+      html+="""<tr class="odd" valign='top'>"""
+    else:
+      html+="""<tr  valign='top'>"""
+    for i,col in enumerate(li):
+      if col!=None :
+	if isinstance(col,float):
+	    dato=str(col)
+	if isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
+	#cuando detecte que es un numero 
+	  if isinstance(col,int):
+	    dato=str(col)
+	  
+	  if str(col)[0].isdigit() or str(col)[0]=='-':
+	    dato=locale.format("%.2f",float(col),grouping=True)
+	  elif str(col)[0]=='$':
+	    dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
+	  else:
+	    dato=col
+	  html+="""<td align="right" {ancho} class="celda"><span style="font-size:{tfuente}px;">{dato}</span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=dato)
+	else: # Es una cadena
+	  html+="""<td align="left" {ancho} class="celda" ><span style="font-size:{tfuente}px;"> {dato} </span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=col)
+    html+="""</tr>"""
+  html+="""</table>"""
+  return html
 
 def printb(parent,titulo,plantilla,campos):
     f=open(plantilla,"r+")

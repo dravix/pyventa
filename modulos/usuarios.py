@@ -5,6 +5,8 @@ from PyQt4.QtGui import *
 from ui.ui_editor_usuarios import Ui_Dialog
 from ui.ui_editor_claves import Ui_Claves
 import MySQLdb
+import md5, sqlite3
+from lib.librerias.conexion import dicursor
 class Usuarios:
     def __init__(self,parent):
 		self.ui=parent
@@ -96,7 +98,7 @@ class Usuarios:
 	  #dep=self.ui.twFamilias.item(self.ui.twFamilias.currentRow(),0).text()
 	      #self.ui.cursor.execute("UPDATE productos set familia=0 where familia="+str(dep))
 	      self.ui.cursor.execute("delete from usuarios where id_usuario="+str(key))
-	      self.ui.cursor.execute("COMMIT")
+	      self.ui.conexion.commit()
 	  self.listar()
 
     def editar(self,y,x):
@@ -105,31 +107,34 @@ class Usuarios:
 	self.ide=key
 	self.curser.execute("SELECT * FROM usuarios where id_usuario=%s"%key)
 	usuario=self.curser.fetchone()
-	self.ui.leNombre.setText(str(usuario['nombre']))
-	self.ui.leUsuario.setText(str(usuario['usuario']))
-	self.ui.leClave.setEnabled(False)
-	self.ui.cbNivel.setCurrentIndex(self.ui.cbNivel.findData(QVariant(usuario['nivel'])))
-	#self.ui.wuControls.setVisible(True)
+	if usuario!=None:
+	  usuario=dicursor(self.curser,usuario)
+	  self.ui.leNombre.setText(str(usuario['nombre']))
+	  self.ui.leUsuario.setText(str(usuario['usuario']))
+	  self.ui.leClave.setEnabled(False)
+	  self.ui.cbNivel.setCurrentIndex(self.ui.cbNivel.findData(QVariant(usuario['nivel'])))
+	  #self.ui.wuControls.setVisible(True)
 	  
     def guardar(self):
 	  nivel=int(self.ui.cbNivel.itemData(self.ui.cbNivel.currentIndex()).toString())
 	  try:
 	    if self.ide!=-1:
 	      familia=(self.ui.leNombre.text(),self.ui.leUsuario.text(),nivel,self.ide)
-	      self.curser.execute("""UPDATE usuarios set nombre=%s, usuario=%s, nivel=%s where id_usuario=%s""",familia)
+	      self.curser.execute("""UPDATE usuarios set nombre=%s, usuario=%s, nivel=%s where id_usuario=%s"""%familia)
 	    else:
-	      familia=(self.ui.leNombre.text(),self.ui.leUsuario.text(),self.ui.leClave.text(),nivel)
-	      self.curser.execute("""INSERT INTO usuarios value (NULL,%s, %s,MD5(%s),%s )""",familia)
+	      m=md5.new(str(self.ui.leClave.text()))
+	      familia=(self.ui.leNombre.text(),self.ui.leUsuario.text(),m.hexdigest(),nivel)
+	      self.curser.execute("""INSERT INTO usuarios values (NULL,'%s', '%s','%s',%s )"""%familia)
 	  except MySQLdb.Error, e:
 	    if e.args[0]==1062:
 	      self.parent.notify("error","No se registro el usuario","El nombre de usuario ya existe, elija otro.",7)
 	    else:
 	      print e
-	  except:
+	  except sqlite3.Error, e:
 	      self.parent.notify("error","No se registro el usuario","Compruebe sus datos",5)
-
+	      raise(e)
 	  else:
-	    self.curser.execute("COMMIT")
+	    self.ui.conexion.commit()
 	    self.limpiar()
 	    self.listar()
 	  
@@ -187,14 +192,14 @@ class editorUsuarios(QDialog, Ui_Dialog):
 	  try:
 	    if self.ide!=-1:
 	      familia=(self.leNombre.text(),self.leUsuario.text(),nivel,self.ide)
-	      self.curser.execute("""UPDATE usuarios set nombre=%s, usuario=%s, nivel=%s where id_usuario=%s""",familia)
+	      self.curser.execute("""UPDATE usuarios set nombre=%s, usuario=%s, nivel=%s where id_usuario=%s"""%familia)
 	    else:
 	      familia=(self.leNombre.text(),self.leUsuario.text(),self.leClave.text(),nivel)
-	      self.curser.execute("""INSERT INTO usuarios value (NULL,%s, %s,MD5(%s),%s )""",familia)
-	  except:
-	      pass
+	      self.curser.execute("""INSERT INTO usuarios values (NULL,'%s', '%s','%s',%s )"""%familia)
+	  except sqlite3.Error,e:
+	      raise(e)
 	  else:
-	    self.curser.execute("COMMIT")
+	    self.ui.conexion.commit()
 	      
 
 
@@ -211,14 +216,16 @@ class editorClaves(QDialog, Ui_Claves):
 		self.connect(self.leRepeticion, SIGNAL("editingFinished ()"), self.checarRepeticion)
 		self.connect(self.leRepeticion, SIGNAL("returnPressed () "), self.checarRepeticion)
 		self.connect(self.time, SIGNAL("timeout()"), self.limpiarAlerta)
-		self.cursor.execute("""SELECT usuario from usuarios where id_usuario=%s""",self.ide)
+		self.cursor.execute("""SELECT usuario from usuarios where id_usuario=%s"""%self.ide)
 		usuario=self.cursor.fetchone()[0]
 		self.lbUsuario.setText("Usuario: %s "%str(usuario))
 		self.bandera={'actual':False,'repeat':False,}
 
     def checarActual(self):
 	actual=str(self.leActual.text())
-	self.cursor.execute("""SELECT COUNT(id_usuario) from usuarios where id_usuario=%s and clave=MD5(%s) """,(self.ide,actual))
+	m=md5.new(actual)
+	
+	self.cursor.execute("""SELECT COUNT(id_usuario) from usuarios where id_usuario=%s and clave='%s' """%(self.ide,m.hexdigest()))
 	qry=self.cursor.fetchone()[0]
 	if qry>0 :
 	  self.bandera['actual']=True
@@ -242,10 +249,10 @@ class editorClaves(QDialog, Ui_Claves):
 	self.checarRepeticion()
 	if self.bandera['actual']==True:
 	  if self.bandera['repeat']==True:
-	    print """UPDATE usuarios set clave=MD5(%s) WHERE id_usuario=%s"""%(nueva,self.ide)
-
-	    self.cursor.execute("""UPDATE usuarios set clave=MD5(%s) WHERE id_usuario=%s""",(nueva,self.ide))
-	    self.cursor.execute("COMMIT")
+	    #print """UPDATE usuarios set clave=MD5(%s) WHERE id_usuario=%s"""%(nueva,self.ide)
+	    m=md5.new(nueva)
+	    self.cursor.execute("""UPDATE usuarios set clave='%s' WHERE id_usuario=%s"""%(m.hexdigest(),self.ide))
+	    self.ui.conexion.commit()
 
     def limpiarAlerta(self):
 	self.lbAlerta.clear()

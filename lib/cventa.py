@@ -4,9 +4,13 @@ sys.path.append(os.path.join('/usr','share','pyventa','import','Cventa'))
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QTimer, SIGNAL
 from ui.ui_cventa import Ui_Form
-import MySQLdb, ConfigParser
+import MySQLdb, sqlite3
 from lib.selector import Selector
-from lib.utileria import ResumenVenta as Resumen, Factura
+from lib.utileria import ResumenVenta as Resumen
+from lib.factura import Factura
+from lib.modelos.compra import Compra
+from lib.modelos.venta import Venta
+
 class Cventa(QtGui.QDialog, Ui_Form):
     def __init__(self,parent,id):
     		QtGui.QDialog.__init__(self)
@@ -43,6 +47,7 @@ class Cventa(QtGui.QDialog, Ui_Form):
 		
     def ver(self):
       if (len(self.parent.basket)>0):
+	#self.parent.stackMove(0)
 	if self.parent.banderas['tipo']=='c' and self.parent.aut(2)>0: #si es compra
 	    self.guardarCompra()
 	elif self.parent.banderas['tipo']=='v' and self.parent.aut(1)>0:  #si es venta   
@@ -112,61 +117,25 @@ class Cventa(QtGui.QDialog, Ui_Form):
 	  self.data['tipo']=0;
 	  
     def eliminarCompra(self,ide):
-      try:
-	self.cursor.execute( "UPDATE existencia as e, comprados as cc SET stock_logico=stock_logico-cantidad WHERE e.producto=cc.producto and compra=%s;"%ide)
-	self.cursor.execute("""DELETE FROM comprados where compra=%s """,ide)
-	self.cursor.execute("""DELETE FROM compras where id=%s """,ide)
-      except:
-	print "Problema al eliminar la compra, la operacion no se realizo."
-	return False
-      else:
-	self.cursor.execute("COMMIT")
-	return True
+      compra=Compra(conexion=self.parent.conexion)
+      return compra.eliminar(ide)
 
     def guardarCompra(self):
+      compra=Compra(conexion=self.parent.conexion)
+      ret=False
       if (self.parent.banderas['tipo']=='c'):
 	if (self.parent.banderas['edicion']!=False):
-	  ide=self.parent.banderas['edicion']
-	  try:
-	    self.cursor.execute("UPDATE existencia as e, comprados as cc SET stock_logico=stock_logico-cantidad WHERE e.producto=cc.producto and compra=%s;"%ide)
-	    self.cursor.execute("""DELETE FROM comprados where compra=%s """,ide)
-	    self.cursor.execute("COMMIT")
-	  except:
-	    return
-
-	total=0.0
-	for item in self.parent.basket:
-	    total+=float(item[4])
-	try:
-	  if (self.parent.banderas['edicion']!=False):
-	    self.cursor.execute("UPDATE compras SET proveedor=%s, comprador=%s, total=%s WHERE id=%s;"%(self.parent.cliente['id'],self.parent.sesion['usuario']['id_usuario'],total, ide))  
-	    last=ide
-	  else:
-	    #print "INSERT INTO compras VALUES(NULL,NOW(),%s,%s, %s,0); "%(self.parent.cliente['id'],self.parent.sesion['usuario']['id_usuario'],total)
-
-	    self.cursor.execute("INSERT INTO compras VALUES(NULL,NOW(),%s,%s, %s,0); "%(self.parent.cliente['id'],self.parent.sesion['usuario']['id_usuario'],total))
-	    self.cursor.execute("SELECT LAST_INSERT_ID();")
-	    last=int(self.cursor.fetchone()[0])
-	    self.parent.nota=last
-	except MySQLdb.Error, e:
-	  print "Problema para crear una compra.\n La operacion no se realizo"
-	  raise(e)
+	   ret= compra.actualizar(ide=self.parent.banderas['edicion'],canasta=self.parent.basket,usuario=self.parent.sesion['usuario']['id_usuario'],proveedor=self.parent.cliente['id'])
 	else:
-	  self.cursor.execute("COMMIT")
-
-	  for item in self.parent.basket:
-	      try:
-		self.cursor.execute("""insert into comprados values(%s,%s,%s,(SELECT costo from productos where ref=%s),%s)""",(last,item[0],item[1],item[0],item[4]))
-		sql="UPDATE existencia SET stock_logico=stock_logico+%s where producto=%s"%(item[1],item[0])
-		self.cursor.execute(sql)		
-	      except:
-		print "Error al guardar el producto ",(last,item[0],item[1],item[0],item[4])
-
-	  self.cursor.execute("COMMIT") 
-	self.parent.banderas['edicion']=False
-	self.parent.banderas['tipo']='v'
-	self.limpiar()
-	self.parent.limpiar()
+	   ret=compra.guardar(canasta=self.parent.basket,usuario=self.parent.sesion['usuario']['id_usuario'],proveedor=self.parent.cliente['id'])
+	   if ret!=False:
+	    self.parent.nota=ret
+	if ret:
+	  self.parent.banderas['edicion']=False
+	  self.parent.banderas['tipo']='v'
+	  self.limpiar()
+	  self.parent.limpiar()
+      return ret
 
 
     def cobro(self,ac):
@@ -244,61 +213,36 @@ class Cventa(QtGui.QDialog, Ui_Form):
 
     def allocate(self,tipo,forma):
 #Almacena en la base de datos, l nota con todos sus elementos
-      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=curdate();")
+      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=date(current_timestamp);")
       #qry=self.cursor.fetchone()
       last=0
-      #if (qry[0]==1):
-	  #print "Esta nota no entrara en la venta de hoy pues ya se hizo un corte."
       if len(self.parent.basket)>0:
-	try:
-	      if (self.parent.banderas['edicion']!=False):#Si se esta guardando una nota que se reedito
-		last=self.parent.banderas['edicion']
-		self.parent.banderas['edicion']=False
-		print "Editando nota %s "%last
-		#self.cursor.execute("SELECT cantidad, producto FROM vendidos, notas WHERE venta=id AND  `id`=%s"%last)
-		#lista=self.cursor.fetchall()
-		#if lista!=None:
-		self.cursor.execute("""UPDATE `notas` SET cliente=%s, usuario=%s, caja=%s, total=%s, tipo=%s, status=%s WHERE id=%s""",(self.parent.cliente['id'],self.parent.sesion['usuario']['id_usuario'], self.parent.caja,self.parent.grant()[2],tipo,forma,last))
-		self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta=%s;""",(last))
-		self.cursor.execute("DELETE FROM vendidos where venta="+str(last)+";") 
+	venta=Venta(conexion=self.parent.conexion)
+	if (self.parent.banderas['edicion']!=False):#Si se esta guardando una nota que se reedito
+	  last=self.parent.banderas['edicion']
+	  self.parent.banderas['edicion']=False
+	  ret=venta.actualizar(ide=last,canasta=self.parent.basket,cliente=self.parent.cliente['id'],usuario=self.parent.sesion['usuario']['id_usuario'], caja=self.parent.caja, tipo=tipo,status=forma)
 
-	      else: 		#en el caso que se trate de guardar una venta por primera vez
-		last=False  	#Se creara una nueva nota
-		self.cursor.execute("""INSERT INTO `notas`  VALUES(NULL,%s,%s,%s,%s,NOW(),%s,%s)""",(self.parent.cliente['id'],self.parent.sesion['usuario']['id_usuario'], self.parent.caja,self.parent.grant()[2],tipo,forma))
-		
-	      #last='LAST_INSERT_ID()'
-  #+str(ref)+","+str(self.parent.cliente['id'])+","+str(self.parent.grant()[2])+",now(),"+str(tipo)+","+str(forma)+")")
-
-	except MySQLdb.Error, e:
+	else: 		#en el caso que se trate de guardar una venta por primera vez
+	  ret=venta.guardar(canasta=self.parent.basket,cliente=self.parent.cliente['id'],usuario=self.parent.sesion['usuario']['id_usuario'], caja=self.parent.caja, tipo=tipo,status=forma)
+	if  not ret:
 	      mb=QtGui.QMessageBox.critical(self, "Error!", "La nota no pudo ser registrada !!")
-	      print e
+	      print "Error al registrar la venta"
 	      return False
-	else:
-	  if last==False:
-	      self.cursor.execute("SELECT LAST_INSERT_ID() from notas;")
-	      last=self.cursor.fetchone()[0]
-	      self.parent.nota=last
-  #['Ref','Ctd','Descripcion del producto','Precio','Importe','C/Dcto']	      	      
-	  for aux in self.parent.basket:
-	    self.cursor.execute("""INSERT INTO `vendidos` VALUES(%s,%s,%s,%s,%s)""",(last,aux[0],tipo,aux[1],aux[5]))
-	    self.cursor.execute("UPDATE productos set `vendidas`=`vendidas`+1, ultima_modificacion=now() WHERE ref="+str(aux[0]))
-	    self.cursor.execute("""UPDATE existencia SET stock_logico=stock_logico-%s WHERE producto=%s""",(aux[1],aux[0]))
-	  self.cursor.execute("COMMIT")
-	  return last 
-      else: #En caso que la canasta este vacia
-	  return False
+	return ret 
+
 	
     def eliminarNota(self,nota):
       if self.parent.aut(2):
 	try:
-	  self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta=%s;""",(nota))
+	  self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta={0};""".format(nota))
 	  self.cursor.execute("DELETE FROM vendidos where venta=%s"%nota)  
 	  self.cursor.execute("DELETE FROM notas where `id`=%s"%nota)
 	except MySQLdb.Error, e:
 	  print "Error al eliminar nota %s"%nota,e
 	  QtGui.QMessageBox.critical(self, "Error!", "No fue posible eliminar la nota")
 	else:	
-	  self.cursor.execute("COMMIT")
+	  self.parent.conexion.commit()
 	  QtGui.QMessageBox.informative(self, "Error!", "La nota no pudo ser registrada !!")
 
     def setId(self,ide):

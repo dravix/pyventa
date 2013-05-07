@@ -19,6 +19,9 @@ class QModeloTablaSql(QAbstractTableModel):
 				
 
          
+        def lenght(self):
+	  return (self.rowCount(),self.columnCount())
+	  
 	def rowCount(self,parent): 
 		return len(self.arraydata) 
  

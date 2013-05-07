@@ -104,11 +104,11 @@ class Cobros(QtGui.QDialog, Ui_Form):
 	if self.rbCredito.isChecked():
 	  for ide in self.tmp['notas']:
 	    if (ide!=' '):
-	      self.cursor.execute("""UPDATE clientes set credito=credito-%s, caja=%s where  id=%s """,(self.tmp['total'],self.parent.caja,self.cliente))
-	      self.cursor.execute("""UPDATE notas SET status=2, cliente=%s,caja=%s where  id=%s """,(self.cliente,ide, self.parent.caja))
+	      self.cursor.execute("""UPDATE clientes set credito=credito-%s, caja=%s where  id=%s """%(self.tmp['total'],self.parent.caja,self.cliente))
+	      self.cursor.execute("""UPDATE notas SET status=2, cliente=%s,caja=%s where  id=%s """%(self.cliente,ide, self.parent.caja))
 	else:
 	  if self.cliente!=0:
-	      self.cursor.execute("""UPDATE clientes set credito=credito+%s, caja=%s where  id=%s """,(self.tmp['total'],self.parent.caja,self.cliente))
+	      self.cursor.execute("""UPDATE clientes set credito=credito+%s, caja=%s where  id=%s """%(self.tmp['total'],self.parent.caja,self.cliente))
 	  for ide in self.tmp['notas']:
 	    if (ide!=' '):
 	      self.cursor.execute("UPDATE notas SET status=1, caja=%s where  id=%s"%(self.parent.caja,ide))
@@ -133,7 +133,7 @@ class Cobros(QtGui.QDialog, Ui_Form):
 	self.leNumero.setFocus(True)
 
     def actualizarNotas(self):
-      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=curdate() ")
+      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=date(current_timestamp) ")
       #qry=self.cursor.fetchone()
       #if (qry[0]==0):
 	head=('Id','Cliente','time(fecha)','Total')
@@ -144,7 +144,7 @@ class Cobros(QtGui.QDialog, Ui_Form):
 	  tipo=''
 	else:
 	  tipo=" and tipo="+str(self.cbTipo.currentIndex()-1)
-	sql="select "+col+"  from notas where date(fecha)=curdate()  "+str(tipo)+" and status=0 order by id; "
+	sql="select "+col+"  from notas where date(fecha)=date(current_timestamp)  "+str(tipo)+" and status=0 order by id; "
 	self.parent.tabular(self.twNotas,sql,head) 
 
     def cuentasPendientes(self):
@@ -171,7 +171,7 @@ class Cobros(QtGui.QDialog, Ui_Form):
     def checkCredito(self):
 #Esta funcion debe ser llamada una vez que se tenga seleccionado un cliente al que se cargara la(s) nota(s)
 #Verifica si el cliente tiene fondos para cargar a su cuenta la deuda de nota actual
-	self.cursor.execute("""SELECT credito FROM clientes where id=%s """,[self.cliente])
+	self.cursor.execute("""SELECT credito FROM clientes where id=%s """%[self.cliente])
 	qry=self.cursor.fetchone()[0]
 	if qry!=None:
 	  if float(qry)>self.tmp['total']:

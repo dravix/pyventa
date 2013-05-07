@@ -18,6 +18,8 @@ class Configurador():
       else:
 	self.stat=self.setupInitConfig()
 
+    def recargar(self):
+      self.__init__(self.parent,self.ruta)
 
     def setupInitConfig(self):
       	if not os.path.exists(self.ruta):

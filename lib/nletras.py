@@ -77,6 +77,20 @@ def nletras(numero): #Traduce un entero en letra
     #ret="***( "+numerals(int(num[0]),0)+" PESOS "+num[1]*10+"/100 M.N)***"
     #print num[1]*10
     return ret.upper()  
+  
+def nletra(numero): #Traduce un entero en letra
+    print numero
+    numero=round(numero,2)
+    print numero
+    
+    num=str(numero)
+    num=num.split('.')
+    if len(num[1])<2:
+      num[1]+='0'
+    ret=numerals(int(num[0]),0)+" PESOS "+num[1]+"/100 M.N"    
+    #ret="***( "+numerals(int(num[0]),0)+" PESOS "+num[1]*10+"/100 M.N)***"
+    #print num[1]*10
+    return ret.upper()  
 ## Crear una demo interactiva
 #if __name__=="__main__":
     #lFemenino=(raw_input("En masculino o femenino? ([M]/F) ") in "Ff")

@@ -5,7 +5,8 @@ from PyQt4.QtGui import *
 from ui.dlg_buscador import buscador
 import MySQLdb as my
 import lib.libutil
-
+from lib.selector import Selector
+import sqlite3
 class Compras:
     def __init__(self,parent):
 		self.ui=parent
@@ -110,6 +111,7 @@ class Compras:
 	#Prepara todo para que se cree una nueva compra
 	self.ui.stack.setCurrentIndex(self.index)
 	self.ui.stkCompras.setCurrentIndex(1)
+	self.ui.lencCodigo.setFocus()
 	if self.flag['edicion']!=None:
 	  self.limpiar()
 
@@ -122,14 +124,14 @@ class Compras:
 	  for key in keys:
 	    try:
 	      self.ui.cursor.execute("UPDATE existencia as e, comprados as cc SET stock_logico=stock_logico-cantidad WHERE e.producto=cc.producto and compra=%s;"%key)	      
-	      self.ui.cursor.execute("""DELETE FROM comprados where compra=%s """,key)
-	      self.ui.cursor.execute("""DELETE FROM compras where id=%s """,key)
+	      self.ui.cursor.execute("""DELETE FROM comprados where compra=%s """%key)
+	      self.ui.cursor.execute("""DELETE FROM compras where id=%s """%key)
 	    except my.Error, e:
 	      print "Error al eliminar compra",e
 	      msgBox=QMessageBox(QMessageBox.Information,"No se puede eliminar","No se puede eliminar este elemento, verifique el log.",QMessageBox.Ok,self.ui)
 	      msgBox.exec_()
 	    else:
-	      self.ui.cursor.execute("COMMIT")
+	      self.ui.conexion.commit()
 	      self.ui.lblStatus.setText("Eliminacion completa. La operacion termino correctamente.")
 	      self.listar()
 	
@@ -159,30 +161,46 @@ class Compras:
 	cb=str(self.ui.lencCodigo.text())
 	if len(cb)>0:
 	  if cb[0].isdigit():
-	    if len(cb)>7:
-	      codicion="codigo="+str(cb)
-	    else:
-	      codicion="ref="+str(cb)
-	    try:
-	      self.ui.cursor.execute("select `ref`, `descripcion`, `costo`,`ganancia`, precio from productos where "+codicion+" limit 1")
-	      qry=self.ui.cursor.fetchone()
-	      self.tmp={'ref':str(qry[0]),'descripcion':str(qry[1]),'costo':float(qry[2]),'cantidad':0, 'margen':float(qry[3]),'importe':0}
-	      self.ui.lencCodigo.setText(self.tmp['descripcion'])
-	      self.ui.lencCodigo.selectAll()
-	      self.ui.lencCosto.setValue(qry[2])
-	      self.ui.dsbPrecio.setValue(qry[4])
-	    except:
-		self.ui.lencCodigo.setText("Producto no encontrado!")
-		self.ui.lencCodigo.selectAll()
-		self.tmp=None
-	    else:
-		self.ui.lencCant.setFocus()
-		self.ui.lencCant.selectAll ()
-	  else:
+	    print "Buscando codigo",cb
+	    self.adomatic(cb)
+	  elif cb[0]!='@':
+	      print "Buscando descripcion",cb
 	      self.buscar(cb,self.ui.lencCodigo)
 	      self.desplegar()
 
-
+    def adomatic(self,ide):
+	if len(ide)>7:
+	  codicion="codigo="+str(ide)
+	else:
+	  codicion="ref="+str(ide)
+	#try:
+	  sql="select `ref`, `descripcion`, `costo`,`ganancia`, precio from productos where "+codicion+" limit 1"
+	  #print sql
+	  self.ui.cursor.execute(sql)
+	  qry=self.ui.cursor.fetchone()
+	  if qry!=None:
+	    self.tmp={'ref':str(qry[0]),'descripcion':str(qry[1]),'costo':float(qry[2]),'cantidad':0, 'margen':float(qry[3]),'importe':0}
+	    self.ui.lencCodigo.setText(self.tmp['descripcion'])
+	    self.ui.dsbcCosto.setValue(float(qry[2]))
+	    self.ui.dsbcPrecio.setValue(float(qry[4]))
+	    self.ui.dsbcCant.setFocus()
+	    self.ui.dsbcCant.selectAll()
+	  else:
+	    self.ui.lencCodigo.setText("@ Producto no encontrado!")
+	    self.ui.lencCodigo.selectAll()
+	    self.tmp=None
+	#except sqlite3.Error,e:
+	    #self.ui.lencCodigo.setText("@ Producto no encontrado!")
+	    #self.ui.lencCodigo.selectAll()
+	    #self.tmp=None
+	    #raise(e)
+	#except:
+	    #self.ui.lencCodigo.setText("@ Producto no encontrado!")
+	    #self.ui.lencCodigo.selectAll()
+	    #self.tmp=None
+	#else:
+	    #self.ui.lencCant.setFocus()
+	    #self.ui.lencCant.selectAll ()
 
     def ingresarProducto(self):
 	self.calculoUnitario()
@@ -224,12 +242,12 @@ class Compras:
 	if (self.flag['edicion']!=None):
 	     try:
 	      self.ui.cursor.execute( "UPDATE existencia as e, comprados as cc SET stock_logico=stock_logico-cantidad WHERE e.producto=cc.producto and compra=%s;"%self.flag['edicion'])
-	      self.ui.cursor.execute("""DELETE FROM comprados where compra=%s """,self.flag['edicion'])
-	      self.ui.cursor.execute("""DELETE FROM compras where id=%s """,self.flag['edicion'])
+	      self.ui.cursor.execute("""DELETE FROM comprados where compra=%s """%self.flag['edicion'])
+	      self.ui.cursor.execute("""DELETE FROM compras where id=%s """%self.flag['edicion'])
 	     except:
 		pass
 	     else:
-		self.ui.cursor.execute("COMMIT")
+		self.ui.conexion.commit()
 		self.flag['edicion']=None
 		self.guardarCompra()
 	else:
@@ -241,15 +259,16 @@ class Compras:
 	    except:
 	      print "Problema para crear una compra en la base de datos"
 	    else:
-	      self.ui.cursor.execute("COMMIT")
-	      self.ui.cursor.execute("select LAST_INSERT_ID();")
+	      self.ui.conexion.commit()
+	      sql=self.ui.conexion.lastId()
+	      self.ui.cursor.execute(sql)
 	      last=int(self.ui.cursor.fetchone()[0])
 	      for item in self.nuevaCompra:
-		  self.ui.cursor.execute("""insert into comprados values(%s,%s,%s,%s,%s)""",(last,item[0],item[3],item[2],item[4]))
+		  self.ui.cursor.execute("""insert into comprados values(%s,%s,%s,%s,%s)"""%(last,item[0],item[3],item[2],item[4]))
 		  sql="UPDATE existencia SET stock_logico=stock_logico+%s where producto=%s"%(item[3],item[0])
 		  self.ui.cursor.execute(sql)
 		  self.ui.cursor.execute("DELETE FROM faltantes WHERE producto=%s "%item[0])
-	      self.ui.cursor.execute("COMMIT")  
+	      self.ui.conexion.commit()  
 	self.limpiar()
 	self.iniciar()
 
@@ -264,9 +283,11 @@ class Compras:
 	  if compra!=None:
 	    self.ui.cbProveedor.setCurrentIndex( self.ui.cbProveedor.model().buscarKey(compra[0],0) )
 	    self.ui.lbcoComprador.setText(compra[1])
-	self.curser.execute("""SELECT C.*,P.`descripcion` FROM productos as P,  comprados as C WHERE P.ref=C.producto AND  C.compra=%s""",ide[0])
+	self.curser.execute("""SELECT C.*,P.`descripcion` FROM productos as P,  comprados as C WHERE P.ref=C.producto AND  C.compra=%s"""%ide[0])
 
 	prods=self.curser.fetchall()
+	if prods!=None:
+	  prods=dicursor(self.curser,prods)
 	self.nuevaCompra=[]
 	for item in prods:
 	  self.nuevaCompra.append([item['producto'],item['descripcion'],float(item['costo']),float(item['cantidad']),float(item['total'])])
@@ -291,8 +312,12 @@ class Compras:
 	self.ui.stack.setCurrentIndex(11)
 
     def buscar(self,texto,item):
-	dlg=buscador(self.ui,str(texto))
-	item.setText(str(dlg.exec_()))
+      	app=Selector(self,"Productos",'productos','ref,descripcion,precio','Ref,Descripcion, Precio publico',filtros=" descripcion like '%{0}%' order by descripcion ",inicial=str(texto))
+	done=app.exec_()
+	if done==1:
+	  item.setText(str(app.retorno[0][0]))
+	#dlg=buscador(self.ui,str(texto))
+	#item.setText(str(dlg.exec_()))
 
     def pedirProducto(self,item):
 	col=self.ui.twOrdenCompra.column(item)

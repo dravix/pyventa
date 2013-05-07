@@ -45,7 +45,7 @@ class Modulo():
 		action2.setIconVisibleInMenu(True)
 		self.connect(action, QtCore.SIGNAL("triggered()"), self.ignorarVentas)
 		self.connect(action2, QtCore.SIGNAL("triggered()"), self.imprimirTicket)
-		self.fecha='CURDATE()'
+		self.fecha='date(current_timestamp)'
         	self.deDesde.setDate(QtCore.QDate.currentDate())
         	self.deHasta.setDate(QtCore.QDate.currentDate())
         	self.deCorte.setDate(QtCore.QDate.currentDate())

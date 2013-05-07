@@ -2,7 +2,10 @@ from PyQt4 import QtCore, QtGui#,  Qt
 from ui.ui_agregar_gasto import Ui_Form as Ui_Gasto
 import MySQLdb as My, os, sys
 import lib.libutil,tarfile,datetime, csv 
-
+from lib.modelos.gasto import Gasto 
+from lib.modelos.compra import Compra 
+from lib.modelos.venta import Venta 
+from lib.modelos.caja import Caja 
 class Gasto:
     def __init__(self, parent):
       self.parent=parent
@@ -26,7 +29,7 @@ class Gasto:
 	except:
 	  return False
 	else:
-	  self.cursor.execute("COMMIT")
+	  self.parent.conexion.commit()
 	  return True
 	  
 class NuevoGasto(QtGui.QDialog, Ui_Gasto):
@@ -51,7 +54,7 @@ class NuevoGasto(QtGui.QDialog, Ui_Gasto):
     def agregar(self):
       if self.caja>1:
 	try:
-	  self.cursor.execute("""INSERT INTO gastos VALUES(NULL,%s,%s,NOW(),%s,%s) """,(self.usuario,self.caja,self.leConcepto.text(),self.dsbCantidad.value()))
+	  self.cursor.execute("""INSERT INTO gastos VALUES(NULL,%s,%s,NOW(),%s,%s) """%(self.usuario,self.caja,self.leConcepto.text(),self.dsbCantidad.value()))
 	except:
 	  self.info.setText('Ha ocurrido un error, verifique los datos e intente mas tarde')
 	else:
@@ -110,7 +113,7 @@ class Mantenimiento:
     return self.consulta(sql)
       
   def limpiarProductos(self):
-    sql="UPDATE productos SET vendidas=0, ultima_modificacion=now()"
+    sql="UPDATE productos SET vendidas=0, ultima_modificacion=current_timestamp"
     return self.consulta(sql)  
   
   def limpiarExistencias(self):

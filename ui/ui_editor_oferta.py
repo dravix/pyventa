@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/dialogos/ui_editor_oferta.ui'
 #
-# Created: Tue Apr  2 13:06:47 2013
+# Created: Tue Apr 30 03:13:17 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Editor(object):
     def setupUi(self, Editor):
         Editor.setObjectName(_fromUtf8("Editor"))
-        Editor.resize(715, 515)
+        Editor.resize(797, 503)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../../usr/share/pyventa/images/32/box.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Editor.setWindowIcon(icon)
@@ -34,9 +34,9 @@ class Ui_Editor(object):
         self.widget_2 = QtGui.QWidget(Editor)
         self.widget_2.setMaximumSize(QtCore.QSize(300, 16777215))
         self.widget_2.setObjectName(_fromUtf8("widget_2"))
-        self.verticalLayout_3 = QtGui.QVBoxLayout(self.widget_2)
-        self.verticalLayout_3.setMargin(0)
-        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.verticalLayout_2 = QtGui.QVBoxLayout(self.widget_2)
+        self.verticalLayout_2.setMargin(0)
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.label = QtGui.QLabel(self.widget_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -49,7 +49,7 @@ class Ui_Editor(object):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName(_fromUtf8("label"))
-        self.verticalLayout_3.addWidget(self.label)
+        self.verticalLayout_2.addWidget(self.label)
         self.titulo = QtGui.QWidget(self.widget_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -62,7 +62,7 @@ class Ui_Editor(object):
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setMargin(0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.verticalLayout_3.addWidget(self.titulo)
+        self.verticalLayout_2.addWidget(self.titulo)
         self.label_19 = QtGui.QLabel(self.widget_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -73,11 +73,11 @@ class Ui_Editor(object):
         font.setPointSize(10)
         self.label_19.setFont(font)
         self.label_19.setObjectName(_fromUtf8("label_19"))
-        self.verticalLayout_3.addWidget(self.label_19)
+        self.verticalLayout_2.addWidget(self.label_19)
         self.leNombre = QtGui.QLineEdit(self.widget_2)
         self.leNombre.setText(_fromUtf8(""))
         self.leNombre.setObjectName(_fromUtf8("leNombre"))
-        self.verticalLayout_3.addWidget(self.leNombre)
+        self.verticalLayout_2.addWidget(self.leNombre)
         self.datos = QtGui.QFrame(self.widget_2)
         self.datos.setFrameShape(QtGui.QFrame.StyledPanel)
         self.datos.setFrameShadow(QtGui.QFrame.Raised)
@@ -223,7 +223,7 @@ class Ui_Editor(object):
         self.gridLayout.addItem(spacerItem3, 3, 1, 1, 1)
         spacerItem4 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem4, 4, 1, 1, 1)
-        self.verticalLayout_3.addWidget(self.datos)
+        self.verticalLayout_2.addWidget(self.datos)
         self.tools = QtGui.QWidget(self.widget_2)
         self.tools.setObjectName(_fromUtf8("tools"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.tools)
@@ -232,74 +232,62 @@ class Ui_Editor(object):
         self.extraTool = QtGui.QVBoxLayout()
         self.extraTool.setObjectName(_fromUtf8("extraTool"))
         self.verticalLayout_5.addLayout(self.extraTool)
-        self.verticalLayout_3.addWidget(self.tools)
+        self.verticalLayout_2.addWidget(self.tools)
         spacerItem5 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem5)
+        self.verticalLayout_2.addItem(spacerItem5)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
-        self.horizontalLayout_2.setContentsMargins(6, 6, 6, -1)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.Dual_3 = QtGui.QSplitter(self.widget_2)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Dual_3.sizePolicy().hasHeightForWidth())
-        self.Dual_3.setSizePolicy(sizePolicy)
-        self.Dual_3.setStyleSheet(_fromUtf8("QSplitter{border-radius:4px;\n"
-"border: 1.2px solid #999;\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));}\n"
-"QToolButton::hover{\n"
-"    background-color:rgba(133, 217, 255, 100);\n"
-"}\n"
-"QToolButton::pressed{\n"
-"    \n"
-"    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(239, 239, 239, 27), stop:1 rgba(68, 68, 68, 205));\n"
-"}\n"
-"QToolButton{padding:4px}\n"
-" \n"
-""))
-        self.Dual_3.setLineWidth(0)
-        self.Dual_3.setMidLineWidth(1)
-        self.Dual_3.setOrientation(QtCore.Qt.Horizontal)
-        self.Dual_3.setHandleWidth(1)
-        self.Dual_3.setObjectName(_fromUtf8("Dual_3"))
-        self.tbCerrar = QtGui.QToolButton(self.Dual_3)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tbCerrar.sizePolicy().hasHeightForWidth())
-        self.tbCerrar.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.tbCerrar.setFont(font)
-        self.tbCerrar.setStyleSheet(_fromUtf8(" border:0px;border-right:1px solid #999;border-radius:0;\n"
-""))
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/close.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tbCerrar.setIcon(icon2)
-        self.tbCerrar.setIconSize(QtCore.QSize(12, 16))
-        self.tbCerrar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-        self.tbCerrar.setObjectName(_fromUtf8("tbCerrar"))
-        self.tbPublicar = QtGui.QToolButton(self.Dual_3)
+        self.tbPublicar = QtGui.QToolButton(self.widget_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tbPublicar.sizePolicy().hasHeightForWidth())
         self.tbPublicar.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.tbPublicar.setFont(font)
-        self.tbPublicar.setStyleSheet(_fromUtf8(" border:0px;\n"
-""))
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/checkmark2.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tbPublicar.setIcon(icon3)
+        self.tbPublicar.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
+"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(10, 125, 159, 255), stop:1 rgba(0, 188, 255, 255));color:#fff;\n"
+"border-radius:4px;border:1px solid #777; padding:2 9 2 9;\n"
+"}\n"
+"QAbstractButton::pressed{\n"
+"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
+"}"))
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/checkmark2.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tbPublicar.setIcon(icon2)
         self.tbPublicar.setIconSize(QtCore.QSize(16, 16))
         self.tbPublicar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.tbPublicar.setObjectName(_fromUtf8("tbPublicar"))
-        self.horizontalLayout_2.addWidget(self.Dual_3)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_2.addWidget(self.tbPublicar)
+        self.tbCerrar = QtGui.QToolButton(self.widget_2)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tbCerrar.sizePolicy().hasHeightForWidth())
+        self.tbCerrar.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setBold(False)
+        font.setWeight(50)
+        self.tbCerrar.setFont(font)
+        self.tbCerrar.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
+"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
+"}\n"
+"QAbstractButton::pressed{\n"
+"color:#fff;\n"
+"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
+"\n"
+"}"))
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/close.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tbCerrar.setIcon(icon3)
+        self.tbCerrar.setIconSize(QtCore.QSize(12, 16))
+        self.tbCerrar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.tbCerrar.setObjectName(_fromUtf8("tbCerrar"))
+        self.horizontalLayout_2.addWidget(self.tbCerrar)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_4.addWidget(self.widget_2)
         self.widget = QtGui.QWidget(Editor)
         self.widget.setStyleSheet(_fromUtf8("background:none"))
@@ -383,6 +371,17 @@ class Ui_Editor(object):
 
         self.retranslateUi(Editor)
         QtCore.QMetaObject.connectSlotsByName(Editor)
+        Editor.setTabOrder(self.leNombre, self.dsDescuento)
+        Editor.setTabOrder(self.dsDescuento, self.sbMinimo)
+        Editor.setTabOrder(self.sbMinimo, self.sbMaximo)
+        Editor.setTabOrder(self.sbMaximo, self.deInicio)
+        Editor.setTabOrder(self.deInicio, self.deFin)
+        Editor.setTabOrder(self.deFin, self.tbMas)
+        Editor.setTabOrder(self.tbMas, self.tabla)
+        Editor.setTabOrder(self.tabla, self.tbMenos)
+        Editor.setTabOrder(self.tbMenos, self.tbPublicar)
+        Editor.setTabOrder(self.tbPublicar, self.tbCerrar)
+        Editor.setTabOrder(self.tbCerrar, self.tbCalcDes)
 
     def retranslateUi(self, Editor):
         Editor.setWindowTitle(QtGui.QApplication.translate("Editor", "Editor de ofertas", None, QtGui.QApplication.UnicodeUTF8))
@@ -400,8 +399,8 @@ class Ui_Editor(object):
         self.dsDescuento.setSuffix(QtGui.QApplication.translate("Editor", "%", None, QtGui.QApplication.UnicodeUTF8))
         self.tbCalcDes.setToolTip(QtGui.QApplication.translate("Editor", "Calcular porcentaje de descuento.", None, QtGui.QApplication.UnicodeUTF8))
         self.tbCalcDes.setText(QtGui.QApplication.translate("Editor", "Calcular", None, QtGui.QApplication.UnicodeUTF8))
-        self.tbCerrar.setText(QtGui.QApplication.translate("Editor", "Cerrar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbPublicar.setText(QtGui.QApplication.translate("Editor", "Publicar", None, QtGui.QApplication.UnicodeUTF8))
+        self.tbCerrar.setText(QtGui.QApplication.translate("Editor", "Cerrar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbMenos.setToolTip(QtGui.QApplication.translate("Editor", "Quitar de la lista", None, QtGui.QApplication.UnicodeUTF8))
         self.tbMenos.setText(QtGui.QApplication.translate("Editor", "Quitar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbMas.setToolTip(QtGui.QApplication.translate("Editor", "Incluir articulos a la oferta", None, QtGui.QApplication.UnicodeUTF8))

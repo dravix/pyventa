@@ -94,12 +94,12 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
 	antes=libutil.listaHtml([
 	[self.prod['descripcion'],self.prod['stock_logico']],
 	[self.sub['descripcion'],self.sub['stock_logico']]
-	], "Existencias antes.",[[80,"Producto"],[20,"Existencias"]])
+	], "Existencias antes.",["Producto","Existencias"],anchos=[80,20])
 
 	despues=libutil.listaHtml([
 	  [self.prod['descripcion'],self.prod['stock_logico']-viejos],
 	  [self.sub['descripcion'],float(self.sub['stock_logico'])+(nuevos)]
-	  ], "Existencias despues.",[[80,"Producto"],[20,"Existencias"]])
+	  ], "Existencias despues.",["Producto","Existencias"],anchos=[80,20])
 	  
 	tabla=libutil.listaHtml([antes,despues],"Tabla comparativa",[],'#fff',"#239AB1", tfuente=10,opc="100")
 	self.lbResulta.setText(str(self.lbResulta.text())%(viejos,self.prod['descripcion'],nuevos,self.sub['descripcion'],antes,despues))
@@ -117,7 +117,7 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
     new="UPDATE existencia set stock_logico=stock_logico+%s WHERE producto=%s"%(nuevos,self.sub['ref'])
     self.cursor.execute(old)
     self.cursor.execute(new)
-    self.cursor.execute("COMMIT")
+    self.parent.conexion.commit()
     self.accept()
 
     

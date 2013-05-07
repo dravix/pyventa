@@ -6,6 +6,7 @@ from PyQt4.QtCore import Qt, QAbstractTableModel, QVariant
 
 #from PyQt4.QtGui import *
 #from PyQt4.QtGui import *
+
 from lib.db_conf import configurador
 import MySQLdb as My, ConfigParser as Cp
 import base64, tarfile
@@ -17,6 +18,7 @@ from lib.nletras import *
 import _mysql, locale
 from ui.ui_apertura_caja import Ui_Dialog as Apertura
 from subprocess import call
+from lib.librerias.conexion import dicursor
 
 aqui="/usr/share/pyventa/"
 home=os.path.join(os.path.expanduser('~'),"pyventa")
@@ -382,7 +384,7 @@ class AperturaCaja(QtGui.QDialog, Apertura):
 	inic=float(self.dsbInicial.value())
 	sql="UPDATE cajas set saldo_inicial=%s WHERE num_caja=%s;"%(inic,self.parent.caja)
 	self.cursor.execute(sql)
-	self.cursor.execute("COMMIT")
+	self.parent.conexion.commit()
 	
         	
 class Seguridad(QtGui.QDialog, Ui_Acceso):
@@ -507,15 +509,17 @@ class Factura:
 	self.escena.setSceneRect(-int(self.cfg.get("documento", "x")),-int(self.cfg.get("documento", "y")),ancho,alto)
 	fuente=QtGui.QFont("Droid Sans", int(self.cfg.get("documento", "fuente")), int(self.cfg.get("documento", "peso") ))
 	smallDroid=QtGui.QFont("Droid Sans", 9)
-	self.curser.execute("""SELECT * FROM clientes as C, notas WHERE notas.id=%s and notas.cliente=C.id;""",self.num)
+	self.curser.execute("""SELECT * FROM clientes as C, notas WHERE notas.id=%s and notas.cliente=C.id;"""%self.num)
 	cliente=self.curser.fetchone()
+	if cliente!=None:
+	  cliente=dicursor(self.curser,cliente)
 	datos=self.escena.addText("",cfont)
 	datos.setHtml("<p><b>Nombre:</b> %s<br><b>Direccion:</b>  %s, C.P %s %s, %s.<br><b>RFC:</b>  %s</p>"%(cliente['nombre'],cliente['direccion'],cliente['correo'],cliente['poblacion'],cliente['estado'],cliente['rfc']))
 	datos.setPos(int(self.cfg.get("cliente", "x")) ,int(self.cfg.get("cliente", "y")))
 	datos.setTextWidth(int(self.cfg.get("cliente", "ancho")))
 	self.curser.execute("SELECT cantidad, `descripcion`,precio,total,porcentaje as imp from productos,vendidos, impuestos where ref=producto and venta="+str(self.num)+" and impuestos.id=impuesto group by ref")
 	fecha=self.escena.addText("",ffont)
-	fecha.setHtml(datetime.datetime.strftime(cliente['fecha'],self.cfg.get("fecha", "formato")))
+	fecha.setHtml(datetime.datetime.strptime(cliente['fecha'],'%Y-%m-%d').strftime(self.cfg.get("fecha", "formato")))
 	fecha.setPos(int(self.cfg.get("fecha", "x")),int(self.cfg.get("fecha", "y")))
 	fecha.setTextWidth(int(self.cfg.get("fecha", "ancho")))
 	#print "SELECT cantidad, `descripcion`,precio,total from productos,vendidos where ref=producto and venta="+str(self.num)+" group by ref"
@@ -799,52 +803,5 @@ class MyListModel(QtCore.QAbstractListModel):
             
 
 
-from ui.ui_marcar_faltante import  Ui_Faltante
-class Faltante(QtGui.QDialog, Ui_Faltante):
-    def __init__(self,parent,ide=-1,usuario=0, editar=False):
-      QtGui.QDialog.__init__(self,parent)
-      self.setupUi(self)
-      self.parent=parent
-      self.cursor=parent.cursor
-      self.ide=ide 
-      self.editar=editar
-      self.usuario=usuario 
-      self.connect(self.tbMarcar, QtCore.SIGNAL("clicked()"), self.agregar)    
-      self.connect(self.tbCerrar, QtCore.SIGNAL("clicked()"), self.reject) 
-      if type(ide)==list and len(ide)>0:
-	self.cursor.execute("SELECT descripcion,  cantidad,prioridad FROM productos, faltantes where producto=ref and ref=%s"%ide[0])
-	prod=self.cursor.fetchone()
-	#print prod
-	if prod!=None:
-	  self.lbProducto.setText(prod[0])
-	  self.dsbCantidad.setValue(prod[1])
-	  self.cbPrioridad.setCurrentIndex(prod[2])
-	else:
-	  self.reject
-      else:
-	self.lbProducto.setText("Lote de productos")
-      self.dsbCantidad.setFocus(True)
-      #self.dsbCantidad.setValue()
-      
-    def agregar(self):
-	for ref in self.ide:
-	  if self.editar==False:
-	    try:
-	      sql="INSERT INTO faltantes VALUES(%s,%s,%s,%s,curdate());"%(ref,self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()))
-	      self.cursor.execute("DELETE FROM faltantes where producto=%s"%ref)
-	      self.cursor.execute(sql)
-	    except My.Error, e:
-	      print "Error al marcar como faltante",e
-	    else:
-	      pass
-	  
-	  else:
-	      try:
-		sql="UPDATE faltantes set usuario=%s, cantidad=%s,prioridad=%s,fecha=curdate() where producto=%s;"%(self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()),ref)
-		self.cursor.execute(sql)
-	      except My.Error, e:
-		print "Error al marcar como faltante",e
-	      else:
-		pass
-	self.accept()
+
 

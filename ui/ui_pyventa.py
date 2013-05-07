@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/ui_pyventa.ui'
 #
-# Created: Mon Apr 29 12:38:36 2013
+# Created: Sun May  5 08:28:08 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,21 +50,10 @@ class Ui_Principal(object):
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.lpinfo)
         self.verticalLayout_4.setContentsMargins(3, 0, 3, 0)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.verticalLayout_12 = QtGui.QVBoxLayout()
-        self.verticalLayout_12.setSpacing(3)
-        self.verticalLayout_12.setMargin(0)
-        self.verticalLayout_12.setObjectName(_fromUtf8("verticalLayout_12"))
-        self.lblModo = QtGui.QLabel(self.lpinfo)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lblModo.sizePolicy().hasHeightForWidth())
-        self.lblModo.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.lblModo.setFont(font)
-        self.lblModo.setObjectName(_fromUtf8("lblModo"))
-        self.verticalLayout_12.addWidget(self.lblModo)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(6)
+        self.horizontalLayout_2.setMargin(0)
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.fLine = QtGui.QFrame(self.lpinfo)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -100,7 +89,23 @@ class Ui_Principal(object):
         self.dsbPrecio.setMaximum(99999.99)
         self.dsbPrecio.setObjectName(_fromUtf8("dsbPrecio"))
         self.horizontalLayout_51.addWidget(self.dsbPrecio)
-        self.cant = QtGui.QLineEdit(self.fLine)
+        self.horizontalLayout_2.addWidget(self.fLine)
+        self.fLine_2 = QtGui.QFrame(self.lpinfo)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.fLine_2.sizePolicy().hasHeightForWidth())
+        self.fLine_2.setSizePolicy(sizePolicy)
+        self.fLine_2.setStyleSheet(_fromUtf8(".QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}\n"
+"QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}"))
+        self.fLine_2.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.fLine_2.setFrameShadow(QtGui.QFrame.Raised)
+        self.fLine_2.setObjectName(_fromUtf8("fLine_2"))
+        self.horizontalLayout_52 = QtGui.QHBoxLayout(self.fLine_2)
+        self.horizontalLayout_52.setSpacing(0)
+        self.horizontalLayout_52.setContentsMargins(0, 0, 2, 0)
+        self.horizontalLayout_52.setObjectName(_fromUtf8("horizontalLayout_52"))
+        self.cant = QtGui.QLineEdit(self.fLine_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -115,9 +120,9 @@ class Ui_Principal(object):
         self.cant.setStyleSheet(_fromUtf8(""))
         self.cant.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.cant.setObjectName(_fromUtf8("cant"))
-        self.horizontalLayout_51.addWidget(self.cant)
-        self.verticalLayout_12.addWidget(self.fLine)
-        self.verticalLayout_4.addLayout(self.verticalLayout_12)
+        self.horizontalLayout_52.addWidget(self.cant)
+        self.horizontalLayout_2.addWidget(self.fLine_2)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_3.addWidget(self.lpinfo)
         spacerItem = QtGui.QSpacerItem(40, 10, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
@@ -296,6 +301,17 @@ class Ui_Principal(object):
         self.lnota.setTextFormat(QtCore.Qt.RichText)
         self.lnota.setObjectName(_fromUtf8("lnota"))
         self.verticalLayout.addWidget(self.lnota)
+        self.lblModo = QtGui.QLabel(self.wLetreros)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lblModo.sizePolicy().hasHeightForWidth())
+        self.lblModo.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.lblModo.setFont(font)
+        self.lblModo.setObjectName(_fromUtf8("lblModo"))
+        self.verticalLayout.addWidget(self.lblModo)
         self.horizontalLayout_9.addWidget(self.wLetreros)
         self.widget_5 = QtGui.QWidget(self.gingreso)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
@@ -824,8 +840,7 @@ class Ui_Principal(object):
         QtCore.QObject.connect(self.actionCerrar, QtCore.SIGNAL(_fromUtf8("triggered()")), Principal.close)
         QtCore.QMetaObject.connectSlotsByName(Principal)
         Principal.setTabOrder(self.codigo, self.lista2)
-        Principal.setTabOrder(self.lista2, self.cant)
-        Principal.setTabOrder(self.cant, self.bventa)
+        Principal.setTabOrder(self.lista2, self.bventa)
         Principal.setTabOrder(self.bventa, self.tbFull)
         Principal.setTabOrder(self.tbFull, self.tabla)
         Principal.setTabOrder(self.tabla, self.tbTrash)
@@ -840,7 +855,6 @@ class Ui_Principal(object):
 
     def retranslateUi(self, Principal):
         Principal.setWindowTitle(QtGui.QApplication.translate("Principal", "Pyventa - Punto de venta", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblModo.setText(QtGui.QApplication.translate("Principal", "Ingreso manual", None, QtGui.QApplication.UnicodeUTF8))
         self.codigo.setToolTip(QtGui.QApplication.translate("Principal", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -863,6 +877,7 @@ class Ui_Principal(object):
         self.csCliente.setShortcut(QtGui.QApplication.translate("Principal", "Ctrl+K", None, QtGui.QApplication.UnicodeUTF8))
         self.lfecha.setText(QtGui.QApplication.translate("Principal", "<b>Fecha:</b>", None, QtGui.QApplication.UnicodeUTF8))
         self.lnota.setText(QtGui.QApplication.translate("Principal", "Nota:", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblModo.setText(QtGui.QApplication.translate("Principal", "Ingreso manual", None, QtGui.QApplication.UnicodeUTF8))
         self.resumen.setText(QtGui.QApplication.translate("Principal", "Gran Total", None, QtGui.QApplication.UnicodeUTF8))
         self.ltotal.setText(QtGui.QApplication.translate("Principal", "$000.00", None, QtGui.QApplication.UnicodeUTF8))
         self.chbImprimirTicket.setText(QtGui.QApplication.translate("Principal", "Imprimir ticket", None, QtGui.QApplication.UnicodeUTF8))
@@ -870,12 +885,6 @@ class Ui_Principal(object):
         self.dsbRecibido.setPrefix(QtGui.QApplication.translate("Principal", "$", None, QtGui.QApplication.UnicodeUTF8))
         self.lblCambio.setText(QtGui.QApplication.translate("Principal", "Cambio", None, QtGui.QApplication.UnicodeUTF8))
         self.dsbCambio.setPrefix(QtGui.QApplication.translate("Principal", "$", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabla.setToolTip(QtGui.QApplication.translate("Principal", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">* Para quitar un producto de la lista:</span><br />    1) Seleccione el articulo<br />    2) Presione \"Eliminar\" o \"Del\"</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /><span style=\" font-weight:600;\">* Para limpiar toda la venta:</span>    <br />    a) Presione \"Control\" y \"N\"<br />    b)O ir a \"Archivo&gt;Nueva nota</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.tbTrash.setToolTip(QtGui.QApplication.translate("Principal", "Cancelar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbTrash.setText(QtGui.QApplication.translate("Principal", "Cancelar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbOpen.setToolTip(QtGui.QApplication.translate("Principal", "Abrir venta", None, QtGui.QApplication.UnicodeUTF8))

@@ -16,22 +16,25 @@ if sys.platform == 'linux2':
 else:
 	pass
 	#home=os.path.join(aqui,'perfil')
-sys.path.append(os.path.join(aqui,'lib'))
-sys.path.append(os.path.join(aqui,'ui'))
+
 #import MySQLdb as My, ConfigParser as Cp
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 #from PyQt4.QtCore import *
-from ui_checador import Ui_MainWindow
-from utileria import conexion
+from ui.ui_checador import Ui_MainWindow
+from lib.librerias.conexion import Conexion, dicursor
+from lib.librerias.configurador import Configurador
 	
 class Checador(QtGui.QMainWindow, Ui_MainWindow):  
     def __init__(self):
 	QtGui.QDialog.__init__(self)
 	self.setupUi(self)
-	self.con=conexion()
-	self.curser=self.con.curser
-	self.cursor=self.con.cursor
+	self.cfg=Configurador(self)
+	if self.cfg.stat:
+	  self.conexion=Conexion(self,self.cfg)
+	  if self.conexion.stat:
+		  self.cursor=self.conexion.cursor
+		  self.curser=self.conexion.curser
 	#self.db=QtSql.QSqlDatabase.addDatabase("QMYSQL")
 	#self.db.setHostName(QString(host.data()));
 	#self.db.setDatabaseName(QString(dba.data()));
@@ -60,6 +63,7 @@ class Checador(QtGui.QMainWindow, Ui_MainWindow):
 	  prod=self.curser.fetchone()
 	  cad=''
 	  if prod!=None:
+	    prod=dicursor(self.curser,prod)
 	    promos=self.checkAllPromos(prod['ref'])#Devuelve una lista [(nombre, minimo,descuento,precio-descuento)]
 	    if len(promos)>0:
 	      for promo in promos:
@@ -79,7 +83,8 @@ class Checador(QtGui.QMainWindow, Ui_MainWindow):
 	  self.curser.execute("SELECT `ref`,`precio`, familia, departamento  FROM productos,familias where ref=%s AND familia=familias.id   AND familia=familias.id limit 1"%ref)
 	  prod = self.curser.fetchone()
 	  if prod!=None:
-	    self.cursor.execute("SELECT nombre,minimo, descuento, %s-(%s*descuento*0.01) FROM ofertas as O,promociones as P WHERE ((tipo=0 and conjunto=%s) OR (tipo=1 and conjunto=%s) OR (tipo=2 and conjunto=%s)) AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin  order by P.descuento desc "%(prod['precio'],prod['precio'],prod['ref'],prod['familia'],prod['departamento']))
+	    prod=dicursor(self.curser,prod)
+	    self.cursor.execute("SELECT nombre,minimo, descuento, %s-(%s*descuento*0.01) FROM ofertas as O,promociones as P WHERE ((tipo=0 and conjunto=%s) OR (tipo=1 and conjunto=%s) OR (tipo=2 and conjunto=%s)) AND O.promocion=P.id AND date(current_timestamp) BETWEEN P.inicio AND P.fin  order by P.descuento desc "%(prod['precio'],prod['precio'],prod['ref'],prod['familia'],prod['departamento']))
 	    oferta=self.cursor.fetchall()
 	    if oferta !=None:
 	      oferta=list(oferta)

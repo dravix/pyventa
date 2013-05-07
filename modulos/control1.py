@@ -216,7 +216,7 @@ class Admin1(QtGui.QDialog,Form):
 	  print error
 	  return error
 	else:
-	  self.cursor.execute("COMMIT")  
+	  self.ui.conexion.commit()  
 	  self.limpiar()  
 	  self.listar()
 	  
@@ -240,7 +240,7 @@ class Admin1(QtGui.QDialog,Form):
 	      print error
 	      return error
 	    else:
-	      self.cursor.execute("COMMIT")  
+	      self.ui.conexion.commit()  
 	      self.limpiar()  
 	      self.listar()
 	  else:
@@ -261,7 +261,7 @@ class Admin1(QtGui.QDialog,Form):
 	  print error
 	  return error
 	else:
-	  self.cursor.execute("COMMIT")
+	  self.ui.conexion.commit()
 	  self.limpiar()  
 	  self.listar()
 

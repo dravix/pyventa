@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys, os, datetime, urllib2, tarfile, base64
+import sys, os, datetime, urllib2, tarfile, base64, sqlite3
 from time import time
 #aqui=os.getcwd()
 aqui="/usr/share/pyventa/"
@@ -49,7 +49,7 @@ from modulos.faltantes import  Faltantes
 from modulos.ofertas import Oferta
 from modulos.conexiones import Conexiones
 from ui.dlg_buscador import buscador
-from lib.utileria import MyListModel, MyTableModel, Faltante
+from lib.utileria import MyListModel, MyTableModel
 from lib import libutil
 from lib.librerias.configurador import Configurador
 from lib.librerias.conexion import Conexion
@@ -67,6 +67,7 @@ class Administrador(QMainWindow, Ui_admin):
 		  if self.conexion.stat:
 		    self.cursor=self.conexion.cursor
 		    self.curser=self.conexion.curser
+		    self.conexion.db.text_factory = str
 		    self.iniciarEstilo()
 		    self.iniciarSesion()
 		else:
@@ -254,6 +255,9 @@ class Administrador(QMainWindow, Ui_admin):
 	try:
 	  self.cursor.execute(sql)
 	  lista=self.cursor.fetchall()
+	except sqlite3.Error, e:
+	  print "Error al entablar"
+	  raise(e)
 	except:
 	  print "Problema al ejecutar el query"
 	else:
@@ -342,9 +346,11 @@ class Administrador(QMainWindow, Ui_admin):
 	    dia.show()
     
     def closeEvent(self, event): 
+	self.conexion.commit()
 	event.accept()
 	print "Cerrando el administrador" 
-	#self.destory()  
+	#self.destory()      
+        
 	      
 from lib.dlg_ingreso import acceso
 	

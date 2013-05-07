@@ -75,7 +75,7 @@ class Inventario:
     def listar(self):
 	fecha=str(self.ui.deiFecha.date().toString('yyyy-MM-dd'))
 	head=('Id','Fecha','Saldo','Dominio','Orden','Estado', 'Auditor', 'Gerente')
-	sql="SELECT id_inventario,fecha, saldo, dominio, orden, ELT(estado+1,'Cerrado','Abierto'), auditor, gerente FROM inventarios WHERE fecha>date('%s') order by fecha ;"%fecha
+	sql="SELECT id_inventario,fecha, saldo, dominio, orden, estado, auditor, gerente FROM inventarios WHERE fecha>date('%s') order by fecha ;"%fecha
 	self.modelo=self.ui.entabla(self.ui.tblInventario,head,sql,self.modelo)    
 	self.ui.tblInventario.resizeColumnsToContents()  
    
@@ -91,7 +91,7 @@ class Inventario:
 	except:
 	  return False
 	else:
-	  self.cursor.execute("COMMIT")
+	  self.ui.conexion.commit()
 	  return True
 	  
     def nuevo(self):
@@ -153,7 +153,7 @@ class Inventario:
    
     def printInc(self):
       titulo="Inconsistencias del inventario %s"%libutil.seleccionar(self.ui.tblInventario, self.modelo)[0]
-      html=libutil.listaHtml(self.incos,titulo, [[10,'Ref'],[40,'Descripcion'],[15,'Falte/Sobrante'],[15,'Costo'],[20,'Monto']])
+      html=libutil.listaHtml(self.incos,titulo, cabezas=['Ref','Descripcion','Falte/Sobrante','Costo','Monto'],anchos=[10,40,15,15,20])
       libutil.printa(html,titulo,self.ui)
       
     def exportCvs(self):
@@ -275,7 +275,7 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
 	  if qry !=None:
 	    #for prod in qry:
 	      #self.cursor.execute("INSERT INTO existencia VALUES(%s,1,0,0,0)"%prod[0])
-	    self.cursor.execute("COMMIT")
+	    self.ui.conexion.commit()
 	  #Hasta este punto si todo sale bien registra los cambios en la base de datos
 	  self.filde=''
 	  if len(self.deps)>0:
@@ -307,12 +307,13 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
 	    except :
 	      print "Error, %s"%(sql) 
 	    else:
-	      self.cursor.execute(" COMMIT;")
-	      self.cursor.execute("SELECT LAST_INSERT_ID(); ")
+	      self.ui.conexion.commit()
+	      sql=self.ui.conexion.lastId()
+	      self.cursor.execute(sql)
 	      self.inventario=self.cursor.fetchone()[0]	    
 	      sql="UPDATE existencia as e,productos, familias as f set inconsistencia=0, stock_fisico=stock_logico  where   familia=f.id and e.producto=ref %s ;"%(self.filde)
 	      self.cursor.execute(sql)
-	      self.cursor.execute(" COMMIT;")
+	      self.ui.conexion.commit()
 	      self.iniConteo()
 	    self.stack.setCurrentIndex(self.stack.currentIndex()+1)
 #Al terminar de contar	    
@@ -325,7 +326,7 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
 	    sql="UPDATE existencia set   stock_logico=stock_fisico where inventario=%s"%(self.inventario)
 	    self.curser.execute(sql)	
 	    self.curser.execute("UPDATE inventarios set estado=0,auditor=%s, gerente=%s, saldo=(select round(sum(costo*inconsistencia),3) from existencia,productos where producto=ref and inventario=id_inventario) where id_inventario=%s"%(self.auditor,self.gerente['id_usuario'],self.inventario))	
-	    self.cursor.execute(" COMMIT;")
+	    self.ui.conexion.commit()
 	    self.setCursor(QtGui.QCursor(0))
 	    self.cursor.execute("select count(*),round(sum(costo*inconsistencia),3) as balance,round(sum(costo*stock_logico),3) as valor from existencia,productos where producto=ref and inventario=%s;"%self.inventario)
 	    data=self.cursor.fetchone()
@@ -410,7 +411,7 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
     def setStock(self):
       if self.producto!=None:
 	self.cursor.execute("UPDATE existencia SET inventario=%s, stock_fisico='%s', inconsistencia=stock_fisico-stock_logico WHERE producto=%s"%(self.inventario,float(self.leExistencias.text()),self.producto['ref']))
-	self.cursor.execute("COMMIT")
+	self.ui.conexion.commit()
 	if self.modo==0:
 	  self.sigProd()
 	else:
@@ -447,12 +448,12 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
 
       
     def printInc(self):
-      html=libutil.listaHtml(self.incos,"Inconsistencias", [[10,'Ref'],[40,'Descripcion'],[15,'Falte/Sobrante'],[15,'Costo'],[20,'Monto']])
+      html=libutil.listaHtml(self.incos,"Inconsistencias", ['Ref','Descripcion','Falte/Sobrante','Costo','Monto'],anchos=[10,40,15,15,20])
       libutil.printa(html,"Inconsistencias",self)
       
     def autoGuardar(self):
       #self.timer.start(10000)
-      #self.cursor.execute("COMMIT")
+      #self.ui.conexion.commit()
       print "Aplicando cambios"
       
     def seleccionar(self,index):

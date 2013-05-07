@@ -3,7 +3,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import MySQLdb as my
 from lib import libutil
-from lib.utileria import Faltante
+from lib.dialogos.marca_faltante import Faltante
 class Faltantes:
     def __init__(self,parent):
       self.ui=parent
@@ -34,13 +34,13 @@ class Faltantes:
     def listar(self):
 	fecha=str(self.ui.deFFecha.date().toString('yyyy-MM-dd'))
 	head=('Ref','Cantidad','Producto','Prioridad','Usuario','Fecha')
-	sql="SELECT ref,cantidad,descripcion,  ELT(prioridad+1,'0 Urgente','1 Alta','2 Normal','3 Baja'), nombre, fecha FROM faltantes, productos,usuarios  WHERE fecha>=date('%s') and ref=producto and  id_usuario=faltantes.usuario order by prioridad ;"%fecha
+	sql="SELECT ref,cantidad,descripcion,  prioridad, usuarios.nombre, fecha FROM faltantes, productos,usuarios  WHERE fecha>=date('%s') and ref=producto and  id_usuario=faltantes.usuario order by prioridad ;"%fecha
 	self.modelo=self.ui.entabla(self.ui.tvFaltantes,head,sql,self.modelo)    
 	self.ui.tvFaltantes.resizeColumnsToContents() 
 	
     def imprimir(self):
-      titulo="Lista completa de faltantes del dia %s"%self.ui.deFFecha.date().toString('dd-MM-yyyy')
-      html=libutil.listaHtml(self.modelo.getVector(),titulo, [[5,'Ref'],[5,'Cantidad'],[30,'Producto'],[15,'Prioridad'],[15,'Usuario'],[20,'Fecha']],'#FFF',"#639639",10)
+      titulo="Lista completa de faltantes %s"%self.ui.deFFecha.date().toString('MMM dd')
+      html=libutil.listaHtml(self.modelo.getVector(),titulo, ['Ref','Cantidad','Producto','Prioridad','Usuario','Fecha'],'#FFF',"#639639",10,anchos=[5,5,30,15,15,25,20])
       libutil.printa(html,titulo,self.ui)
       
     def eliminar(self):

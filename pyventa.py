@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys, os, datetime, base64, locale
+import sys, os, datetime, base64, locale, md5
 from lib.librerias.comun import *
 
 version=2.340
@@ -41,14 +41,18 @@ from lib.reporte import Reportes
 from lib.cventa import Cventa
 from lib.pendientes import Pendientes
 from lib.selector import Selector
-from lib.utileria import Documento, Factura, MyTableModel,AperturaCaja, Faltante
+from lib.utileria import Documento, MyTableModel,AperturaCaja
+from lib.dialogos.marca_faltante import Faltante
 from lib.nletras import *
 import lib.libutil as libutil
 from lib.swap import Swaproductos
 from lib.librerias.configurador import Configurador
-from lib.librerias.conexion import Conexion
+from lib.librerias.conexion import Conexion, dicursor
 from lib.librerias.seguridad import Seguridad
 from lib.libutil import listaHtml, printa
+from lib.factura import Factura
+from lib.librerias.conexion import dicursor
+#from check import Checador
 try:
   import win32print
 except:
@@ -92,7 +96,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
         	self.connect(self.actionPunto_de_venta, QtCore.SIGNAL("triggered()"), self.ver)
         	self.connect(self.actionA_Pyventa, QtCore.SIGNAL("triggered()"), self.about)
         	self.connect(self.aAbrir, QtCore.SIGNAL("triggered()"),self.editarNota )
-        	self.connect(self.actionPresupuesto, QtCore.SIGNAL("triggered()"),self.presupuestar )
+        	self.connect(self.actionPresupuesto, QtCore.SIGNAL("triggered()"),self.presupuestar1 )
         	self.connect(self.actionAutorizar_descuento, QtCore.SIGNAL("triggered()"),self.autDescuento )		
 		#self.connect(self.clSeleccionar_estilo, QtCore.SIGNAL("clicked()"), self.loadStyle)
         	#self.connect(self.actionUpdate, QtCore.SIGNAL("triggered()"), self.actualizar)
@@ -118,6 +122,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.iniVal()
 		self.full=False
 		self.moli2=None
+		
 		self.cfg=Configurador(self)
 		if self.cfg.stat:
 		  self.conexion=Conexion(self,self.cfg)
@@ -144,9 +149,9 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.banderas={'modo':0,'edicion':False, 'tipo':'v'}	
 		self.current=self
 		self.setupWidgets()
-		hoy=datetime.date.today()
-		self.lfecha.setText("Fecha: <b>"+str(hoy.strftime("%d/%m/%Y"))+"</b>")
-		self.fecha=str(hoy.strftime("%d-%m-%Y"))
+		self.hoy=datetime.date.today().isoformat()
+		self.lfecha.setText("Fecha: <b>{0}</b>".format(self.hoy))
+		self.fecha=str(datetime.date.today().strftime("%d-%m-%Y"))
 		self.datos['fecha']=self.fecha
 		self.hlm.addWidget(self.bventa)
 		
@@ -216,31 +221,18 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
       self.removerProducto=menu.addAction(QIcon(":/actions/images/actions/black_18/cancel.png"),"Quitar de la lista",self.delete)
       self.tabla.addAction(modific)
       self.tabla.addAction(self.removerProducto)
+      #self.menuHerramientas.addAction(QIcon(":/modulos/images/png/mini/productos.png"),"Checador de precios",self.checador)
       
-    #def check(self):
-	#if not os.path.exists(os.path.join(self.home,"config.cfg")):
-	    	#msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Question,"No se ha detectado el archivo de configuracion","Desea que el sistema asigne  una configuracion por defecto? ",QtGui.QMessageBox.Yes|QtGui.QMessageBox.No,self)
-		#ret=msgBox.exec_()
-		#if ret==QtGui.QMessageBox.Yes:
-		    #if sys.platform == 'linux2':   
-			  #os.system("cp -r /usr/share/pyventa/perfil/ "+self.home)
-		    #else:
-			  #os.system("xcopy \usr\share\pyventa\perfil \"%s\" /i /a /e /k"%self.home)
-		    #msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Ahora se recopilaran los datos necesarios para la base de datos, despues de eso el programa se cerrara para establecer las configuraciones.</p>.",QtGui.QMessageBox.Close,self)
-		    #msgBox.exec_()
-		    #self.conexion()     
-		#else:
-		    #print "El programa no puede continuar porque no existe el archivo de configuracion."
-		    #self.close()
-	#else:
-	      #sys.path.append(os.path.join(self.home,'drivers'))
-	      #self.ticketDriver=__import__("perfil.drivers.{}".format(self.cfg.get('ticket','driver')),globals(),locals(),[])
-		   
+    #def checador(self):
+      #check=Checador()
+      #check.show()
+
     def iniVal(self):
 	self.datos={'total':0,'subtotal':0,'descuento':0,'fecha':0}
 	self.cliente={'id':1,'nombre':"Normal mostrador",'tipo':0}
 	self.basket=[]
 	self.logo.setText("Nota de venta")
+	self.tutmp=False #Variable de producto temporal 
 
     def limpiar(self):
 	#model = tablaModelo(0, 0, self)
@@ -319,16 +311,15 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	
 	  caja=self.cfg.get("pyventa", "caja")
 	  if caja>0:
-	    self.cursor.execute("SELECT maquina FROM cajas WHERE estado != date(curdate()) and num_caja=%s ;"%caja)
+	    self.cursor.execute("SELECT maquina FROM cajas WHERE estado != {0} and num_caja={1} ;".format(self.hoy,caja))
 	    mac=self.cursor.fetchone()
 	    if mac!=None: #Si caja esta disponible
-		sql="UPDATE cajas SET estado=CURDATE(), maquina='%s' where num_caja=%s;"%(self.maquina,caja)
+		sql="UPDATE cajas SET estado={0}, maquina='{1}' where num_caja={2};".format(self.hoy,self.maquina,caja)
 		self.cursor.execute(sql)
-		self.cursor.execute("COMMIT")
 		self.caja=caja
 		self.setCaja()
 	  else:
-	    self.cursor.execute("SELECT maquina='%s' FROM cajas WHERE  num_caja=%s ;"%(self.maquina,caja))
+	    self.cursor.execute("SELECT maquina='{0}' FROM cajas WHERE  num_caja={1} ;".format(self.maquina,caja))
 	    mac=self.cursor.fetchone()
 	    if mac!=None and mac>0:
 	      self.caja=caja
@@ -437,7 +428,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
       else:   
 	Acceso =QtGui.QInputDialog.getText(self, self.tr("Filtro de Acceso"),self.tr("Ingrese su clave de autorizacion."),QtGui.QLineEdit.Password)                         
 	key=str(Acceso[0])
-	self.cursor.execute('select id_usuario,nivel from usuarios where clave=MD5(\''+key+'\');')
+	m=md5.new(key)
+	self.cursor.execute("select id_usuario,nivel from usuarios where clave='{0}' ".format(m.hexdigest()))
 	val=self.cursor.fetchone()
 	if val!=None:
 	  if int(val[1])>=int(nivel):
@@ -497,9 +489,9 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		cantidad=code[0]
 	    if codigo!=None:
 	      try:
-		np=self.curser.execute("select ref, descripcion,precio FROM productos where ref={0} or codigo={0}".format(codigo))
+		np=self.curser.execute("select ref, descripcion,precio,costo,unidades.nombre as unidad FROM productos,unidades where ref='{0}' or codigo='{0}' and unidades.id=unidad ".format(codigo))
 		if np==0:
-		  self.curser.execute("SELECT distinct ref, descripcion,precio FROM productos as p, codigos as c where producto=ref and c.codigo={0};".format(codigo))###Deprecated
+		  self.curser.execute("SELECT distinct ref, descripcion,precio,costo, unidades.nombre as unidad FROM productos as p, codigos as c, unidades where producto=ref and unidades.id=unidad and c.codigo='{0}';".format(codigo))###Deprecated
 		#self.curser.execute("SELECT `ref`,`descripcion`,`precio`  from productos as p where FIND_IN_SET('{0}',p.codigo) OR ref={0} limit 1".format(codigo))
 		#print "SELECT `ref`,`descripcion`,`precio`  FROM productos as p, codigos as c where (ref=%s  OR p.codigo=%s OR c.codigo='%s') and producto=ref limit 1"%(codigo,codigo,codigo)
 	      except MySQLdb.Error, e:
@@ -509,9 +501,11 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		  raise(e)
 	      else:
 		rec = self.curser.fetchone()
+		
 		if rec!=None:
+		  rec=dicursor(self.curser,rec)
 		  if len(code)==1:#Cuando solo exista  REFERENCIA
-		    self.tutmp=[int(rec['ref']), 0,str(rec['descripcion']), float(rec['precio']),0,0]
+		    self.tutmp=[int(rec['ref']), 0,str(rec['descripcion']), float(rec['precio']),0,0,0,float(rec['costo']),rec['unidad']]
 		    if self.banderas['modo']==0:#modo normal
 		      self.codigo.setText(str(rec['descripcion']))
 		      self.dsbPrecio.setValue(float(rec['precio']))
@@ -524,7 +518,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		    
 		  elif cantidad!=False: #Cuando reconozca un asterisco CANTIDAD*REFERENCIA
 		      sub=float(cantidad)*float(rec['precio'])
-		      tmp=[int(rec['ref']), float(cantidad),str(rec['descripcion']), float(rec['precio']),sub,0]
+		      tmp=[int(rec['ref']), float(cantidad),str(rec['descripcion']), float(rec['precio']),sub,0,0,float(rec['costo']),rec['unidad']]
 		      self.ingreso(tmp)		  
 		  #self.codigo.selectAll()
 		  return rec
@@ -532,12 +526,43 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		    self.codigo.setText("Producto no encontrado")
 		    self.codigo.selectAll()
 		    self.dsbPrecio.setValue(0)
-		      
+		    
+    def ingreso(self, tmp=False):
+#Se encarga de visualizar y agregar los datos de una tupla que contenga un producto su cantidad y precio
+      if (tmp==False):
+	tmp=self.tutmp
+	self.tutmp=False
+	tmp[1]=float(self.cant.text())
+      if (tmp!=None):
+	  #tmp[1]=float(self.cant.text())
+	  #self.tabla.setHorizontalHeaderItem(self.tabla.columnCount()+1,QtGui.QTableWidgetItem("Descuento",1))
+	  k=0
+	  if (self.buscar_canasta(tmp)==False):
+	    tmp[4]=float(tmp[1])*float(tmp[3])
+	    tmp=self.descontar(tmp)
+	    #tmp[5]=tmp[4]*(tmp[5]*.01)
+	    #tmp[4]=tmp[4]-tmp[5]
+	    self.basket.append(tmp)
+	    self.verCanasta()
+
+	  self.tabla.scrollToBottom()
+	  self.tabla.resizeColumnsToContents()   
+	  self.tabla.horizontalHeader().setResizeMode(2,1)
+	  tmp=None
+	  self.grant()
+	  self.cant.setText('1')
+  	  self.codigo.clear()
+  	  self.dsbPrecio.clear()
+	  self.codigo.setFocus()
+	  self.codigo.selectAll()
+	  
+	 
     def descontar(self,producto):
 	producto[5]=producto[4]
-	self.curser.execute("""SELECT `ref`,`precio`, familia, departamento  FROM productos,familias where ref=%s AND familia=familias.id   AND familia=familias.id limit 1""",producto[0])
+	self.curser.execute("""SELECT `ref`,`precio`, familia, departamento  FROM productos,familias where ref={0} AND familia=familias.id   AND familia=familias.id limit 1""".format(producto[0]))
 	rec = self.curser.fetchone()
 	if rec!=None:
+	  rec=dicursor(self.curser,rec)
 	  promo=self.checkPromo(rec,producto[1])
 	  if promo!=False and promo!=None:
 	      self.footer.setVisible(True)
@@ -546,6 +571,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	      desc=producto[4]*(descuento*.01)
 	      self.Promo.setText("Aplica descuento de :{0}. ".format(promo['nombre']))
 	      producto[5]=producto[4]-desc
+	      producto[6]=descuento
 	return producto
 	
     def clearPromo(self):
@@ -553,21 +579,30 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	self.Promo.setText("")
 	
     def checkPromo(self,prod,cant):
-	  self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto=%s AND tipo=0 AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin AND minimo<=%s AND maximo>=%s order by P.descuento desc """,(prod['ref'],cant,cant))
+	  self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
+	  tipo=0 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
+	  maximo>={1} order by P.descuento desc """.format(prod['ref'],cant,hoy=self.hoy))
 	  oferta=self.curser.fetchone()
 	  if oferta==None:
-	    self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto=%s AND tipo=1 AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin AND minimo<=%s AND maximo>=%s order by P.descuento desc""",(prod['familia'],cant,cant))
+	    self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
+	    tipo=1 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
+	    maximo>={1} order by P.descuento desc""".format(prod['familia'],cant,hoy=self.hoy))
 	    oferta=self.curser.fetchone()
 	    if oferta==None:
-	      self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto=%s AND tipo=2 AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin AND minimo<=%s  AND maximo>=%s order by P.descuento desc""",(prod['departamento'],cant,cant))
+	      self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
+	      tipo=2 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1}  AND 
+	      maximo>={1} order by P.descuento desc""".format(prod['departamento'],cant,hoy=self.hoy))
 	      oferta=self.curser.fetchone()
 	      if oferta==None:
 		return False
-	      else:      
+	      else:     
+		oferta=dicursor(self.curser,oferta)
 		return oferta
 	    else:      
+	      oferta=dicursor(self.curser,oferta)
 	      return oferta	    
-	  else:      
+	  else:
+	    oferta=dicursor(self.curser,oferta)
 	    return oferta
 	    
     def checkAllPromos(self,ref):
@@ -575,7 +610,10 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  self.curser.execute("SELECT `ref`,`precio`, familia, departamento  FROM productos,familias where ref=%s AND familia=familias.id   AND familia=familias.id limit 1"%ref)
 	  prod = self.curser.fetchone()
 	  if prod!=None:
-	    self.cursor.execute("SELECT nombre,minimo, descuento, %s-(%s*descuento*0.01) FROM ofertas as O,promociones as P WHERE ((tipo=0 and conjunto=%s) OR (tipo=1 and conjunto=%s) OR (tipo=2 and conjunto=%s)) AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin  order by P.descuento desc "%(prod['precio'],prod['precio'],prod['ref'],prod['familia'],prod['departamento']))
+	    prod=dicursor(self.curser,prod)
+	    self.cursor.execute("""SELECT nombre,minimo, descuento, {precio}-({precio}*descuento*0.01) FROM ofertas as O,promociones as P
+	    WHERE ((tipo=0 and conjunto={ref}) OR (tipo=1 and conjunto={familia}) OR (tipo=2 and conjunto={departamento})) AND 
+	    O.promocion=P.id AND date({hoy}) BETWEEN P.inicio AND P.fin  order by P.descuento desc """.format(hoy=self.hoy,**prod))
 	    oferta=self.cursor.fetchall()
 	    if oferta !=None:
 	      #oferta=list(oferta)
@@ -585,7 +623,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
     
       
     def buscar(self,txt):
-	if(txt!=None):
+	if(txt!=None and self.tutmp==False):
 	  txt=str(txt)
 	  if ((len(txt)>2) and (txt[0].isdigit()==False)):
 	    li=txt.split(' ')
@@ -621,6 +659,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  ide=nota[0]	
 	  self.curser.execute('select * from notas where `id`='+str(nota[0]))
 	  nota=self.curser.fetchone()
+	  nota=dicursor(self.curser,nota)
 	  prods=nota['productos']
 	  cant=nota['cant']
 	  prods=prods.split(',')
@@ -679,37 +718,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		ret=True
 	return ret
 	
-    def ingreso(self, tmp=False):
-#Se encarga de visualizar y agregar los datos de una tupla que contenga un producto su cantidad y precio
-      if (tmp==False):
-	tmp=self.tutmp
-	tmp[1]=float(self.cant.text())
-      if (tmp!=None):
-	  #tmp[1]=float(self.cant.text())
-	  #self.tabla.setHorizontalHeaderItem(self.tabla.columnCount()+1,QtGui.QTableWidgetItem("Descuento",1))
-	  k=0
-	  if (self.buscar_canasta(tmp)==False):
-	    tmp[4]=float(tmp[1])*float(tmp[3])
-	    tmp=self.descontar(tmp)
-	    #tmp[5]=tmp[4]*(tmp[5]*.01)
-	    #tmp[4]=tmp[4]-tmp[5]
-	    self.basket.append(tmp)
-	    self.verCanasta()
-	    #self.tabla.setRowCount(len(self.basket)+1)	 
-	    #for i,data in enumerate(tmp):
-	      #item = QtGui.QTableWidgetItem(1)
-	      #item.setText(str(data))
-	      #self.tabla.setItem(len(self.basket)-1,i , item)   
-	  self.tabla.scrollToBottom()
-	  self.tabla.resizeColumnsToContents()   
-	  self.tabla.horizontalHeader().setResizeMode(2,1)
-	  tmp=None
-	  self.grant()
-	  self.cant.setText('1')
-  	  self.codigo.clear()
-  	  self.dsbPrecio.clear()
-	  self.codigo.setFocus()
-	  self.codigo.selectAll()
+
 
     #def nuevaCompra(self):
       #if self.aut(2)>0:
@@ -782,26 +791,28 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  ret=msgBox.exec_()
 	else:
 	  if cliente!=None:
-	      if edicion:
-		self.limpiar()
-		self.banderas['edicion']=str(ide)
-	      else:
-		self.banderas['edicion']=False
-	      self.banderas['tipo']='v'
-	      self.cliente['id']=cliente['cliente']
-	      self.cliente['tipo']=cliente['tipo']
-	      self.cliente['nombre']=cliente['nombre']
-	      self.csCliente.setText(self.cliente['nombre'])
-	      self.nota=str(ide)
-	      self.curser.execute("SELECT ref,`descripcion`,precio,cantidad, V.total as total FROM notas as N, vendidos as V, productos as P where V.venta=N.id AND P.ref=V.producto AND  N.id=%s ;"%ide)
-	      notas=self.curser.fetchall()
-	      if notas!=None:
-		for nota in notas:
-		  total=float(nota['cantidad'])*float(nota['precio'])
-		  tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total']]
-		  self.ingreso(tmp)
-		self.logo.setText("Edicion de venta")
-		return True
+	    cliente=dicursor(self.curser,cliente)
+	    if edicion:
+	      self.limpiar()
+	      self.banderas['edicion']=str(ide)
+	    else:
+	      self.banderas['edicion']=False
+	    self.banderas['tipo']='v'
+	    self.cliente['id']=cliente['cliente']
+	    self.cliente['tipo']=cliente['tipo']
+	    self.cliente['nombre']=cliente['nombre']
+	    self.csCliente.setText(self.cliente['nombre'])
+	    self.nota=str(ide)
+	    self.curser.execute("SELECT ref,`descripcion`,precio,cantidad, V.total as total FROM notas as N, vendidos as V, productos as P where V.venta=N.id AND P.ref=V.producto AND  N.id=%s ;"%ide)
+	    notas=self.curser.fetchall()
+	    if notas!=None:
+	      notas=dicursor(self.curser,notas)
+	      for nota in notas:
+		total=float(nota['cantidad'])*float(nota['precio'])
+		tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total']]
+		self.ingreso(tmp)
+	      self.logo.setText("Edicion de venta")
+	      return True
 	  else:
 	    msgBox.setText("No se puede abrir la nota.")
 	    msgBox.setInformativeText("Problema con la informacion del cliente.")
@@ -816,8 +827,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	try:
 	  restrict =" "
 	  if edicion:
-	    restrict =" AND DATE(fecha)=CURDATE() ;"
-	  sql="SELECT id,proveedor FROM compras WHERE id=%s %s;"%(ide, restrict)
+	    restrict =" AND DATE(fecha)='{0}' ;".format(self.hoy)
+	  sql="SELECT id,proveedor FROM compras WHERE id=%s %s"%(ide, restrict)
 	  #print sql
 	  self.cursor.execute(sql)
 	  compra=self.cursor.fetchone()
@@ -839,14 +850,17 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	      else:
 		self.banderas['edicion']=False
 	      self.banderas['tipo']='c'
-	      self.curser.execute("SELECT ref,`descripcion`,precio,cantidad, CC.total as total FROM compras as C, comprados as CC, productos as P where CC.compra=C.id AND ref=CC.producto AND  C.id=%s ;"%ide)
+	      sql="SELECT ref,`descripcion`,precio,cantidad, CC.total as total,P.costo as costo  FROM compras as C, comprados as CC, productos as P where CC.compra=C.id AND ref=CC.producto AND  C.id=%s ;"%ide
+	      #print sql
+	      self.curser.execute(sql)
 	      notas=self.curser.fetchall()
 	      self.cliente['id']=int(compra[1])
 	      self.csCliente.setText("%s"%self.cliente['id'])	      
 	      if notas!=None:
+		notas=dicursor(self.curser,notas)
 		for nota in notas:
 		  total=float(nota['cantidad'])*float(nota['precio'])
-		  tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total']]
+		  tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total'],0,nota['costo']]
 		  self.ingreso(tmp)
 		self.logo.setText("Edicion de compra")
 		return True
@@ -858,15 +872,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  dlg =QtGui.QInputDialog.getInteger(self, self.tr("Cancelar Compra"),self.tr("Ingrese el numero de compra."))
 	  compra=dlg[0]
 	if (dlg!=False and dlg[1] ) or (dlg==False and compra>0):
-	  try:
-	    self.cursor.execute( "UPDATE existencia as e, comprados as cc SET stock_logico=stock_logico-cantidad WHERE e.producto=cc.producto and compra=%s;"%compra)
-	    self.cursor.execute("DELETE FROM comprados WHERE compra=%s "%compra)
-	    self.cursor.execute("DELETE FROM compras where `id`=%s ;"%compra)
-	  except MySQLdb.Error, e:
-	    return e 
-	  else:
-	    self.cursor.execute("COMMIT")
-	    return True
+	  return self.modulos['cventa'].eliminarCompra(compra)
 	    
     def cancelNota(self):
 	#msgBox=QMessageBox()
@@ -878,7 +884,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	nota =QtGui.QInputDialog.getInteger(self, self.tr("Cancelar nota"),self.tr("Ingrese el numero de nota."))
 	if nota[1]:
 	  try:
-	    self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta=%s;""",nota[0])
+	    self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta=%s;"""%nota[0])
 	    self.cursor.execute("DELETE FROM vendidos WHERE venta=%s "%nota[0])
 	    self.cursor.execute("DELETE FROM notas where `id`="+str(nota[0]))
 	  except MySQLdb.Error, e:
@@ -935,7 +941,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
       else:
 	  if sys.platform == 'linux2':
 	    try:
-	      os.system("lpr  %s -P \"%s\" "%(archivo.name,impresora))
+	      os.system("lp  %s -d \"%s\" "%(archivo.name,impresora))
 	      #os.system("echo  %s "%(archivo.name))
 	    except:
 	      print 'No fue posible imprimir'
@@ -1106,6 +1112,45 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  out.write('\n'+str(self.grant()[2]))
 	  out.close()
 
+    def presupuestar1(self):
+      	print "Creando presupuesto.."
+	campos={'titulo':'Presupuesto','fecha':self.fecha}
+	for key in self.modulos['config'].modulos['empresa']:
+	    try:
+	      campos["{%s}"%key]=self.cfg.get('empresa',key)
+	    except:
+	      pass
+	gt=self.grant()
+	campos['{descripciones}']=''
+	campos['{cantidades}']=''
+	campos['{precios}']=''
+	campos['{importes}']=''
+	campos['{unidades}']=''
+	nl="<br/>"
+	for item in self.basket:
+	  campos['{descripciones}']+="{0} {2}{nl}".format(nl=nl,*item)
+	  campos['{cantidades}']+="{0:.2f}{1}".format(item[1],nl)
+	  campos['{precios}']+="{0:.2f}{1}".format(item[3],nl)
+	  campos['{importes}']+="{0:.2f}{1}".format(item[4],nl)
+	  campos['{unidades}']+="{0}{1}".format(item[8],nl)
+	campos['{total}']=str(gt[2])
+	campos['{fecha}']=str(self.fecha)  
+	campos['{cliente}']=self.cliente['nombre']
+	new="/tmp/presupuesto.html"
+	doc=open("perfil/formas/presupuesto.html","r")
+	tmp=open(new,"w")
+	body=doc.read()
+	for key,item in campos.iteritems():
+	  body=body.replace(key,item)
+	tmp.write(body)
+	doc.close()
+	tmp.close()	
+	if sys.platform == 'linux2':
+	  os.system("libreoffice '%s' "%new)
+	else:
+	  os.startfile(new)
+	
+
     def presupuestar(self):
 	print "Creando presupuesto.."
 	campos={'titulo':'Presupuesto','fecha':self.fecha}
@@ -1135,7 +1180,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	campos['nletra']=str(nletras(gt[2]))
 	
 	
-	html=listaHtml(self.basket,titulo="Lista de productos",cabezas=[['10%','Ref'],['10%','Cantd'],['45%','Descripcion del Producto'],['10%','Precio'],['10%','Importe'],['15%','Importe final']],fondo='#000',css="table, tr, td, th{border:0px;border:0px solid #000}, table, tr{width:100%;align:center; margin:auto;} hr{border:1px solid #bbb} ")
+	html=listaHtml(self.basket,titulo="Lista de productos",cabezas='Ref,Cantd,Descripcion del Producto,Precio,Importe,Subtotal',fondo='#000',css="table, tr, td, th{border:0px;border:0px solid #000}, table, tr{width:100%;align:center; margin:auto;} hr{border:1px solid #bbb} ",anchos=[10,10,45,10,10,15])
 	campos['%tabla%']=html
 	head="""<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
 		<tr valign='top'>
@@ -1224,12 +1269,14 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
       #if len(self.basket)<=0:
 	head=['Ref','Ctd','Descripcion del producto','Precio','Importe','c/Dcto']
 	if self.canasta==None:
-	  self.canasta = MyTableModel(self.basket, head, self) 
+	  #hacemos un recorte para mostrar solo 6 columnas
+	  tmp=[l[:6] for l in self.basket]
+	  self.canasta = MyTableModel(tmp, head, self) 
 	  self.tabla.setModel(self.canasta)
-	  font = QtGui.QFont("Monospace", 15)
+	  font = QtGui.QFont("Monospace", 12)
 	  self.tabla.setFont(font)
 	else:
-	  self.canasta.setVector(self.basket) 
+	  self.canasta.setVector([l[:6] for l in self.basket]) 
 	self.tabla.resizeColumnsToContents()   
 	
     def entabla(self,tabla,header,query,modelo=None):
@@ -1269,7 +1316,9 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	pass
       
       
-      
+    def closeEvent(self,event):
+      self.conexion.commit()
+      self.conexion.close()
 
 if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
@@ -1278,6 +1327,7 @@ if __name__=="__main__":
     aw = Pyventa()
     aw.show()
     app.exec_()
+    
   #app = QtGui.QApplication(sys.argv)
   ## Create and display the splash screen
   #splash_pix = QtGui.QPixmap('/usr/share/pyventa/images/splash.png')

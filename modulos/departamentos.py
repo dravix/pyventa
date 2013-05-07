@@ -38,7 +38,7 @@ class Departamentos(Admin1):
 	      print error
 	      return error
 	    else:
-	      self.cursor.execute("COMMIT")  
+	      self.ui.conexion.commit()  
 	      self.limpiar()  
 	      self.listar()
 	  else:

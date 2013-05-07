@@ -1,10 +1,13 @@
 from PyQt4.QtCore import Qt, SIGNAL 
 from PyQt4.QtGui import QMenu, QMessageBox, QIcon, QInputDialog
 import MySQLdb
-from lib.utileria import MyTableModel, Faltante, setComboModelKey
+from lib.utileria import MyTableModel,  setComboModelKey
 from lib.listacodigos import ListadorCodigos
 from lib import libutil
 from lib.dialogos.cambia_precios import CambiaPrecios
+from lib.dialogos.marca_faltante import Faltante
+import sqlite3,time
+from lib.librerias.conexion import dicursor
 class Productos:
     def __init__(self,parent):
 	self.parent=parent
@@ -97,7 +100,7 @@ class Productos:
 	  elif txt[0].isdigit() :
 	    tipo= "((P.codigo={0} OR ref={0})or ref=(select producto from codigos as c where c.codigo={0}))".format(txt)
 	  elif txt[0]=='*':
-	    tipo='true'
+	    tipo='1'
 	  else:
 	    return True
 	  head=['Ref','Codigos','Descripcion','Famlia','Cost','Gan','Prcio','Exist','Unidad','Impto','Ventas','U.Modifica']
@@ -106,8 +109,10 @@ class Productos:
 	  try:
 	    self.cursor.execute(sql)
 	    lista=self.cursor.fetchall()
-	  except:
-	    print "No se encontraron productos con tales criterios de busqueda",sql
+	  except sqlite3.Error,e:
+	    raise(e)
+	  except :
+	    print "No se encontraron productos con tales criterios de busqueda",sql	  
 	  else:
 	    if lista!=None:
 	      if self.modelo==None:
@@ -223,7 +228,7 @@ class Productos:
     def extraInfo(self,ref):
 	html='<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:12pt; font-weight:600; color:#002d42;">%s</span></p><table width="100%%" style=" font-weight:600; color:#002d42;"><tr><td>Apartir de</td>  <td>Desc.</td></tr><tr style="color:#f00;text-align:right"><td>%s</td> <td >%s%%</td></tr><tr><td>Precio</td>  <td>Subtotal</td></tr><tr><td>$ %s</td> <td>$ %s</td></tr></table><br/>'
 	
-	sql="SELECT P.nombre,minimo,descuento,precio-(precio*descuento*0.01), (precio-(precio*descuento*0.01))*minimo FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND curdate() BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
+	sql="SELECT P.nombre,minimo,descuento,precio-(precio*descuento*0.01), (precio-(precio*descuento*0.01))*minimo FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND date(current_timestamp) BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
 	#self.cursor.execute()
 	self.parent.entabla(self.parent.tvpPrecios,['Promocion','Apartir de','%','P.Unitario','P.Total'],sql)
 	#ofertas=self.cursor.fetchall()
@@ -247,6 +252,7 @@ class Productos:
 	self.curser.execute(sql)
 	producto=self.curser.fetchone()
 	if producto!=None:
+	  producto=dicursor(self.curser,producto)
 	  self.parent.tpcodigo.setText(str(producto['codigo']))
 	  self.parent.tpdesc.setText(str(producto['descripcion']))
 	  setComboModelKey(self.parent.cbeFamilias,producto['familia'])#Pone el combo en el valor del Id
@@ -316,15 +322,16 @@ class Productos:
 		    QMessageBox.critical (self.parent, "Codigo duplicado", "Este codigo ya fue asignado a\n%s."%prev[0]) 
 		    return False
 		else:
-		    self.cursor.execute("INSERT INTO productos VALUES(%s,NULL,%s,%s,%s,%s,%s,%s,%s,0,%s,NOW())",(producto['codigo'],producto['descripcion'],producto['familia'],producto['costo'],producto['ganancia'],producto['precio'],producto['stock'],producto['unidad'],producto['impuesto']))
+		    self.cursor.execute("INSERT INTO productos VALUES(%s,NULL,'%s',%s,%s,%s,%s,%s,%s,0,%s,NOW())"%(producto['codigo'],producto['descripcion'],producto['familia'],producto['costo'],producto['ganancia'],producto['precio'],producto['stock'],producto['unidad'],producto['impuesto']))
 	  except MySQLdb.Error, e:
                 mb=QMessageBox.critical(self.parent, "Error!", "No se ha podido ingresar. Verifique los datos")
                 self.parent.setStatus(2,"No se ha podido ingresar. Verifique los datos")
                 print e
                 self.pbStat.setToolTip("%s"%e)
 	  else:
-		self.cursor.execute("COMMIT")
-		self.cursor.execute("SELECT LAST_INSERT_ID()")
+		self.parent.conexion.commit()
+		sql=self.parent.conexion.lastId()
+		self.cursor.execute(sql)
 		pd=self.cursor.fetchone()
 		for code in self.alternos:
 		  try:
@@ -338,8 +345,8 @@ class Productos:
                 self.parent.setStatus(1,"El producto ha sido dado de alta. Su referencia es: {0}".format(pd[0]))
                 if self.parent.gbRelacion.isChecked()==True:
 		    sub={'cantidad':str(self.parent.leNum.value()),'producto':str(self.parent.leProd.text())}
-		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)""",(pd[0],sub['cantidad'],sub['producto']))
-		    self.cursor.execute("COMMIT")
+		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(pd[0],sub['cantidad'],sub['producto']))
+		    self.parent.conexion.commit()
 		self.limpiarEditor()
 		#self.goProductos()
 
@@ -377,7 +384,7 @@ class Productos:
 	producto['stock']="'%s'"%(self.parent.tstock.value()+self.parent.dsbStock.value())
 	producto['impuesto']="'%s'"%self.parent.cbeImpuestos.model().celda(self.parent.cbeImpuestos.currentIndex(),0)
 	producto['unidad']="'%s'"%self.parent.cbeUnidades.model().celda(self.parent.cbeUnidades.currentIndex(),0)
-	producto['ultima_modificacion']='now()'
+	producto['ultima_modificacion']='NOW()'
 	if self.parent.tpcodigo.text()!='':
 	    producto['codigo']=str(self.parent.tpcodigo.text())
 	    out='set ref='+str(self.parent.leeRef.text())+" "
@@ -394,7 +401,7 @@ class Productos:
 		msgBox.exec_()
 	    else:
 		self.parent.setStatus(1,"El articulo ha sido editado correctamente")
-		self.cursor.execute("COMMIT")
+		self.parent.conexion.commit()
 		self.parent.stack.setCurrentIndex(2)
 		#self.buscar()
 	else:
@@ -404,7 +411,8 @@ class Productos:
 		    suma=0
 		    for e in producto['descripcion']:
 		      suma+=ord(e)
-		    self.parent.tpcodigo.setText("2500%s0%s0%s"%(producto['familia'],suma,producto['precio']))
+		    self.parent.tpcodigo.setText("2{0}".format(int(time.time()))
+		    #self.parent.tpcodigo.setText("2500%s0%s0%s"%(producto['familia'],suma,producto['precio']))
 		else:
 		    self.parent.tpcodigo.setFocus(True)
 	
@@ -413,11 +421,11 @@ class Productos:
 	  	self.cursor.execute("select count(subproducto) from subproductos where subproducto="+str(self.tmpRef))
 	  	num=self.cursor.fetchone()[0]
 	  	if num>0:
-		    self.cursor.execute("""UPDATE subproductos set cantidad=%s, producto=%s where subproducto=%s""",(sub['cantidad'],sub['producto'],self.tmpRef))
-		    self.cursor.execute("COMMIT")
+		    self.cursor.execute("""UPDATE subproductos set cantidad=%s, producto=%s where subproducto=%s"""%(sub['cantidad'],sub['producto'],self.tmpRef))
+		    self.parent.conexion.commit()
 		else:
-		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)""",(self.tmpRef,sub['cantidad'],sub['producto']))
-		    self.cursor.execute("COMMIT")
+		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(self.tmpRef,sub['cantidad'],sub['producto']))
+		    self.parent.conexion.commit()
 	
 	if len(self.siguiente)>0:
 	  self.editarSiguiente()
@@ -502,6 +510,6 @@ class Productos:
 	return prev    	
       
     def marcarFalta(self, ide=False):
-      refs=libutil.seleccionar(self.parent.tblProductos,self.modelo,1)
-      lis=Faltante(self.parent,refs,self.parent.usuario)	
+      refs=libutil.seleccionar(self.parent.tblProductos,self.modelo,0)
+      lis=Faltante(self.parent,refs,self.parent.usuario['id_usuario'])	
       lis.exec_()      

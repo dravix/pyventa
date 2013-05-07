@@ -2,10 +2,12 @@ from lib.librerias.configurador import Configurador
 from lib.db_conf import configurador as BDConfig
 from lib.librerias.comun import *
 import base64
+from datetime import datetime
 from os.path import join
 import MySQLdb
 from PyQt4.QtCore import QTimer
 from lib.dialogos.notificaciones import notify
+import sqlite3,shutil
 class Conexion:
     def __init__(self, parent, config=False,datos=False):
 	self.parent=parent
@@ -37,24 +39,69 @@ class Conexion:
 	  self.__init__(self.parent)  
 	else:
 	  self.stat=False
-	  
-    def conectar(self):
-      try:
-	self.db = MySQLdb.connect(self._host, self._user, self._pass,self._schema)
-      except MySQLdb.Error,e:
-	    if e.args[0]==2006: #Cuando el servidor se ha ido
-	      notify(self.parent,'error','El servidor se ha ido', "El servidor ha cerrado la conexion, reconectando en 10 segundos")
-	      QTimer.singleShot(10000,self.conectar)
-	    else:
-	      print e,"\nError al conectar a la base de datos"#,(self._host, self._user, self._pass,self._schema)
-	      self.asistente()
-      else:                
-	  self.cursor = self.db.cursor()
-	  self.curser=  self.db.cursor(MySQLdb.cursors.DictCursor)	
-	  self.stat=True
+    
+    def lastId(self):
+      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+       return "SELECT last_insert_rowid();"
+      else:
+	return "SELECT LAST_INSERT_ID();"
+      
 
+    def conectar(self):
+      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+	dbpath=os.path.join(home,"pyventa.sqlite")
+	if os.path.exists(dbpath):
+	  self.db=sqlite3.connect(dbpath)
+	  self.db.create_function("NOW", 0, ahora)
+	  self.db.create_function("CURDATE", 0, hoy)
+	  self.db.create_function("DATE_FORMAT", 2, dateformat)
+	  self.cursor=self.db.cursor()
+	  self.curser=self.db.cursor()
+	  self.stat=True
+	else:
+	  try:
+	    shutil.copy("perfil/pyventa.sqlite",dbpath)
+	  except shutil.Error, e:
+	    print "No se encontro el archivo de la base de datos y no se pudo copiar una nueva"
+	    raise(e)
+	  else:
+	    self.conectar()
+      else:
+	try:
+	  self.db = MySQLdb.connect(self._host, self._user, self._pass,self._schema)
+	except MySQLdb.Error,e:
+	      if e.args[0]==2006: #Cuando el servidor se ha ido
+		notify(self.parent,'error','El servidor se ha ido', "El servidor ha cerrado la conexion, reconectando en 10 segundos")
+		QTimer.singleShot(10000,self.conectar)
+	      else:
+		print e,"\nError al conectar a la base de datos"#,(self._host, self._user, self._pass,self._schema)
+		self.asistente()
+	else:                
+	    self.cursor = self.db.cursor()
+	    self.curser=  self.db.cursor(MySQLdb.cursors.DictCursor)	
+	    self.stat=True
+
+    def commit(self):
+      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+	self.db.commit()
+      else:
+	self.cursor.execute("COMMIT")
+	
+    def ultimo(self):
+      if self.cfg.getDato('pyventa','motor')=="sqlite3":	
+	  return self.cursor.lastrowid
+      else:
+	return self.db.insert_id()
+      
+	
+    def rollback(self):
+      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+	self.db.rollback() 
+      else:
+	self.cursor.execute("ROLLBACK")
 
     def close(self):
+      
 	self.db.close()
 	
     def ejecutar(self,sql,dic=False):
@@ -97,3 +144,33 @@ class Conexion:
 	  ret=cursor.fetchall()
 	  return ret
 	
+def ahora():
+  return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def hoy():
+  return datetime.now().strftime("%Y-%m-%d")
+
+
+def dateformat(fecha,formato):
+  return datetime.strptime(fecha,"%Y-%m-%d %H:%M:%S").strftime(formato)
+	
+def dicursor(cursor,row):
+      if isinstance(cursor,sqlite3.Cursor):
+	if isinstance(row, list):
+	  li=[]
+	  for item in row:
+	    li.append(dicursor2(cursor,item))
+	  return li
+	elif isinstance(row, tuple):
+	  return dicursor2(cursor,row)
+      else:
+	return row
+	  
+def dicursor2(cursor,row):
+    if isinstance(cursor,sqlite3.Cursor):
+      d = {}
+      for idx,col in enumerate(cursor.description):
+	      d[col[0]] = row[idx]
+      return d 	  	
+    else:
+      return row

@@ -161,6 +161,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 		    self.cbEstilos.addItem(str(name))
 
 	#----Impresiones
+	self.cbPath.setText(self.kfg.getDato("factura","ruta"))
 	try:
 	  conn = cups.Connection ()
 	  printers = conn.getPrinters()
@@ -393,22 +394,27 @@ class Configs(QtGui.QDialog, Ui_Form):
     def editarTicket(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"ticket.xml"))
 	editor.exec_()
+	self.cfg.recargar()
 	
     def editarFactura(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"formas","factura.cfg"))
 	editor.exec_()	
+	self.cfg.recargar()
 	
     def editarPresupuesto(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"formas","presupuesto.xml"))
 	editor.exec_()	
-
+	self.cfg.recargar()
+	
     def editar(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"config.cfg"))
 	editor.exec_()
+	self.cfg.recargar()
 	
     def editarCorte(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"corte.xml"))
 	editor.exec_()  
+	self.cfg.recargar()
 	
     def buscador(self):
       sql="SELECT num_caja, caja, maquina from cajas;"

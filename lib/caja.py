@@ -35,7 +35,11 @@ class Cajas(QtGui.QDialog, Ui_Form):
 		self.agasto.setText("Registrar gasto")
 		self.agasto.setShortcut("Ctrl+H")
         	self.deDesde.setDate(QtCore.QDate.currentDate())
-        	self.deHasta.setDate(QtCore.QDate.currentDate())		
+        	self.deHasta.setDate(QtCore.QDate.currentDate())
+        	copy=QtGui.QAction(QtGui.QIcon(":/actions/images/actions/black_18/copy.png"),"Copiar",self)
+		self.connect(copy, QtCore.SIGNAL("triggered()"), self.teEntradasDetalle.copy)
+
+        	self.teEntradasDetalle.addAction(copy)
 		#self.connect(self.action, QtCore.SIGNAL("triggered()"), self.iniciar )
 		self.connect(self.agasto, QtCore.SIGNAL("triggered()"), self.agregarGasto)
 		self.connect(self.tboImprimir, QtCore.SIGNAL("clicked()"), self.imprimir)
@@ -56,7 +60,7 @@ class Cajas(QtGui.QDialog, Ui_Form):
 		self.tablas=[self.teDetalles,self.teDetalles_2,self.teDetalles_3]
 		self.cliente=0
 		#inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
-		self.periodo=" date(fecha)=CURDATE()  "
+		self.periodo=" date(fecha)=date(current_timestamp)  "
 
     def iniciar(self):
       if self.parent.aut(self.datos['nivel'])>0:
@@ -120,63 +124,14 @@ class Cajas(QtGui.QDialog, Ui_Form):
       
     def detallarEntradas(self):
 	self.setCursor(QtGui.QCursor(3))
-
-	#ventas={'realizadas':[],'cobradas':[],'facturas':[],'notas':[],'efectivo':[],'credito':[]}
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+" ")
-	#row=self.cursor.fetchone()
-	#ventas['realizadas']=row
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and status>0 ")
-	#row=self.cursor.fetchone()
-	#ventas['cobradas']=row
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and tipo=1 ")
-	#row=self.cursor.fetchone()
-	#ventas['facturas']=row
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and tipo=0 ")
-	#row=self.cursor.fetchone()
-	#ventas['notas']=row
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and status=1 ")
-	#row=self.cursor.fetchone()
-	#ventas['efectivo']=row
-	#self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+" and status=2 ")
-	#row=self.cursor.fetchone()
-	#ventas['credito']=row
-	#tabla='<h2>Tabla general de ventas</h2>\
-#<table cellspacing="6px" width="100%%">\
-#<TR> <Th>Concepto</Th><TH>Cantidad</TH><th>Valor</th>	</TR>\
-#<tr> <TD>Ventas realizadas</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-#<tr> <TD>Ventas cobradas</TD>	<TD >%s		</TD>       <TD	>		%s</TD>      </tr>\
-#<tr> <TD>En efectivo</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-#<tr> <TD>En credito</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-#</table>'%(ventas['realizadas'][0],ventas['realizadas'][1],ventas['cobradas'][0],ventas['cobradas'][1],ventas['efectivo'][0],ventas['efectivo'][1],ventas['credito'][0],ventas['credito'][1])
-	#self.teDetalles.setText(tabla)
-	#rows=""
-	#self.cursor.execute("select nombre,count(N.id), ROUND(sum(total),2) from notas as N, usuarios as U where "+self.periodo+" and status=1 and N.usuario=U.id_usuario group by N.usuario;")
-	#ventas=self.cursor.fetchall()
-
-	#for v in ventas:
-	  #rows+='<tr> <TD>%s</TD>	<TD >%s	</TD>       <TD >	%s</TD>      </tr>'%v;
-	#tabla+='<h2>Tabla de ventas por usuario</h2><table cellspacing="6px" width="100%%"><TR> <Th>Usuario</Th><TH>Num. ventas</TH><th>Cantidad cobrada</th></TR>%s</table>'%rows;
-	#self.teDetalles.setText(tabla)
-	##TABLA DE VENTAS POR DEP
-	#periodo=self.periodo.replace("fecha", "n.fecha")
-	#self.cursor.execute("select DISTINCT d.nombre,count(n.id),ROUND(sum(v.total),2) from productos as p, notas as n, vendidos as v, familias as f, departamentos as d where "+periodo+"  and v.venta=n.id and p.ref=v.producto and f.id=p.familia  and d.id=f.departamento  group by d.id;")
-	#ventas=self.cursor.fetchall()
-	#rows=""
-	#for v in ventas:
-	  #rows+='<tr> <TD>%s</TD>	<TD >%s	</TD>       <TD >	%s</TD>      </tr>'%v;
-	#tabla+='<H2>Tabla de ventas por departamento</H2><table cellspacing="6px" width="100%%"><TR> <Th>Departamento</Th><TH>Num. ventas</TH><th>Cantidad cobrada</th></TR>%s</table>'%rows;
 	ventas=Ventas(self.parent,self.periodo)
-	tab=ventas.detallarVentas()
-	tab+="<br/>%s"%ventas.detallarCajas()
-	tabu=ventas.detallarUsuarios()
-	tab+="<br/>%s"%ventas.detallarDeptos()
-	tabu+="<br/>%s"%ventas.detallarProds()
-	#tabla=tab
-	tabla2=libutil.listaHtml([[tab,tabu]],"Detalle de ventas </span><br/><span>En el periodo del %s al %s <br/> "%(self.deDesde.date().toString("(dd 'de' MMM 'del' yyyy)"),self.deHasta.date().toString("(dd 'de' MMM 'del' yyyy)")),[['50%','Departamento'],['50%','Ventas realizadas']],"#1A4F67",'#eee',14,'100',"#totaldeventas > tr.odd{ background:rgba(0,0,0,0); }") 
-	#print tabu
-
-	#tabla2+="<br/><img src='/tmp/grafica.png'/>"
-	self.teEntradasDetalle.setText(tabla2)	
+	tventas=ventas.detallarVentas()
+	tcajas=ventas.detallarCajas()
+	tusuarios=ventas.detallarUsuarios()
+	tdeptos=ventas.detallarDeptos()
+	tprods=ventas.detallarProds()
+	tabla2=libutil.listaHtml([[tventas+tusuarios+tcajas,tdeptos]],titulo="Resumen de movimientos",opc="100",anchos=[40,60])
+	self.teEntradasDetalle.setText(tabla2+tprods)	
 	self.stack.setCurrentIndex(2)
 	self.setCursor(QtGui.QCursor(0))
 	
@@ -234,17 +189,8 @@ class Cajas(QtGui.QDialog, Ui_Form):
     def inicial(self):
 	if self.parent.aut(2):
 	  val=QtGui.QInputDialog.getDouble(self, self.tr("Establecer efectivo inicial"),self.tr("Ingrese la cantidad de efectivo<br> inicial al abrir las cajas."))
-	  print val[0]
-	  try:
-	    self.cursor.execute("""INSERT INTO ventas VALUES(CURDATE(),%s,0)""",val[0])
-	  except MySQLdb.Error, e:
-	    if (e.args[0]==1062):#Si hay un error por duplicacion de fila solo se actualiza
-	      try:
-		self.cursor.execute("""UPDATE ventas set inicial=%s where fecha=curdate()""",val[0])
-	      except MySQLdb.Error, e:
-		print e
-	      else:
-		self.resumir()
+	  #print val[0]
+	      Caja(self.parent.conexion).setSaldoInicial(self.parent.caja,val[0])
 	  else:
 	    self.resumir()
 	    
