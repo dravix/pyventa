@@ -362,7 +362,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	  sql="select C.id,N.total  from notas_cobradas as C, notas as N where %s and C.nota=N.id order by C.id; "%self.periodo
 	  self.cursor.execute(sql)
 	  result = self.cursor.fetchall()
-	  notas=' Numero de venta  |  Total\n'
+	  notas=' Numero de venta    Total\n'
 	  notas+='---------------------------------\n'
 	  tax="---------------------------------\nTotal separado por tipos de impuestos.\nImpuesto  |  Total en ventas\n"
 	  suma=i=0
@@ -373,7 +373,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	  self.cursor.execute("SELECT sum(V.total), I.nombre from vendidos as V, notas_cobradas as C,notas as N, productos as P, impuestos as I WHERE V.venta=N.id  AND V.producto=P.ref  AND N.id=C.nota AND P.impuesto=I.id  AND date(N.fecha)="+self.fecha+"  group by P.impuesto;")
 	  qry=self.cursor.fetchall()
 	  for item in qry:
-	      tax+="%s  |  <h2>$%s</h2> \n"%(item[1],item[0])
+	      tax+="%s   <h2>$%s</h2> \n"%(item[1],item[0])
 	  tax+="---------------------------------\n"
 	  f=open(os.path.join(self.parent.home,'corte.xml'),'r+')
 	  ticket=f.read()
@@ -385,7 +385,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	  tags['<num/>']=str(i)	  
 	  tags['<impuestos/>']=tax
 	  for key in self.parent.modulos['config'].modulos['empresa']:
-	      try:
+	      try: 
 		tags['<'+key+'/>']=self.parent.cfg.get('empresa',key)
 	      except:
 		pass

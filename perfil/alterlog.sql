@@ -1,4 +1,4 @@
-/*----v3*/
+-- ----3--
 CREATE TABLE IF NOT EXISTS `inventarios` (
   `id_inventario` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` datetime NOT NULL,
@@ -97,15 +97,19 @@ INSERT INTO existencia SELECT ref,1,0,0,0 FROM productos WHERE ref NOT IN (SELEC
 UPDATE existencia, productos SET stock_logico=stock WHERE producto=ref;
 UPDATE productos SET stock=0;
 
-/*----v3.1*/
+-- ----3.1--
 ALTER TABLE `promociones` CHANGE `descuento` `descuento` FLOAT NOT NULL ;
 ALTER TABLE `promociones` ADD `maximo` FLOAT NOT NULL ;
 ALTER TABLE `compras` ADD `proveedor` INT NOT NULL AFTER `fecha` ;
 
 
 
-/*----v3.2*/
+-- ----3.2--
 UPDATE notas SET caja=1 where caja=-1;
 
 ALTER TABLE  `compras` ADD  `estado` INT NOT NULL
+
+-- ----3.5--
+ALTER TABLE  `movimientos` CHANGE  `tipo`  `tipo` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
+ALTER TABLE  `clientes` ADD  `limite_credito` FLOAT NULL
 

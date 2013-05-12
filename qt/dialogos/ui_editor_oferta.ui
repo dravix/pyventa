@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>715</width>
-    <height>515</height>
+    <width>797</width>
+    <height>503</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@ border:1px solid rgb(170, 181, 186)}
        <height>16777215</height>
       </size>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QLabel" name="label">
         <property name="sizePolicy">
@@ -448,118 +448,88 @@ border:1px solid rgb(170, 181, 186)}
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <property name="leftMargin">
-         <number>6</number>
-        </property>
-        <property name="topMargin">
-         <number>6</number>
-        </property>
-        <property name="rightMargin">
-         <number>6</number>
-        </property>
         <item>
-         <widget class="QSplitter" name="Dual_3">
+         <widget class="QToolButton" name="tbPublicar">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">QSplitter{border-radius:4px;
-border: 1.2px solid #999;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));}
-QToolButton::hover{
-	background-color:rgba(133, 217, 255, 100);
+           <string notr="true">QToolButton, QAbstractButton{
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(10, 125, 159, 255), stop:1 rgba(0, 188, 255, 255));color:#fff;
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;
 }
-QToolButton::pressed{
-	
-	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(239, 239, 239, 27), stop:1 rgba(68, 68, 68, 205));
+QAbstractButton::pressed{
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+}</string>
+          </property>
+          <property name="text">
+           <string>Publicar</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../icons.qrc">
+            <normaloff>:/actions/images/actions/color_18/checkmark2.png</normaloff>:/actions/images/actions/color_18/checkmark2.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tbCerrar">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton, QAbstractButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;
 }
-QToolButton{padding:4px}
- 
-</string>
+QAbstractButton::pressed{
+color:#fff;
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+
+}</string>
           </property>
-          <property name="lineWidth">
-           <number>0</number>
+          <property name="text">
+           <string>Cerrar</string>
           </property>
-          <property name="midLineWidth">
-           <number>1</number>
+          <property name="icon">
+           <iconset resource="../../icons.qrc">
+            <normaloff>:/actions/images/actions/color_18/close.png</normaloff>:/actions/images/actions/color_18/close.png</iconset>
           </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+          <property name="iconSize">
+           <size>
+            <width>12</width>
+            <height>16</height>
+           </size>
           </property>
-          <property name="handleWidth">
-           <number>1</number>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
           </property>
-          <widget class="QToolButton" name="tbCerrar">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"> border:0px;border-right:1px solid #999;border-radius:0;
-</string>
-           </property>
-           <property name="text">
-            <string>Cerrar</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/actions/images/actions/black_18/close.png</normaloff>:/actions/images/actions/black_18/close.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>12</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-          <widget class="QToolButton" name="tbPublicar">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"> border:0px;
-</string>
-           </property>
-           <property name="text">
-            <string>Publicar</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../icons.qrc">
-             <normaloff>:/actions/images/actions/black_18/checkmark2.png</normaloff>:/actions/images/actions/black_18/checkmark2.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>16</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
          </widget>
         </item>
        </layout>
@@ -733,6 +703,20 @@ padding:5 5 5 7;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leNombre</tabstop>
+  <tabstop>dsDescuento</tabstop>
+  <tabstop>sbMinimo</tabstop>
+  <tabstop>sbMaximo</tabstop>
+  <tabstop>deInicio</tabstop>
+  <tabstop>deFin</tabstop>
+  <tabstop>tbMas</tabstop>
+  <tabstop>tabla</tabstop>
+  <tabstop>tbMenos</tabstop>
+  <tabstop>tbPublicar</tabstop>
+  <tabstop>tbCerrar</tabstop>
+  <tabstop>tbCalcDes</tabstop>
+ </tabstops>
  <resources>
   <include location="../../icons.qrc"/>
  </resources>

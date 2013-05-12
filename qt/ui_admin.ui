@@ -14,7 +14,7 @@
    <string>Administracion de pyventa</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset resource="../../2.3/icons.qrc">
     <normaloff>:/modulos/images/padmin.png</normaloff>:/modulos/images/padmin.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -47,8 +47,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>811</width>
-         <height>600</height>
+         <width>808</width>
+         <height>611</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -136,7 +136,7 @@
                     <string>Productos</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/productos.png</normaloff>:/modulos/images/png/elegant/productos.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -175,7 +175,7 @@
                     <string>Inventario</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/inventarios.png</normaloff>:/modulos/images/png/elegant/inventarios.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -214,7 +214,7 @@
                     <string>Ofertas</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/ofertas.png</normaloff>:/modulos/images/png/elegant/ofertas.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -253,7 +253,7 @@
                     <string>Compras</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/compras.png</normaloff>:/modulos/images/png/elegant/compras.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -292,7 +292,7 @@
                     <string>Usuarios</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/usuarios.png</normaloff>:/modulos/images/png/elegant/usuarios.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -331,7 +331,7 @@
                     <string>Clientes</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/clientes.png</normaloff>:/modulos/images/png/elegant/clientes.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -370,7 +370,7 @@
                     <string>Proveedores</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/proveedores.png</normaloff>:/modulos/images/png/elegant/proveedores.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -409,7 +409,7 @@
                     <string>Faltantes</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/faltantes.png</normaloff>:/modulos/images/png/elegant/faltantes.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -448,7 +448,7 @@
                     <string>Cajas</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/modulos/images/png/elegant/catalogos.png</normaloff>:/modulos/images/png/elegant/catalogos.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -494,7 +494,7 @@
                     <string>Impuestos</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/actions/images/actions/color_18/money_bag.png</normaloff>:/actions/images/actions/color_18/money_bag.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -533,7 +533,7 @@
                     <string>Departamentos</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/actions/images/actions/color_18/pyramid.png</normaloff>:/actions/images/actions/color_18/pyramid.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -572,7 +572,7 @@
                     <string>Familias</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/actions/images/actions/color_18/card_spades.png</normaloff>:/actions/images/actions/color_18/card_spades.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -611,7 +611,7 @@
                     <string>Unidades</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/actions/images/actions/color_18/ruler_square.png</normaloff>:/actions/images/actions/color_18/ruler_square.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -645,7 +645,7 @@
                     <string>Conexiones</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="../icons.qrc">
+                    <iconset resource="../../2.3/icons.qrc">
                      <normaloff>:/actions/images/actions/color_18/connect.png</normaloff>:/actions/images/actions/color_18/connect.png</iconset>
                    </property>
                    <property name="toolButtonStyle">
@@ -669,7 +669,7 @@
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>6</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1123,7 +1123,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                          <string>Tienda</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/modulos/images/png/mini/productos.png</normaloff>:/modulos/images/png/mini/productos.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -1162,7 +1162,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                          <string>...</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/color_18/binoculars.png</normaloff>:/actions/images/actions/color_18/binoculars.png</iconset>
                         </property>
                         <property name="autoRaise">
@@ -1193,7 +1193,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Tabla</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/spreadsheet.png</normaloff>:/actions/images/actions/color_18/spreadsheet.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1218,7 +1218,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Editor</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1259,7 +1259,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>&amp;Nuevo</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1296,7 +1296,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Guardar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1333,7 +1333,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Restaurar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/undo.png</normaloff>:/actions/images/actions/black_18/undo.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1361,7 +1361,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Eliminar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -1389,7 +1389,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Anterior</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/directional_left.png</normaloff>:/actions/images/actions/black_18/directional_left.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1421,7 +1421,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Siguiente</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/directional_right.png</normaloff>:/actions/images/actions/black_18/directional_right.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -1595,7 +1595,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                                <string>Agregar</string>
                               </property>
                               <property name="icon">
-                               <iconset resource="../icons.qrc">
+                               <iconset resource="../../2.3/icons.qrc">
                                 <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                               </property>
                               <property name="iconSize">
@@ -1753,7 +1753,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                                  <string>Agregar</string>
                                 </property>
                                 <property name="icon">
-                                 <iconset resource="../icons.qrc">
+                                 <iconset resource="../../2.3/icons.qrc">
                                   <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                                 </property>
                                 <property name="iconSize">
@@ -1928,7 +1928,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                                  <string>Agregar</string>
                                 </property>
                                 <property name="icon">
-                                 <iconset resource="../icons.qrc">
+                                 <iconset resource="../../2.3/icons.qrc">
                                   <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                                 </property>
                                 <property name="iconSize">
@@ -1979,7 +1979,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                                  <string>Agregar</string>
                                 </property>
                                 <property name="icon">
-                                 <iconset resource="../icons.qrc">
+                                 <iconset resource="../../2.3/icons.qrc">
                                   <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                                 </property>
                                 <property name="iconSize">
@@ -2059,7 +2059,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                                  <string>Agregar</string>
                                 </property>
                                 <property name="icon">
-                                 <iconset resource="../icons.qrc">
+                                 <iconset resource="../../2.3/icons.qrc">
                                   <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                                 </property>
                                 <property name="iconSize">
@@ -2759,7 +2759,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                             <string>Tienda</string>
                            </property>
                            <property name="icon">
-                            <iconset resource="../icons.qrc">
+                            <iconset resource="../../2.3/icons.qrc">
                              <normaloff>:/modulos/images/png/mini/faltantes.png</normaloff>:/modulos/images/png/mini/faltantes.png</iconset>
                            </property>
                            <property name="iconSize">
@@ -2858,7 +2858,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Lista de faltantes</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/color_18/spreadsheet.png</normaloff>:/actions/images/actions/color_18/spreadsheet.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -2883,7 +2883,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Orden de compra</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -2924,7 +2924,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>&amp;Agregar producto</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -2958,7 +2958,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Eliminar</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                         </property>
                         <property name="toolButtonStyle">
@@ -2986,7 +2986,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Guardar lista</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -3023,7 +3023,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Imprimir</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/print.png</normaloff>:/actions/images/actions/black_18/print.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -3060,7 +3060,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Recargar datos</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/reload.png</normaloff>:/actions/images/actions/black_18/reload.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -3095,7 +3095,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Enviar</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/actions/images/actions/black_18/mail.png</normaloff>:/actions/images/actions/black_18/mail.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -3864,7 +3864,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Tienda</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/modulos/images/png/inventario-out.png</normaloff>:/modulos/images/png/inventario-out.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -3947,7 +3947,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Tabla de inventarios</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/spreadsheet.png</normaloff>:/actions/images/actions/color_18/spreadsheet.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -3972,7 +3972,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Conteo</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/abacus.png</normaloff>:/actions/images/actions/color_18/abacus.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4010,7 +4010,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>&amp;Nuevo</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4047,7 +4047,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Actualizar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/reload.png</normaloff>:/actions/images/actions/black_18/reload.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4075,7 +4075,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Eliminar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -4094,7 +4094,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Ver inconsistencias</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/history.png</normaloff>:/actions/images/actions/black_18/history.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4132,7 +4132,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Imprimir</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/print.png</normaloff>:/actions/images/actions/black_18/print.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4157,7 +4157,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Exportar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/clip.png</normaloff>:/actions/images/actions/black_18/clip.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -4648,7 +4648,7 @@ QAbstractButton::hover{
                             <string>Confirmar</string>
                            </property>
                            <property name="icon">
-                            <iconset resource="../icons.qrc">
+                            <iconset resource="../../2.3/icons.qrc">
                              <normaloff>:/actions/images/actions/black_18/checkmark2.png</normaloff>:/actions/images/actions/black_18/checkmark2.png</iconset>
                            </property>
                            <property name="shortcut">
@@ -4750,7 +4750,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string>Tienda</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/modulos/images/png/mini/compras.png</normaloff>:/modulos/images/png/mini/compras.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -4890,7 +4890,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Compras</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/spreadsheet.png</normaloff>:/actions/images/actions/color_18/spreadsheet.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4915,7 +4915,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Editor</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4956,7 +4956,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>&amp;Nuevo</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -4993,7 +4993,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Guardar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5030,7 +5030,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Restaurar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/undo.png</normaloff>:/actions/images/actions/black_18/undo.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5058,7 +5058,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Eliminar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -5123,26 +5123,421 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                 </widget>
                 <widget class="QWidget" name="page_15">
                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <property name="margin">
+                   <number>0</number>
+                  </property>
                   <item>
-                   <widget class="QGroupBox" name="groupBox_10">
-                    <property name="title">
-                     <string>Nueva compra</string>
+                   <layout class="QHBoxLayout" name="horizontalLayout">
+                    <property name="spacing">
+                     <number>0</number>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_11">
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_57">
+                    <item>
+                     <widget class="QFrame" name="fIngreso">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">.QFrame{
+background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(201, 201, 201, 255), stop:1 rgba(228, 228, 228, 255));}
+QToolButton, QLineEdit,QAbstractSpinBox{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
+</string>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_11">
                        <item>
-                        <spacer name="horizontalSpacer_3">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
+                        <widget class="QLabel" name="label_19">
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
                          </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>40</width>
-                           <height>20</height>
-                          </size>
+                         <property name="text">
+                          <string>Producto</string>
                          </property>
-                        </spacer>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_16">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Descripcion| ref |CB</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QFrame" name="fLine">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
+QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Raised</enum>
+                         </property>
+                         <layout class="QHBoxLayout" name="horizontalLayout_51">
+                          <property name="spacing">
+                           <number>0</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QLineEdit" name="lencCodigo">
+                            <property name="text">
+                             <string/>
+                            </property>
+                            <property name="placeholderText">
+                             <string/>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QToolButton" name="tbpBuscar_7">
+                            <property name="text">
+                             <string>...</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../../2.3/icons.qrc">
+                              <normaloff>:/actions/images/actions/color_18/binoculars.png</normaloff>:/actions/images/actions/color_18/binoculars.png</iconset>
+                            </property>
+                            <property name="autoRaise">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QGridLayout" name="gridLayout_4">
+                         <item row="1" column="1">
+                          <layout class="QHBoxLayout" name="horizontalLayout_14">
+                           <item>
+                            <widget class="QDoubleSpinBox" name="dsbcPrecio">
+                             <property name="font">
+                              <font>
+                               <weight>75</weight>
+                               <bold>true</bold>
+                              </font>
+                             </property>
+                             <property name="frame">
+                              <bool>false</bool>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                             </property>
+                             <property name="buttonSymbols">
+                              <enum>QAbstractSpinBox::NoButtons</enum>
+                             </property>
+                             <property name="accelerated">
+                              <bool>true</bool>
+                             </property>
+                             <property name="prefix">
+                              <string>$</string>
+                             </property>
+                             <property name="maximum">
+                              <double>9999.989999999999782</double>
+                             </property>
+                             <property name="singleStep">
+                              <double>0.500000000000000</double>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </item>
+                         <item row="1" column="0">
+                          <widget class="QLabel" name="label_60">
+                           <property name="font">
+                            <font>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Precio</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="2" column="0">
+                          <widget class="QLabel" name="label_3">
+                           <property name="font">
+                            <font>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Cantidad</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="2" column="1">
+                          <widget class="QDoubleSpinBox" name="dsbcCant">
+                           <property name="font">
+                            <font>
+                             <weight>75</weight>
+                             <bold>true</bold>
+                            </font>
+                           </property>
+                           <property name="wrapping">
+                            <bool>false</bool>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                           </property>
+                           <property name="buttonSymbols">
+                            <enum>QAbstractSpinBox::NoButtons</enum>
+                           </property>
+                           <property name="accelerated">
+                            <bool>true</bool>
+                           </property>
+                           <property name="maximum">
+                            <double>9999.989999999999782</double>
+                           </property>
+                           <property name="singleStep">
+                            <double>0.500000000000000</double>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="1" column="2">
+                          <widget class="QLabel" name="label_59">
+                           <property name="font">
+                            <font>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Costo</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="1" column="3">
+                          <layout class="QHBoxLayout" name="horizontalLayout_13">
+                           <item>
+                            <widget class="QDoubleSpinBox" name="dsbcCosto">
+                             <property name="font">
+                              <font>
+                               <weight>75</weight>
+                               <bold>true</bold>
+                              </font>
+                             </property>
+                             <property name="frame">
+                              <bool>false</bool>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                             </property>
+                             <property name="buttonSymbols">
+                              <enum>QAbstractSpinBox::NoButtons</enum>
+                             </property>
+                             <property name="accelerated">
+                              <bool>true</bool>
+                             </property>
+                             <property name="prefix">
+                              <string>$</string>
+                             </property>
+                             <property name="maximum">
+                              <double>9999.989999999999782</double>
+                             </property>
+                             <property name="singleStep">
+                              <double>0.500000000000000</double>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QToolButton" name="tbncCalimporte">
+                             <property name="toolTip">
+                              <string>Calcula el  importe apartir del costo</string>
+                             </property>
+                             <property name="text">
+                              <string>Calcular</string>
+                             </property>
+                             <property name="icon">
+                              <iconset resource="../../2.3/icons.qrc">
+                               <normaloff>:/actions/images/actions/black_18/calculator.png</normaloff>:/actions/images/actions/black_18/calculator.png</iconset>
+                             </property>
+                             <property name="iconSize">
+                              <size>
+                               <width>18</width>
+                               <height>18</height>
+                              </size>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </item>
+                         <item row="2" column="3">
+                          <layout class="QHBoxLayout" name="horizontalLayout_25">
+                           <item>
+                            <widget class="QDoubleSpinBox" name="dsbcImporte">
+                             <property name="font">
+                              <font>
+                               <weight>75</weight>
+                               <bold>true</bold>
+                              </font>
+                             </property>
+                             <property name="frame">
+                              <bool>false</bool>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                             </property>
+                             <property name="buttonSymbols">
+                              <enum>QAbstractSpinBox::NoButtons</enum>
+                             </property>
+                             <property name="accelerated">
+                              <bool>true</bool>
+                             </property>
+                             <property name="prefix">
+                              <string>$</string>
+                             </property>
+                             <property name="maximum">
+                              <double>9999.989999999999782</double>
+                             </property>
+                             <property name="singleStep">
+                              <double>0.500000000000000</double>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QToolButton" name="tbncCalunidad">
+                             <property name="toolTip">
+                              <string>Calcula costo por unidad apartir del importe.</string>
+                             </property>
+                             <property name="text">
+                              <string>Calcular</string>
+                             </property>
+                             <property name="icon">
+                              <iconset resource="../../2.3/icons.qrc">
+                               <normaloff>:/actions/images/actions/black_18/calculator.png</normaloff>:/actions/images/actions/black_18/calculator.png</iconset>
+                             </property>
+                             <property name="iconSize">
+                              <size>
+                               <width>18</width>
+                               <height>18</height>
+                              </size>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </item>
+                         <item row="2" column="2">
+                          <widget class="QLabel" name="label_62">
+                           <property name="font">
+                            <font>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Importe:</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_11">
+                         <item>
+                          <spacer name="horizontalSpacer">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QToolButton" name="pbncAgregar">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                            </font>
+                           </property>
+                           <property name="toolTip">
+                            <string>&lt;h2&gt;Insertar&lt;/h2&gt;Agrega el producto a la lista.</string>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">QToolButton, QAbstractButton{
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(10, 125, 159, 255), stop:1 rgba(0, 188, 255, 255));color:#fff;
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;
+}
+QAbstractButton::pressed{
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+}</string>
+                           </property>
+                           <property name="text">
+                            <string>Agregar</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="../../2.3/icons.qrc">
+                             <normaloff>:/actions/images/actions/white_18/directional_right.png</normaloff>:/actions/images/actions/white_18/directional_right.png</iconset>
+                           </property>
+                           <property name="iconSize">
+                            <size>
+                             <width>16</width>
+                             <height>16</height>
+                            </size>
+                           </property>
+                           <property name="shortcut">
+                            <string>Ins</string>
+                           </property>
+                           <property name="toolButtonStyle">
+                            <enum>Qt::ToolButtonTextBesideIcon</enum>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_20">
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Datos de la compra</string>
+                         </property>
+                        </widget>
                        </item>
                        <item>
                         <layout class="QFormLayout" name="formLayout_3">
@@ -5151,8 +5546,6 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                            <property name="font">
                             <font>
                              <pointsize>10</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
                             </font>
                            </property>
                            <property name="text">
@@ -5178,8 +5571,6 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                            <property name="font">
                             <font>
                              <pointsize>10</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
                             </font>
                            </property>
                            <property name="text">
@@ -5206,344 +5597,68 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          </item>
                         </layout>
                        </item>
+                       <item>
+                        <spacer name="verticalSpacer">
+                         <property name="orientation">
+                          <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>20</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
                       </layout>
-                     </item>
-                     <item>
-                      <widget class="QFrame" name="fIngreso">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
-QToolButton, QLineEdit,QAbstractSpinBox{background:transparent; border:0px; padding:3px}
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="fIngreso_2">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">.QFrame{
+background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(201, 201, 201, 255), stop:1 rgba(228, 228, 228, 255));}
+QToolButton, QLineEdit,QAbstractSpinBox{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
 </string>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_26">
+                       <property name="leftMargin">
+                        <number>0</number>
                        </property>
-                       <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                       <property name="rightMargin">
+                        <number>0</number>
                        </property>
-                       <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
+                       <property name="bottomMargin">
+                        <number>0</number>
                        </property>
-                       <layout class="QHBoxLayout" name="horizontalLayout_56">
-                        <property name="spacing">
-                         <number>0</number>
-                        </property>
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <widget class="QToolButton" name="tbcoHome_2">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <weight>75</weight>
-                            <bold>true</bold>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Tienda</string>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../icons.qrc">
-                            <normaloff>:/actions/images/actions/color_18/barcode.png</normaloff>:/actions/images/actions/color_18/barcode.png</iconset>
-                          </property>
-                          <property name="iconSize">
-                           <size>
-                            <width>18</width>
-                            <height>18</height>
-                           </size>
-                          </property>
-                          <property name="shortcut">
-                           <string>Home</string>
-                          </property>
-                          <property name="toolButtonStyle">
-                           <enum>Qt::ToolButtonIconOnly</enum>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_61">
-                          <property name="font">
-                           <font>
-                            <pointsize>9</pointsize>
-                            <weight>75</weight>
-                            <bold>true</bold>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Producto:</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QLineEdit" name="lencCodigo">
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="placeholderText">
-                           <string>Busque por descripcion, referencia o codigo</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QToolButton" name="tbpBuscar_7">
-                          <property name="text">
-                           <string>...</string>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../icons.qrc">
-                            <normaloff>:/actions/images/actions/color_18/binoculars.png</normaloff>:/actions/images/actions/color_18/binoculars.png</iconset>
-                          </property>
-                          <property name="autoRaise">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_3">
-                          <property name="font">
-                           <font>
-                            <pointsize>9</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Cantidad</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QDoubleSpinBox" name="lencCant">
-                          <property name="font">
-                           <font>
-                            <weight>75</weight>
-                            <bold>true</bold>
-                           </font>
-                          </property>
-                          <property name="wrapping">
-                           <bool>false</bool>
-                          </property>
-                          <property name="alignment">
-                           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                          </property>
-                          <property name="buttonSymbols">
-                           <enum>QAbstractSpinBox::NoButtons</enum>
-                          </property>
-                          <property name="accelerated">
-                           <bool>true</bool>
-                          </property>
-                          <property name="maximum">
-                           <double>9999.989999999999782</double>
-                          </property>
-                          <property name="singleStep">
-                           <double>0.500000000000000</double>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_59">
-                          <property name="font">
-                           <font>
-                            <pointsize>9</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Costo</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_13">
-                          <item>
-                           <widget class="QDoubleSpinBox" name="lencCosto">
-                            <property name="font">
-                             <font>
-                              <weight>75</weight>
-                              <bold>true</bold>
-                             </font>
-                            </property>
-                            <property name="frame">
-                             <bool>false</bool>
-                            </property>
-                            <property name="alignment">
-                             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                            </property>
-                            <property name="buttonSymbols">
-                             <enum>QAbstractSpinBox::NoButtons</enum>
-                            </property>
-                            <property name="accelerated">
-                             <bool>true</bool>
-                            </property>
-                            <property name="prefix">
-                             <string>$</string>
-                            </property>
-                            <property name="maximum">
-                             <double>9999.989999999999782</double>
-                            </property>
-                            <property name="singleStep">
-                             <double>0.500000000000000</double>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QToolButton" name="tbncCalimporte">
-                            <property name="toolTip">
-                             <string>Calcula el  importe apartir del costo</string>
-                            </property>
-                            <property name="text">
-                             <string>Calcular</string>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="../icons.qrc">
-                              <normaloff>:/actions/images/actions/black_18/calculator.png</normaloff>:/actions/images/actions/black_18/calculator.png</iconset>
-                            </property>
-                            <property name="iconSize">
-                             <size>
-                              <width>18</width>
-                              <height>18</height>
-                             </size>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_62">
-                          <property name="font">
-                           <font>
-                            <pointsize>9</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Importe:</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_25">
-                          <item>
-                           <widget class="QDoubleSpinBox" name="lencImporte">
-                            <property name="font">
-                             <font>
-                              <weight>75</weight>
-                              <bold>true</bold>
-                             </font>
-                            </property>
-                            <property name="frame">
-                             <bool>false</bool>
-                            </property>
-                            <property name="alignment">
-                             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                            </property>
-                            <property name="buttonSymbols">
-                             <enum>QAbstractSpinBox::NoButtons</enum>
-                            </property>
-                            <property name="accelerated">
-                             <bool>true</bool>
-                            </property>
-                            <property name="prefix">
-                             <string>$</string>
-                            </property>
-                            <property name="maximum">
-                             <double>9999.989999999999782</double>
-                            </property>
-                            <property name="singleStep">
-                             <double>0.500000000000000</double>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QToolButton" name="tbncCalunidad">
-                            <property name="toolTip">
-                             <string>Calcula costo por unidad apartir del importe.</string>
-                            </property>
-                            <property name="text">
-                             <string>Calcular</string>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="../icons.qrc">
-                              <normaloff>:/actions/images/actions/black_18/calculator.png</normaloff>:/actions/images/actions/black_18/calculator.png</iconset>
-                            </property>
-                            <property name="iconSize">
-                             <size>
-                              <width>18</width>
-                              <height>18</height>
-                             </size>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                        <item>
-                         <widget class="QToolButton" name="pbncAgregar">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <weight>75</weight>
-                            <bold>true</bold>
-                           </font>
-                          </property>
-                          <property name="toolTip">
-                           <string>&lt;h2&gt;Insertar&lt;/h2&gt;Agrega el producto a la lista.</string>
-                          </property>
-                          <property name="styleSheet">
-                           <string notr="true">background:transparent;</string>
-                          </property>
-                          <property name="text">
-                           <string/>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../icons.qrc">
-                            <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
-                          </property>
-                          <property name="iconSize">
-                           <size>
-                            <width>16</width>
-                            <height>16</height>
-                           </size>
-                          </property>
-                          <property name="shortcut">
-                           <string>Ins</string>
-                          </property>
-                          <property name="toolButtonStyle">
-                           <enum>Qt::ToolButtonIconOnly</enum>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QToolButton" name="toolButton_3">
-                          <property name="text">
-                           <string>...</string>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../icons.qrc">
-                            <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_14">
+                       <item>
+                        <widget class="QLabel" name="label_22">
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Nueva compra</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
                        <item>
                         <widget class="QTableView" name="twNCompra">
                          <property name="editTriggers">
@@ -5558,9 +5673,9 @@ QToolButton, QLineEdit,QAbstractSpinBox{background:transparent; border:0px; padd
                         </widget>
                        </item>
                       </layout>
-                     </item>
-                    </layout>
-                   </widget>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -5640,7 +5755,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/modulos/images/png/mini/ofertas.png</normaloff>:/modulos/images/png/mini/ofertas.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -5735,7 +5850,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Ofertas</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/spreadsheet.png</normaloff>:/actions/images/actions/color_18/spreadsheet.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5760,7 +5875,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Editor</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5801,7 +5916,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>&amp;Nuevo</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5838,7 +5953,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Editar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/pencil.png</normaloff>:/actions/images/actions/black_18/pencil.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -5866,7 +5981,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Eliminar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -5894,7 +6009,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       <string>Ofertas de producto</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/barcode.png</normaloff>:/actions/images/actions/black_18/barcode.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -6054,7 +6169,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                          <string>Tienda</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../icons.qrc">
+                         <iconset resource="../../2.3/icons.qrc">
                           <normaloff>:/modulos/images/png/mini/usuarios.png</normaloff>:/modulos/images/png/mini/usuarios.png</iconset>
                         </property>
                         <property name="iconSize">
@@ -6101,7 +6216,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Editor</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -6145,7 +6260,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Nuevo usuario</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -6182,7 +6297,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Guardar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -6219,7 +6334,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Actualizar lista</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/reload.png</normaloff>:/actions/images/actions/black_18/reload.png</iconset>
                      </property>
                      <property name="iconSize">
@@ -6247,7 +6362,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       <string>Eliminar</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="../icons.qrc">
+                      <iconset resource="../../2.3/icons.qrc">
                        <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
                      </property>
                      <property name="toolButtonStyle">
@@ -6570,7 +6685,7 @@ QAbstractButton::hover{
   </action>
   <action name="verDepartamentos">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/pyramid.png</normaloff>:/actions/images/actions/black_18/pyramid.png</iconset>
    </property>
    <property name="text">
@@ -6582,7 +6697,7 @@ QAbstractButton::hover{
   </action>
   <action name="verFamilias">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/card_spades.png</normaloff>:/actions/images/actions/black_18/card_spades.png</iconset>
    </property>
    <property name="text">
@@ -6626,7 +6741,7 @@ QAbstractButton::hover{
   </action>
   <action name="actionVentas">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/coin.png</normaloff>:/actions/images/actions/black_18/coin.png</iconset>
    </property>
    <property name="text">
@@ -6635,7 +6750,7 @@ QAbstractButton::hover{
   </action>
   <action name="actionFaltantes">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/battery_empty.png</normaloff>:/actions/images/actions/black_18/battery_empty.png</iconset>
    </property>
    <property name="text">
@@ -6659,7 +6774,7 @@ QAbstractButton::hover{
   </action>
   <action name="actionReportes">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/stats_bars.png</normaloff>:/actions/images/actions/black_18/stats_bars.png</iconset>
    </property>
    <property name="text">
@@ -6683,7 +6798,7 @@ QAbstractButton::hover{
   </action>
   <action name="verUsuarios">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/administrator.png</normaloff>:/actions/images/actions/black_18/administrator.png</iconset>
    </property>
    <property name="text">
@@ -6695,7 +6810,7 @@ QAbstractButton::hover{
   </action>
   <action name="verClientes">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/emoticon_smile.png</normaloff>:/actions/images/actions/black_18/emoticon_smile.png</iconset>
    </property>
    <property name="text">
@@ -6746,7 +6861,7 @@ QAbstractButton::hover{
   </action>
   <action name="verCompras">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/shopping_basket.png</normaloff>:/actions/images/actions/black_18/shopping_basket.png</iconset>
    </property>
    <property name="text">
@@ -6760,7 +6875,7 @@ QAbstractButton::hover{
   </action>
   <action name="verImpuestos">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/money_bag.png</normaloff>:/actions/images/actions/black_18/money_bag.png</iconset>
    </property>
    <property name="text">
@@ -6772,7 +6887,7 @@ QAbstractButton::hover{
   </action>
   <action name="verUnidades">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/ruler_square.png</normaloff>:/actions/images/actions/black_18/ruler_square.png</iconset>
    </property>
    <property name="text">
@@ -6797,7 +6912,7 @@ QAbstractButton::hover{
   </action>
   <action name="verOfertas">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/certificate.png</normaloff>:/actions/images/actions/black_18/certificate.png</iconset>
    </property>
    <property name="text">
@@ -6839,7 +6954,7 @@ QAbstractButton::hover{
   </action>
   <action name="actionProveedores">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/messenger.png</normaloff>:/actions/images/actions/black_18/messenger.png</iconset>
    </property>
    <property name="text">
@@ -6851,7 +6966,7 @@ QAbstractButton::hover{
   </action>
   <action name="apNuevo">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/barcode.png</normaloff>:/actions/images/actions/black_18/barcode.png</iconset>
    </property>
    <property name="text">
@@ -6875,7 +6990,7 @@ QAbstractButton::hover{
   </action>
   <action name="verProductos">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/barcode.png</normaloff>:/actions/images/actions/black_18/barcode.png</iconset>
    </property>
    <property name="text">
@@ -6899,7 +7014,7 @@ QAbstractButton::hover{
   </action>
   <action name="actionConexiones">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset resource="../../2.3/icons.qrc">
      <normaloff>:/actions/images/actions/black_18/connect.png</normaloff>:/actions/images/actions/black_18/connect.png</iconset>
    </property>
    <property name="text">
@@ -7023,17 +7138,11 @@ QAbstractButton::hover{
   <tabstop>tbcoEliminar</tabstop>
   <tabstop>tvCompras</tabstop>
   <tabstop>cbcProveedor</tabstop>
-  <tabstop>tbcoHome_2</tabstop>
-  <tabstop>lencCodigo</tabstop>
-  <tabstop>tbpBuscar_7</tabstop>
-  <tabstop>lencCant</tabstop>
-  <tabstop>lencCosto</tabstop>
+  <tabstop>dsbcCant</tabstop>
+  <tabstop>dsbcCosto</tabstop>
   <tabstop>tbncCalimporte</tabstop>
-  <tabstop>lencImporte</tabstop>
+  <tabstop>dsbcImporte</tabstop>
   <tabstop>tbncCalunidad</tabstop>
-  <tabstop>pbncAgregar</tabstop>
-  <tabstop>toolButton_3</tabstop>
-  <tabstop>twNCompra</tabstop>
   <tabstop>tboHome</tabstop>
   <tabstop>leOFIltro</tabstop>
   <tabstop>deFecha</tabstop>
@@ -7067,7 +7176,7 @@ QAbstractButton::hover{
   <tabstop>tConexiones</tabstop>
  </tabstops>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="../../2.3/icons.qrc"/>
  </resources>
  <connections>
   <connection>

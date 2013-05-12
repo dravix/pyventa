@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `movimientos` (
   `usuario` int(20) unsigned NOT NULL,
   `caja` int(10) NOT NULL,
   `detalle` varchar(100) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `tipo` enum('R','D','T') COLLATE latin1_spanish_ci NOT NULL,
+  `tipo` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
   `monto` float NOT NULL,
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id_movimiento`)
