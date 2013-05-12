@@ -1,5 +1,7 @@
 import os,sys
+from time import time
 from PyQt4 import QtCore, QtGui#,  Qt
+from PyQt4.QtGui import QPrinter,QPrintDialog, QDialog
 from PyQt4.QtCore import Qt, QAbstractTableModel, QVariant
 import MySQLdb as My, ConfigParser as Cp
 from utileria import MyTableModel, conexion
@@ -136,41 +138,46 @@ def setComboModelKey(combo, key): #Establece el combo en el valor de la llave
   
   
   
-def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css="", anchos=False,width="100%"): #opc(titulo:true,cabezas:true,enumerado:false)
-  ide="tabla"
+def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=11,opc="110",css="", anchos=False,width="100%"): #opc(titulo:true,cabezas:true,odd:false)
+  #ide=str(int(time()))
+  ide='tabla'
   locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+  if opc[2]=='0':
+    css+=".odd{background:#efefef}"
   html="""<style> table {{border-collapse:collapse;}}
-.odd{{background:#efefef}}
 .{ide} .cab{{background:{fondo}; color:{color};}}
 .{ide} .titulo{{background:{fondo}; color:{color};font-size:{fuente1}; font-weight:700;border:0px solid #333}}
 table.{ide} {{border-style:solid; font-size:{fuente}px;}}
 .{ide} th {{font-size:{fuente1}}}
+.celda {{font-size:{fuente}px;}}
+.par {{background:white}}
 {css}</style>
 <table class="{ide}" width="{width}" valign="top"  cellspacing="0" cellpadding="5" align="center"  >
 """.format(ide=ide,fondo=fondo,color=color,css=css,fuente=tfuente,fuente1=tfuente+1,width=width)
+
   if isinstance(cabezas,str):
-    cabezas=','.join(cabezas)
+    cabezas=cabezas.split(',')
   if not anchos:
       anchos=['']*len(lista[0])
   else:
       anchos=['width="{0}%"'.format(item) for item in anchos]
             
   if opc[0]=='1' and len(titulo)>0: #si se quiere mostrar el titulo
-    html+="""<tr class="titulo" ><th colspan="{0}">{1}</th></tr>\n""".format( len(cabezas),titulo)
+    html+="""<tr class="titulo" ><th colspan="{0}" style="text-align:left;font-size:{tfuente}px;">{1}</th></tr>\n""".format( len(cabezas),titulo.upper(),tfuente=tfuente+1)
   #html+="""<table width="100%%" border="0" cellspacing="0" cellpadding="5">"""
   if opc[1]=='1' and len(cabezas)>0: #si se quiere mostrar las cabezas
     html+="""<tr class="cab"> """       
     for i,item in enumerate(cabezas):
 	if i>=len(anchos):
 	  anchos.append('')
-	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente+1,dato=item)
+	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente,dato=item)
     html+="""</tr>"""
 
   for j,li in enumerate(lista):
     if j%2==0  :
-      html+="""\t<tr class="odd" valign='top'>\n"""
+      html+="""\t<tr class="par" valign='top'>\n"""
     else:
-      html+="""\t<tr  valign='top'>\n"""
+      html+="""\t<tr class="odd" valign='top'>\n"""
     for i,col in enumerate(li):
       if col!=None :
 	if isinstance(col,float):
@@ -253,13 +260,13 @@ def printb(parent,titulo,plantilla,campos):
 	plantilla=plantilla.replace(key,item)
     printa(plantilla,titulo,parent)
 
-def printa(string,titulo="Lista",parent=None):
+def printa(string,titulo="Lista",parent=None,orientacion=0):
   tedit=QtGui.QTextEdit(string)
   printer=QtGui.QPrinter()
-  printer.setOrientation(0)
+  printer.setOrientation(orientacion)
   printer.setPaperSize(QtGui.QPrinter.Letter)
   #printer.setFullPage(True)
-  #printer.setPageMargins(5,10,5,10,0)
+  printer.setPageMargins(5,10,5,10,0)
   printer.setOutputFormat(QtGui.QPrinter.PdfFormat)
   printer.setCreator ("Pyventa : Software de punto de venta.")
   nombre=os.path.join(os.path.expanduser('~'),"%s.pdf"%titulo)
@@ -272,12 +279,18 @@ def printa(string,titulo="Lista",parent=None):
       if sys.platform == 'linux2':
 	  os.system("gnome-open '%s'"%saveFile)
       elif sys.platform == 'win32':
-	  os.system("start '%s'"%saveFile)	
-	  
-  #paint=QtGui.QPainter(printer)
-  #paint.begin(self.tablaProductos)
-  #self.tablaProductos.render(printer)
-  #saveFile=saveFile.replace(" ","\\ ")
+	  os.startfile(saveFile)	
+
+def printc(tedit,titulo="Reporte",orientacion=0,margen=[5,10,5,10,0]):
+  printer=QtGui.QPrinter(QPrinter.HighResolution)
+  printer.setOrientation(orientacion)
+  printer.setPaperSize(QtGui.QPrinter.Letter)
+  printer.setPageMargins(*margen)
+  printer.setOutputFormat(QPrinter.PdfFormat)
+  printer.setOutputFileName(titulo)
+  prev=QPrintDialog(printer)
+  if prev.exec_()==QDialog.Accepted:
+      tedit.print_(printer)
 
     
 def toCsv(tabla,parent):
@@ -288,7 +301,21 @@ def toCsv(tabla,parent):
     hoja = csv.writer(open(save, 'wb'), delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     for row in tabla:
       hoja.writerow(row)
-  
+
+def toXls(lista,namepath):
+  # Ejemplo de creacion de hoja Excel
+  import xlwt
+  from datetime import datetime
+  style0 = xlwt.easyxf('font: name Sans, colour red, bold on')
+  style1 = xlwt.easyxf('',num_format_str='DD-MMM-YY')
+  wb = xlwt.Workbook()
+  ws = wb.add_sheet('A Test Sheet',cell_overwrite_ok=True)
+  ws.write(0, 0, 'Test', style0)
+  ws.write(1, 0, datetime.now(), style1)
+  ws.write(2, 0, 4)
+  ws.write(2, 1, 1)
+  ws.write(2, 2, xlwt.Formula("A3+B3"))
+  wb.save(namepath)
 
 def llenarPlantilla(self,ruta=False,campos=False):
   plantilla=""

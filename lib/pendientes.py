@@ -30,13 +30,16 @@ class Pendientes(QWidget, Ui_Form):
     
   def ver(self):
     self.parent.move(self.datos['nombre'])
+    self.listar()
     
   def listar(self):
     if self.cbTipo.currentIndex()==1: #Cuando se seleccione "Notas" 
       head=['Id','Total','Fecha','Cliente','Vendedor','Caja']    
-      sql="SELECT notas.id,total , fecha,  SUBSTR(clientes.nombre,1,12), usuarios.usuario, cajaFROM notas, clientes, usuarios where notas.usuario=usuarios.id_usuario and cliente=clientes.id and status=0 and tipo=0 order by fecha"
+      sql="""SELECT notas.id,total , fecha,  SUBSTR(clientes.nombre,1,12), usuarios.usuario,
+      caja FROM notas, clientes, usuarios where notas.usuario=usuarios.id_usuario and cliente=clientes.id 
+      and status=0 and tipo=0 order by fecha"""
     else: #Cuando se seleccione "Todas las ventas"    
-      sql="SELECT notas.id, total,fecha,notas.tipo,SUBSTR(clientes.nombre,1,12), usuarios.usuario, caja   FROM notas, clientes, usuarios where notas.usuario=usuarios.id_usuario and cliente=clientes.id and status=0 order by fecha"
+      sql="""SELECT notas.id, total,fecha,ELT(notas.tipo+1,'Nota','Factura'),SUBSTR(clientes.nombre,1,12), usuarios.usuario, caja   FROM notas, clientes, usuarios where notas.usuario=usuarios.id_usuario and cliente=clientes.id and status=0 order by fecha"""
       head=['Id','Total','Fecha','Tipo','Cliente','Vendedor','Caja']
     self.modelo.query(sql,head)
     self.tvCuentas.resizeColumnsToContents()

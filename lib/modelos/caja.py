@@ -8,7 +8,7 @@ class Caja:
     
   def saldoInicial(self,caja):
     try:
-      self.cursor.execute("""SELECT saldo_inicial from cajas where num_caja={caja} and estado=date(current_timestamp);""".format(caja=caja))
+      self.cursor.execute("""SELECT saldo_inicial from cajas where num_caja={caja} and estado=CURDATE();""".format(caja=caja))
     except:
       return 0
     else:

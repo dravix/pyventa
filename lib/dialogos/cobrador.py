@@ -51,6 +51,8 @@ class Cobrador(QDialog,Ui_Cobrador):
 	  self.dsbCambio.setValue(cambio)
 	  self.wCambio.setVisible(True)
 	  self.leRecibo.setEnabled(False)
+	  self.tbCobrar.setEnabled(False)
+	  #self.tbCerrar.setFocus(True)
 	  QTimer.singleShot(10000,self.accept)
   
     

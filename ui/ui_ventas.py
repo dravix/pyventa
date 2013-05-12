@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/modulos/ui_ventas.ui'
 #
-# Created: Tue May  7 11:49:01 2013
+# Created: Thu May  9 19:02:26 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,8 +17,16 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(772, 630)
-        Form.setStyleSheet(_fromUtf8("color:rgb(0, 32, 47);"))
+        Form.resize(741, 464)
+        Form.setStyleSheet(_fromUtf8("QToolButton, QPushButton{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
+"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
+"}\n"
+"QPushButton::pressed,QToolButton::pressed{\n"
+"color:#fff;\n"
+"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
+"\n"
+"}"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(Form)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setMargin(0)
@@ -45,7 +53,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.botonUnion_2.sizePolicy().hasHeightForWidth())
         self.botonUnion_2.setSizePolicy(sizePolicy)
-        self.botonUnion_2.setStyleSheet(_fromUtf8(".QFrame{border-radius:8px;\n"
+        self.botonUnion_2.setStyleSheet(_fromUtf8(".QFrame{border-radius:3px;\n"
 "border: 1.2px solid #999;\n"
 "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));}\n"
 "QToolButton::hover{\n"
@@ -65,6 +73,19 @@ class Ui_Form(object):
         self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setMargin(0)
         self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
+        self.pbVerResumen = QtGui.QToolButton(self.botonUnion_2)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pbVerResumen.sizePolicy().hasHeightForWidth())
+        self.pbVerResumen.setSizePolicy(sizePolicy)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/abacus.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pbVerResumen.setIcon(icon)
+        self.pbVerResumen.setIconSize(QtCore.QSize(18, 18))
+        self.pbVerResumen.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.pbVerResumen.setObjectName(_fromUtf8("pbVerResumen"))
+        self.horizontalLayout_6.addWidget(self.pbVerResumen)
         self.tboDetalles = QtGui.QToolButton(self.botonUnion_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -75,15 +96,22 @@ class Ui_Form(object):
         font.setBold(False)
         font.setWeight(50)
         self.tboDetalles.setFont(font)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/list.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tboDetalles.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/list.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tboDetalles.setIcon(icon1)
         self.tboDetalles.setIconSize(QtCore.QSize(18, 18))
         self.tboDetalles.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.tboDetalles.setObjectName(_fromUtf8("tboDetalles"))
         self.horizontalLayout_6.addWidget(self.tboDetalles)
+        self.tbGraficar = QtGui.QToolButton(self.botonUnion_2)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/stats_bars.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tbGraficar.setIcon(icon2)
+        self.tbGraficar.setIconSize(QtCore.QSize(18, 18))
+        self.tbGraficar.setObjectName(_fromUtf8("tbGraficar"))
+        self.horizontalLayout_6.addWidget(self.tbGraficar)
         self.tboImprimir = QtGui.QToolButton(self.botonUnion_2)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tboImprimir.sizePolicy().hasHeightForWidth())
@@ -92,11 +120,11 @@ class Ui_Form(object):
         font.setBold(False)
         font.setWeight(50)
         self.tboImprimir.setFont(font)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/print.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tboImprimir.setIcon(icon1)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/print.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tboImprimir.setIcon(icon3)
         self.tboImprimir.setIconSize(QtCore.QSize(18, 18))
-        self.tboImprimir.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.tboImprimir.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.tboImprimir.setObjectName(_fromUtf8("tboImprimir"))
         self.horizontalLayout_6.addWidget(self.tboImprimir)
         self.horizontalLayout_12.addWidget(self.botonUnion_2)
@@ -128,54 +156,12 @@ class Ui_Form(object):
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
         self.horizontalLayout_12.addWidget(self.botonUnion)
         self.verticalLayout_3.addWidget(self.top)
-        self.stack = QtGui.QStackedWidget(Form)
-        self.stack.setStyleSheet(_fromUtf8(" QScrollBar:horizontal {\n"
-"     border: 2px solid grey;\n"
-"     background: #32CC99;\n"
-"     height: 15px;\n"
-"     margin: 0px 20px 0 20px;\n"
-" }\n"
-" QScrollBar::handle:horizontal {\n"
-"     background: white;\n"
-"     min-width: 20px;\n"
-" }\n"
-" QScrollBar::add-line:horizontal {\n"
-"     border: 2px solid grey;\n"
-"     background: #32CC99;\n"
-"     width: 20px;\n"
-"     subcontrol-position: right;\n"
-"     subcontrol-origin: margin;\n"
-" }\n"
-"\n"
-" QScrollBar::sub-line:horizontal {\n"
-"     border: 2px solid grey;\n"
-"     background: #32CC99;\n"
-"     width: 20px;\n"
-"     subcontrol-position: left;\n"
-"     subcontrol-origin: margin;\n"
-" }"))
-        self.stack.setObjectName(_fromUtf8("stack"))
-        self.page = QtGui.QWidget()
-        self.page.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
-"}\n"
-"QAbstractButton::pressed{\n"
-"color:#fff;\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
-"\n"
-"}"))
-        self.page.setObjectName(_fromUtf8("page"))
-        self.verticalLayout_6 = QtGui.QVBoxLayout(self.page)
-        self.verticalLayout_6.setSpacing(0)
-        self.verticalLayout_6.setMargin(0)
-        self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.verticalLayout_2 = QtGui.QVBoxLayout()
         self.verticalLayout_2.setSpacing(2)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.groupBox_6 = QtGui.QGroupBox(self.page)
+        self.groupBox_6 = QtGui.QGroupBox(Form)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -250,20 +236,27 @@ class Ui_Form(object):
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.tboActualizar = QtGui.QToolButton(self.groupBox_6)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/reload.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tboActualizar.setIcon(icon2)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/reload.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tboActualizar.setIcon(icon4)
         self.tboActualizar.setIconSize(QtCore.QSize(24, 24))
         self.tboActualizar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.tboActualizar.setObjectName(_fromUtf8("tboActualizar"))
         self.horizontalLayout_4.addWidget(self.tboActualizar)
         self.verticalLayout_11.addLayout(self.horizontalLayout_4)
         self.verticalLayout_2.addWidget(self.groupBox_6)
-        self.groupBox = QtGui.QGroupBox(self.page)
+        self.groupBox = QtGui.QGroupBox(Form)
+        self.groupBox.setFlat(True)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.verticalLayout = QtGui.QVBoxLayout(self.groupBox)
         self.verticalLayout.setContentsMargins(-1, -1, 9, -1)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.pbDepositar = QtGui.QPushButton(self.groupBox)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pbDepositar.setFont(font)
+        self.pbDepositar.setObjectName(_fromUtf8("pbDepositar"))
+        self.verticalLayout.addWidget(self.pbDepositar)
         self.tboInicial = QtGui.QToolButton(self.groupBox)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -271,7 +264,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.tboInicial.sizePolicy().hasHeightForWidth())
         self.tboInicial.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.tboInicial.setFont(font)
@@ -286,35 +279,46 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.pbVerEnDetallada.sizePolicy().hasHeightForWidth())
         self.pbVerEnDetallada.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.pbVerEnDetallada.setFont(font)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../../Users/usr/share/pyventa/images/32/edit-select-all.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pbVerEnDetallada.setIcon(icon3)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../../Users/usr/share/pyventa/images/32/edit-select-all.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pbVerEnDetallada.setIcon(icon5)
         self.pbVerEnDetallada.setObjectName(_fromUtf8("pbVerEnDetallada"))
         self.verticalLayout.addWidget(self.pbVerEnDetallada)
+        self.pbDetallarProds = QtGui.QPushButton(self.groupBox)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pbDetallarProds.setFont(font)
+        self.pbDetallarProds.setObjectName(_fromUtf8("pbDetallarProds"))
+        self.verticalLayout.addWidget(self.pbDetallarProds)
         self.verticalLayout_2.addWidget(self.groupBox)
-        self.groupBox_2 = QtGui.QGroupBox(self.page)
+        self.groupBox_2 = QtGui.QGroupBox(Form)
+        self.groupBox_2.setFlat(True)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.tbAgregar = QtGui.QToolButton(self.groupBox_2)
+        self.tbRetirar = QtGui.QToolButton(self.groupBox_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tbAgregar.sizePolicy().hasHeightForWidth())
-        self.tbAgregar.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.tbRetirar.sizePolicy().hasHeightForWidth())
+        self.tbRetirar.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(9)
-        font.setBold(False)
-        font.setWeight(50)
-        self.tbAgregar.setFont(font)
-        self.tbAgregar.setIconSize(QtCore.QSize(16, 24))
-        self.tbAgregar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-        self.tbAgregar.setObjectName(_fromUtf8("tbAgregar"))
-        self.verticalLayout_4.addWidget(self.tbAgregar)
+        font.setPointSize(10)
+        self.tbRetirar.setFont(font)
+        self.tbRetirar.setIconSize(QtCore.QSize(16, 24))
+        self.tbRetirar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.tbRetirar.setObjectName(_fromUtf8("tbRetirar"))
+        self.verticalLayout_4.addWidget(self.tbRetirar)
+        self.pbAgregarGasto = QtGui.QPushButton(self.groupBox_2)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pbAgregarGasto.setFont(font)
+        self.pbAgregarGasto.setObjectName(_fromUtf8("pbAgregarGasto"))
+        self.verticalLayout_4.addWidget(self.pbAgregarGasto)
         self.pbVerDetallada = QtGui.QPushButton(self.groupBox_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -322,7 +326,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.pbVerDetallada.sizePolicy().hasHeightForWidth())
         self.pbVerDetallada.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.pbVerDetallada.setFont(font)
@@ -332,155 +336,90 @@ class Ui_Form(object):
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
-        self.scrollArea = QtGui.QScrollArea(self.page)
+        self.stack = QtGui.QStackedWidget(Form)
+        self.stack.setStyleSheet(_fromUtf8("#stack{background:transparent}"))
+        self.stack.setObjectName(_fromUtf8("stack"))
+        self.page = QtGui.QWidget()
+        self.page.setObjectName(_fromUtf8("page"))
+        self.verticalLayout_5 = QtGui.QVBoxLayout(self.page)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setMargin(0)
+        self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
+        self.widget_2 = QtGui.QWidget(self.page)
+        self.widget_2.setStyleSheet(_fromUtf8(".QWidget{\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0.976077 rgba(71, 71, 71, 255), stop:1 rgba(55, 55, 55, 255));\n"
+"\n"
+"}\n"
+"QTextEdit{border:1.5px solid #ccc;border-top:1px;border-bottom:1px;}"))
+        self.widget_2.setObjectName(_fromUtf8("widget_2"))
+        self.horizontalLayout_7 = QtGui.QHBoxLayout(self.widget_2)
+        self.horizontalLayout_7.setContentsMargins(-1, 0, 0, 0)
+        self.horizontalLayout_7.setObjectName(_fromUtf8("horizontalLayout_7"))
+        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem2)
+        self.scrollArea = QtGui.QScrollArea(self.widget_2)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy)
+        self.scrollArea.setMaximumSize(QtCore.QSize(700, 16777215))
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 557, 586))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 425, 420))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
-        self.verticalLayout_5 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
-        self.textEdit = QtGui.QTextEdit(self.scrollAreaWidgetContents)
-        self.textEdit.setObjectName(_fromUtf8("textEdit"))
-        self.verticalLayout_5.addWidget(self.textEdit)
-        self.gridLayout_2 = QtGui.QGridLayout()
-        self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
-        self.teDetalles = QtGui.QTextEdit(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(11)
-        self.teDetalles.setFont(font)
-        self.teDetalles.setReadOnly(True)
-        self.teDetalles.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.teDetalles.setObjectName(_fromUtf8("teDetalles"))
-        self.gridLayout_2.addWidget(self.teDetalles, 1, 0, 1, 1)
-        self.teDetalles_3 = QtGui.QTextEdit(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(11)
-        self.teDetalles_3.setFont(font)
-        self.teDetalles_3.setReadOnly(True)
-        self.teDetalles_3.setObjectName(_fromUtf8("teDetalles_3"))
-        self.gridLayout_2.addWidget(self.teDetalles_3, 0, 0, 1, 1)
-        self.teDetalles_2 = QtGui.QTextEdit(self.scrollAreaWidgetContents)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(11)
-        self.teDetalles_2.setFont(font)
-        self.teDetalles_2.setReadOnly(True)
-        self.teDetalles_2.setObjectName(_fromUtf8("teDetalles_2"))
-        self.gridLayout_2.addWidget(self.teDetalles_2, 0, 1, 1, 1)
-        self.verticalLayout_5.addLayout(self.gridLayout_2)
+        self.verticalLayout_6 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setMargin(0)
+        self.verticalLayout_6.setMargin(0)
+        self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
+        self.teResumen = QtGui.QTextEdit(self.scrollAreaWidgetContents)
+        self.teResumen.setMaximumSize(QtCore.QSize(700, 16777215))
+        self.teResumen.setReadOnly(True)
+        self.teResumen.setObjectName(_fromUtf8("teResumen"))
+        self.verticalLayout_6.addWidget(self.teResumen)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.horizontalLayout.addWidget(self.scrollArea)
-        self.verticalLayout_6.addLayout(self.horizontalLayout)
+        self.horizontalLayout_7.addWidget(self.scrollArea)
+        spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem3)
+        self.verticalLayout_5.addWidget(self.widget_2)
         self.stack.addWidget(self.page)
         self.page_2 = QtGui.QWidget()
         self.page_2.setObjectName(_fromUtf8("page_2"))
-        self.verticalLayout_9 = QtGui.QVBoxLayout(self.page_2)
-        self.verticalLayout_9.setObjectName(_fromUtf8("verticalLayout_9"))
-        self.pbVerResumen = QtGui.QPushButton(self.page_2)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pbVerResumen.sizePolicy().hasHeightForWidth())
-        self.pbVerResumen.setSizePolicy(sizePolicy)
-        self.pbVerResumen.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
-"}\n"
-"QAbstractButton::hover{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(175, 236, 224, 255), stop:0.536364 rgba(94, 192, 226, 255), stop:0.554545 rgba(72, 170, 199, 255), stop:0.977273 rgba(65, 163, 198, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"\n"
-"}"))
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/black_18/arrow_left2.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pbVerResumen.setIcon(icon4)
-        self.pbVerResumen.setObjectName(_fromUtf8("pbVerResumen"))
-        self.verticalLayout_9.addWidget(self.pbVerResumen)
-        self.horizontalLayout_3 = QtGui.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.groupBox_4 = QtGui.QGroupBox(self.page_2)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.groupBox_4.setFont(font)
-        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
-        self.verticalLayout_7 = QtGui.QVBoxLayout(self.groupBox_4)
-        self.verticalLayout_7.setContentsMargins(0, -1, 0, -1)
-        self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
-        self.twGastos = QtGui.QTableWidget(self.groupBox_4)
-        self.twGastos.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
-        self.twGastos.setAlternatingRowColors(True)
-        self.twGastos.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-        self.twGastos.setShowGrid(False)
-        self.twGastos.setGridStyle(QtCore.Qt.NoPen)
-        self.twGastos.setObjectName(_fromUtf8("twGastos"))
-        self.twGastos.setColumnCount(0)
-        self.twGastos.setRowCount(0)
-        self.twGastos.horizontalHeader().setVisible(False)
-        self.twGastos.verticalHeader().setVisible(False)
-        self.verticalLayout_7.addWidget(self.twGastos)
-        self.horizontalLayout_3.addWidget(self.groupBox_4)
-        self.groupBox_5 = QtGui.QGroupBox(self.page_2)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.groupBox_5.setFont(font)
-        self.groupBox_5.setObjectName(_fromUtf8("groupBox_5"))
-        self.verticalLayout_8 = QtGui.QVBoxLayout(self.groupBox_5)
-        self.verticalLayout_8.setSpacing(0)
-        self.verticalLayout_8.setContentsMargins(0, -1, 0, -1)
-        self.verticalLayout_8.setObjectName(_fromUtf8("verticalLayout_8"))
-        self.twCompras = QtGui.QTableWidget(self.groupBox_5)
-        self.twCompras.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
-        self.twCompras.setAlternatingRowColors(True)
-        self.twCompras.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-        self.twCompras.setShowGrid(False)
-        self.twCompras.setGridStyle(QtCore.Qt.NoPen)
-        self.twCompras.setObjectName(_fromUtf8("twCompras"))
-        self.twCompras.setColumnCount(0)
-        self.twCompras.setRowCount(0)
-        self.twCompras.horizontalHeader().setVisible(False)
-        self.twCompras.verticalHeader().setVisible(False)
-        self.verticalLayout_8.addWidget(self.twCompras)
-        self.horizontalLayout_3.addWidget(self.groupBox_5)
-        self.verticalLayout_9.addLayout(self.horizontalLayout_3)
-        self.stack.addWidget(self.page_2)
-        self.page_3 = QtGui.QWidget()
-        self.page_3.setObjectName(_fromUtf8("page_3"))
-        self.verticalLayout_13 = QtGui.QVBoxLayout(self.page_3)
-        self.verticalLayout_13.setMargin(0)
-        self.verticalLayout_13.setObjectName(_fromUtf8("verticalLayout_13"))
-        self.pbVerResumen_2 = QtGui.QPushButton(self.page_3)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pbVerResumen_2.sizePolicy().hasHeightForWidth())
-        self.pbVerResumen_2.setSizePolicy(sizePolicy)
-        self.pbVerResumen_2.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
-"}\n"
-"QAbstractButton::hover{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(175, 236, 224, 255), stop:0.536364 rgba(94, 192, 226, 255), stop:0.554545 rgba(72, 170, 199, 255), stop:0.977273 rgba(65, 163, 198, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"\n"
-"}"))
-        self.pbVerResumen_2.setIcon(icon4)
-        self.pbVerResumen_2.setObjectName(_fromUtf8("pbVerResumen_2"))
-        self.verticalLayout_13.addWidget(self.pbVerResumen_2)
-        self.widget = QtGui.QWidget(self.page_3)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.page_2)
+        self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setMargin(0)
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.widget = QtGui.QWidget(self.page_2)
         self.widget.setStyleSheet(_fromUtf8(".QWidget{\n"
-"background:transparent;\n"
+"    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0.976077 rgba(71, 71, 71, 255), stop:1 rgba(55, 55, 55, 255));\n"
+"\n"
 "}\n"
 "QTextEdit{border:1.5px solid #ccc;border-top:1px;border-bottom:1px;}"))
         self.widget.setObjectName(_fromUtf8("widget"))
-        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.widget)
-        self.horizontalLayout_2.setContentsMargins(-1, 0, 0, 0)
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem2)
-        self.teEntradasDetalle = QtGui.QTextEdit(self.widget)
+        self.horizontalLayout_3 = QtGui.QHBoxLayout(self.widget)
+        self.horizontalLayout_3.setContentsMargins(-1, 0, 0, 0)
+        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+        spacerItem4 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem4)
+        self.scrollArea_2 = QtGui.QScrollArea(self.widget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.scrollArea_2.sizePolicy().hasHeightForWidth())
+        self.scrollArea_2.setSizePolicy(sizePolicy)
+        self.scrollArea_2.setMaximumSize(QtCore.QSize(700, 16777215))
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollArea_2.setObjectName(_fromUtf8("scrollArea_2"))
+        self.scrollAreaWidgetContents_2 = QtGui.QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(_fromUtf8("scrollAreaWidgetContents_2"))
+        self.verticalLayout_7 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_7.setSpacing(0)
+        self.verticalLayout_7.setMargin(0)
+        self.verticalLayout_7.setMargin(0)
+        self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
+        self.teEntradasDetalle = QtGui.QTextEdit(self.scrollAreaWidgetContents_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -494,12 +433,24 @@ class Ui_Form(object):
         self.teEntradasDetalle.setReadOnly(True)
         self.teEntradasDetalle.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
         self.teEntradasDetalle.setObjectName(_fromUtf8("teEntradasDetalle"))
-        self.horizontalLayout_2.addWidget(self.teEntradasDetalle)
-        spacerItem3 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem3)
-        self.verticalLayout_13.addWidget(self.widget)
+        self.verticalLayout_7.addWidget(self.teEntradasDetalle)
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+        self.horizontalLayout_3.addWidget(self.scrollArea_2)
+        spacerItem5 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem5)
+        self.horizontalLayout_2.addWidget(self.widget)
+        self.stack.addWidget(self.page_2)
+        self.page_3 = QtGui.QWidget()
+        self.page_3.setObjectName(_fromUtf8("page_3"))
+        self.verticalLayout_8 = QtGui.QVBoxLayout(self.page_3)
+        self.verticalLayout_8.setObjectName(_fromUtf8("verticalLayout_8"))
+        self.lblGrafica = QtGui.QLabel(self.page_3)
+        self.lblGrafica.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblGrafica.setObjectName(_fromUtf8("lblGrafica"))
+        self.verticalLayout_8.addWidget(self.lblGrafica)
         self.stack.addWidget(self.page_3)
-        self.verticalLayout_3.addWidget(self.stack)
+        self.horizontalLayout.addWidget(self.stack)
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Form)
         self.stack.setCurrentIndex(0)
@@ -508,7 +459,10 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.titulo.setText(QtGui.QApplication.translate("Form", "Ventas", None, QtGui.QApplication.UnicodeUTF8))
-        self.tboDetalles.setText(QtGui.QApplication.translate("Form", "Detalles", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbVerResumen.setText(QtGui.QApplication.translate("Form", "Simple", None, QtGui.QApplication.UnicodeUTF8))
+        self.tboDetalles.setText(QtGui.QApplication.translate("Form", "Detallado", None, QtGui.QApplication.UnicodeUTF8))
+        self.tbGraficar.setToolTip(QtGui.QApplication.translate("Form", "Mostrar grafica", None, QtGui.QApplication.UnicodeUTF8))
+        self.tbGraficar.setText(QtGui.QApplication.translate("Form", "Grafica", None, QtGui.QApplication.UnicodeUTF8))
         self.tboImprimir.setText(QtGui.QApplication.translate("Form", "Imprimir", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_6.setTitle(QtGui.QApplication.translate("Form", "Periodo", None, QtGui.QApplication.UnicodeUTF8))
         self.deHasta.setDisplayFormat(QtGui.QApplication.translate("Form", "dd MMMM yy", None, QtGui.QApplication.UnicodeUTF8))
@@ -517,143 +471,20 @@ class Ui_Form(object):
         self.label_15.setText(QtGui.QApplication.translate("Form", "Desde:", None, QtGui.QApplication.UnicodeUTF8))
         self.tboActualizar.setText(QtGui.QApplication.translate("Form", "Aplicar periodo", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("Form", "Entradas", None, QtGui.QApplication.UnicodeUTF8))
-        self.tboInicial.setText(QtGui.QApplication.translate("Form", "Efectivo inicial", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbVerEnDetallada.setText(QtGui.QApplication.translate("Form", "Ver detalles de entradas", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbDepositar.setText(QtGui.QApplication.translate("Form", "Registrar deposito", None, QtGui.QApplication.UnicodeUTF8))
+        self.tboInicial.setText(QtGui.QApplication.translate("Form", "Registrar efectivo inicial", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbVerEnDetallada.setText(QtGui.QApplication.translate("Form", "Detallar entradas", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbDetallarProds.setText(QtGui.QApplication.translate("Form", "Detallar ventas por\n"
+"productos", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("Form", "Salidas", None, QtGui.QApplication.UnicodeUTF8))
-        self.tbAgregar.setText(QtGui.QApplication.translate("Form", "Registrar gasto", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbVerDetallada.setText(QtGui.QApplication.translate("Form", "Ver detalles de gastos", None, QtGui.QApplication.UnicodeUTF8))
-        self.teDetalles.setHtml(QtGui.QApplication.translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Droid Sans\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Tabla de ventas</span></p>\n"
-"<table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" width=\"100%\" cellspacing=\"4\" cellpadding=\"0\">\n"
-"<tr>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Concepto</span></p></td>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Valor</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Ventas realizadas</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Ventas cobradas</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Facturas</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Notas</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">En efectivo</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">En credito</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.teDetalles_3.setHtml(QtGui.QApplication.translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Droid Sans\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Tabla general de efectivo.</span></p>\n"
-"<table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" width=\"100%\" cellspacing=\"4\" cellpadding=\"0\">\n"
-"<tr>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Concepto</span></p></td>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Valor</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Total por ventas</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-weight:600;\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Total de pagos/gastos</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-weight:600;\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Efectivo inicial</p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-weight:600;\">$</span></p></td></tr></table>\n"
-"<table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" width=\"100%\" cellspacing=\"4\" cellpadding=\"0\">\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Efectivo actual</p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-weight:600;\">$</span></p></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.teDetalles_2.setHtml(QtGui.QApplication.translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Droid Sans\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Tabla de Salidas de recursos.</span></p>\n"
-"<table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" width=\"100%\" cellspacing=\"4\" cellpadding=\"0\">\n"
-"<tr>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Concepto</span></p></td>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Valor</span></p></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Compras </span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td></td>\n"
-"<td></td>\n"
-"<td></td></tr>\n"
-"<tr>\n"
-"<td>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Pagos por gastos</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">#</span></p></td>\n"
-"<td>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">$</span></p></td></tr>\n"
-"<tr>\n"
-"<td></td>\n"
-"<td></td>\n"
-"<td></td></tr></table></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbVerResumen.setText(QtGui.QApplication.translate("Form", "Regresar", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_4.setTitle(QtGui.QApplication.translate("Form", "Tabla detallada de gastos", None, QtGui.QApplication.UnicodeUTF8))
-        self.twGastos.setSortingEnabled(True)
-        self.groupBox_5.setTitle(QtGui.QApplication.translate("Form", "Tabla compras", None, QtGui.QApplication.UnicodeUTF8))
-        self.twCompras.setSortingEnabled(True)
-        self.pbVerResumen_2.setText(QtGui.QApplication.translate("Form", "Regresar", None, QtGui.QApplication.UnicodeUTF8))
+        self.tbRetirar.setText(QtGui.QApplication.translate("Form", "Registrar retiro", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbAgregarGasto.setText(QtGui.QApplication.translate("Form", "Registrar gasto", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbVerDetallada.setText(QtGui.QApplication.translate("Form", "Detallar salidas", None, QtGui.QApplication.UnicodeUTF8))
         self.teEntradasDetalle.setHtml(QtGui.QApplication.translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Droid Sans\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.lblGrafica.setText(QtGui.QApplication.translate("Form", "Grafica", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc

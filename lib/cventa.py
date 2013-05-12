@@ -46,40 +46,50 @@ class Cventa(QtGui.QDialog, Ui_Form):
 		#self.inicia()
 		
     def ver(self):
+      self.cobro=True
       if (len(self.parent.basket)>0):
 	#self.parent.stackMove(0)
 	if self.parent.banderas['tipo']=='c' and self.parent.aut(2)>0: #si es compra
 	    self.guardarCompra()
-	elif self.parent.banderas['tipo']=='v' and self.parent.aut(1)>0:  #si es venta   
+	elif (self.parent.banderas['tipo']=='v' or self.parent.banderas['tipo']=='f') and self.parent.aut(1)>0:  #si es venta   
 	    if int(self.cfg.getDato('pyventa','caja'))>0 and int(self.cfg.getDato("pyventa","cobra"))==2:	#Si puede cobrar la venta
 	      self.parent.wResumen.setVisible(True)
 	      self.parent.dsbRecibido.setFocus()
 	      self.parent.dsbRecibido.selectAll()
 	    else:
-	      ide=self.allocate(0,0)
-	      if int(self.parent.cfg.get('ticket','default'))>1 and float(self.parent.cfg.get('ticket','trigger'))<self.parent.datos['total']:
-		self.parent.imprimirTicket({"<nota/>":str(ide)})
-		if int(self.parent.cfg.get('ticket','copia'))>1 and float(self.parent.cfg.get('ticket','copia-trigger'))<self.parent.datos['total']:
+	      if self.parent.banderas['tipo']=='v':
+		ide=self.allocate(0,0)
+		if int(self.parent.cfg.get('ticket','default'))>1 and float(self.parent.cfg.get('ticket','trigger'))<self.parent.datos['total']:
 		  self.parent.imprimirTicket({"<nota/>":str(ide)})
+		  if int(self.parent.cfg.get('ticket','copia'))>1 and float(self.parent.cfg.get('ticket','copia-trigger'))<self.parent.datos['total']:
+		    self.parent.imprimirTicket({"<nota/>":str(ide)})
+	      elif self.parent.banderas['tipo']=='f':
+		self.facturar()
 	      self.parent.limpiar()	
 	      
     def cobrar(self):
+	if self.cobro:
+	  self.cobro=False
 	  recibo=float(self.parent.dsbRecibido.value())
 	  if recibo==0:
 	    self.limpiar()
 	  elif len(self.parent.basket)>0 and recibo>0 and recibo>=self.parent.datos['total']:
-	    ide=self.allocate(self.data['tipo'],1) #Hasta este punto significa que se realizo la transaccion
-	    if ide>0:
-	      cambio=recibo-self.parent.datos['total']
-	      tags={"<nota/>":str(ide),"<total/>":str(self.parent.datos['total']),"<modo/>":"efectivo","<recibido/>":str(recibo),"<cambio/>":str(cambio)}
-	      self.parent.imprimirTicket(tags)
-	      self.parent.limpiar()
-	      self.parent.dsbCambio.setValue(cambio)
-	      self.parent.dsbCambio.setVisible(True)
-	      self.parent.lblCambio.setVisible(True)
-	      self.parent.dsbRecibido.setEnabled(False)
-	      self.parent.basket=[]
-	      timer=QTimer.singleShot(10000,self.limpiar)
+	    cambio=recibo-self.parent.datos['total']
+	    self.parent.dsbCambio.setValue(cambio)
+	    self.parent.dsbCambio.setVisible(True)
+	    self.parent.lblCambio.setVisible(True)
+	    self.parent.dsbRecibido.setEnabled(False)
+	    if self.parent.banderas['tipo']=='v':
+	      ide=self.allocate(self.data['tipo'],1) #Hasta este punto significa que se realizo la transaccion
+	      if ide>0:
+		tags={"<nota/>":str(ide),"<total/>":str(self.parent.datos['total']),"<modo/>":"efectivo","<recibido/>":str(recibo),"<cambio/>":str(cambio)}
+		self.parent.nota=ide
+		self.parent.imprimirTicket(tags)
+	    elif self.parent.banderas['tipo']=='f':
+	        self.facturar()
+	    self.parent.limpiar()
+	    self.parent.basket=[]
+	    timer=QTimer.singleShot(10000,self.limpiar)
 
 	  
     def inicia(self, imp=True):
@@ -160,16 +170,17 @@ class Cventa(QtGui.QDialog, Ui_Form):
 	    return True
 	    
     def facturar(self):	
-      if self.parent.cliente['id']<2:
-	  if self.parent.selCliente()>0:
+      if int(self.parent.cliente['id'])<2:
+	  selected=self.parent.selCliente()
+	  if selected>0:
 	    self.facturar()
       else:
-	#self.facturar(self.modulos["cventa"].allocate(1,0))
 	ide=self.allocate(1,0)
 	#fac=factura(self.parent,id)
 	F=Factura(self.parent,ide)
 	F.imprimir()
 	self.parent.limpiar()
+	return ide
 
 	
 	
@@ -213,7 +224,7 @@ class Cventa(QtGui.QDialog, Ui_Form):
 
     def allocate(self,tipo,forma):
 #Almacena en la base de datos, l nota con todos sus elementos
-      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=date(current_timestamp);")
+      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=CURDATE();")
       #qry=self.cursor.fetchone()
       last=0
       if len(self.parent.basket)>0:

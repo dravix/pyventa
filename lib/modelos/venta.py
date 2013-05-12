@@ -117,7 +117,7 @@ class Venta:
 
   def suma(self, condicion):
     try:
-      self.cursor.execute("""SELECT ROUND(SUM(total),2) FROM compras WHERE {condicion}""".format(condicion=condicion))
+      self.cursor.execute("""SELECT ROUND(SUM(total),2) FROM notas WHERE {condicion}""".format(condicion=condicion))
     except:
       return 0
     else:

@@ -125,7 +125,7 @@ class Oferta:
          
     def checkPromos(self,prod):
 	  head=['id','nombre', 'descuento','Precio Pub.','Precio c/Desc','inicio','fin','minimo','maximo']
-	  sql="SELECT P.id,P.nombre, P.descuento,precio, precio-(P.descuento*precio*.1),P.inicio,P.fin,P.minimo, maximo FROM ofertas as O,promociones as P, productos WHERE ref=conjunto and tipo=0  and (conjunto=%s OR conjunto=%s OR conjunto=%s) AND O.promocion=P.id AND date(current_timestamp) BETWEEN P.inicio AND P.fin"%(prod['Ref'],prod['Familia'],prod['Dep'])
+	  sql="SELECT P.id,P.nombre, P.descuento,precio, precio-(P.descuento*precio*.1),P.inicio,P.fin,P.minimo, maximo FROM ofertas as O,promociones as P, productos WHERE ref=conjunto and tipo=0  and (conjunto=%s OR conjunto=%s OR conjunto=%s) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin"%(prod['Ref'],prod['Familia'],prod['Dep'])
 	  self.ui.entabla(self.ui.tvOfertas,head,sql) 
 	  
     def calcularPrecio(self):

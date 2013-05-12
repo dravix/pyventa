@@ -2,24 +2,28 @@
 import sys,os,random
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QMessageBox
 from lib.utileria import Documento, MyTableModel
-from ui.ui_corte import Ui_Form
-import  datetime
+from ui.ui_reportes import Ui_Form
+from datetime import  datetime
 import MySQLdb,  tempfile
 from ui.dl_resumen_venta import Ui_Dialog 
-from lib.clases import Gasto as GastoUi
 from lib import libutil
-from lib.librepo import Chart
+from lib.librepo import Chart, Ventas as RVentas
 from lib.modelos.qmodelotablasql import QModeloTablaSql
-from lib.libutil import printa
+from lib.libutil import printa, printc
 from lib.factura import Factura
 from lib.modelos.venta import Venta
 from lib.dialogos.cobrador import Cobrador
+from lib.dialogos.agrega_gasto import AgregaGasto
 #from lib.librerias.docx.docx import *
 from lib.modelos.gasto import Gasto 
 from lib.modelos.compra import Compra 
 from lib.modelos.venta import Venta 
 from lib.modelos.caja import Caja 
+from lib.modelos.retiro import Retiro 
+from lib.modelos.deposito import Deposito 
+
 class Reportes(QtGui.QDialog, Ui_Form):
     def __init__(self,parent,id):
     		QtGui.QDialog.__init__(self)
@@ -45,24 +49,29 @@ class Reportes(QtGui.QDialog, Ui_Form):
 		self.connect(self.action, QtCore.SIGNAL("triggered()"), self.inicia )
 		
         	#self.connect(self.verGrafica, QtCore.SIGNAL("clicked()"), self.graficar)
-        	self.connect(self.tbGraficas, QtCore.SIGNAL("clicked()"), self.verGraficas)
+        	self.connect(self.tbGraficas, QtCore.SIGNAL("clicked()"), self.graficar)
+        	self.connect(self.tbGColorear, QtCore.SIGNAL("clicked()"), self.selecColor)
 		#self.connect(parent.stack, QtCore.SIGNAL("currentChanged(int)"),lambda: parent.aut(self.id,2) )
         	#self.connect(self.bvShowinfo, QtCore.SIGNAL("clicked()"), self.weekPlot)
         	self.connect(self.tVentas, QtCore.SIGNAL("activated(const QModelIndex&)"), self.mostrarResumen)
-        	self.connect(self.cbCaja, QtCore.SIGNAL("activated (int)"), self.setCaja)
+        	self.connect(self.cbCaja, QtCore.SIGNAL("currentIndexChanged(int )"), self.setCaja)
         	self.connect(self.cbListas, QtCore.SIGNAL("currentIndexChanged(int )"), self.tablarVentas)
         	self.connect(self.pbListaVentas, QtCore.SIGNAL("clicked()"),  self.actualizar)
         	self.connect(self.bCorteT, QtCore.SIGNAL("clicked()"), self.corte)
+        	self.connect(self.tbRImprimir, QtCore.SIGNAL("clicked()"), self.imprimir)
+        	self.connect(self.tbGImprimir, QtCore.SIGNAL("clicked()"), self.imprimirGrafica)
+        	self.connect(self.tbGGuardar, QtCore.SIGNAL("clicked()"), self.guardarGrafica)
         	self.connect(self.tbListar, QtCore.SIGNAL("clicked()"), lambda:self.stackReportes.setCurrentIndex(0))
         	self.connect(self.tbImprimir, QtCore.SIGNAL("clicked()"), self.tbImprimir.showMenu)
 		self.tVentas.setContextMenuPolicy(3)
 		self.connect(self.tVentas,QtCore.SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm)
         	self.connect(self.deFrom, QtCore.SIGNAL("dateChanged ( const QDate)"), self.cambiarFecha)
         	self.connect(self.deTo, QtCore.SIGNAL("dateChanged ( const QDate)"), self.cambiarFecha)
+		#self.connect(self.cbCaja,QtCore.SIGNAL("currentIndexChanged(int )"),self.setCaja)
+        	self.html=False
 		self.makeMenu()
-		self.fecha='date(current_timestamp)'
+		self.fecha='CURDATE()'
 		#self.splitter.moveSplitter(300,0)
-        	self.deCorte.setDate(QtCore.QDate.currentDate())
         	self.deFrom.setDate(QtCore.QDate.currentDate())  
         	self.deTo.setDate(QtCore.QDate.currentDate())  
 		self.tbImprimir.setMenu(self.menuImpresion)
@@ -72,7 +81,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 		self.cbCaja.addItem("Todas",0)
 		for c in res:
 		  self.cbCaja.addItem(c[1],c[0])
-		#self.cbCaja.setModel(modelo)
+		self.chart=False
 		#self.cbCaja.setModelColumn (1)
 		
 		self.caja="1"
@@ -90,6 +99,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
       self.menuCompras = QtGui.QMenu(self)
       self.menuImpresion = QtGui.QMenu(self)
       self.menuGastos = QtGui.QMenu(self)
+      menuDetalles = QtGui.QMenu(self)
       #Menu contextual de tipos de impresion
       aPrintR=self.menuImpresion.addAction("Resumen (PDF) ")
       aPrintC=self.menuImpresion.addAction("Corte total (Ticket)")
@@ -112,10 +122,13 @@ class Reportes(QtGui.QDialog, Ui_Form):
       aEliminarCompra=self.menuCompras.addAction(QtGui.QIcon(":/actions/images/actions/black_18/delete.png")," Eliminar compra")
       aEliminarCompra.setIconVisibleInMenu(True)
       
-      aNuevoGasto=self.menuGastos.addAction(QtGui.QIcon(":/actions/images/actions/black_18/add.png")," Agregar gasto")
-      aNuevoGasto.setIconVisibleInMenu(True)
-      aEliminarGasto=self.menuGastos.addAction(QtGui.QIcon(":/actions/images/actions/black_18/delete.png")," Eliminar gasto")
-      aEliminarGasto.setIconVisibleInMenu(True)
+      aNuevoGasto=self.menuGastos.addAction(QtGui.QIcon(":/actions/images/actions/black_18/add.png")," Agregar",self.agregar)
+      aEliminarGasto=self.menuGastos.addAction(QtGui.QIcon(":/actions/images/actions/black_18/delete.png")," Eliminar",self.remover)
+      
+      menuDetalles.addAction(QtGui.QIcon(":/actions/images/actions/black_18/clipboard.png"),"Detalle general",self.detallar)
+      menuDetalles.addAction(QtGui.QIcon(":/actions/images/actions/black_18/clipboard.png"),"Mejores productos",self.detallarProds)
+      
+      self.tbDetallar.setMenu(menuDetalles)
       
       self.connect(aPrintR, QtCore.SIGNAL("triggered()"), self.imprimir)
       self.connect(aPrintC, QtCore.SIGNAL("triggered()"), self.imprimirCorte)
@@ -126,157 +139,58 @@ class Reportes(QtGui.QDialog, Ui_Form):
       self.connect(aNuevaCompra, QtCore.SIGNAL("triggered()"), self.nuevaCompra)
       self.connect(aEditarCompra, QtCore.SIGNAL("triggered()"), self.editarCompra)   
       self.connect(aEliminarCompra, QtCore.SIGNAL("triggered()"), self.eliminarCompra)   
-      self.connect(aNuevoGasto, QtCore.SIGNAL("triggered()"), self.agregarGasto)   
-      self.connect(aEliminarGasto, QtCore.SIGNAL("triggered()"), self.eliminarGasto)   
-      
-    def graficar(self):
-	  inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
-	  fin=str(self.deHasta.date().toString('yyyy-MM-dd'))
-	  #escalas=['%H','%j',%d,'%u','%m','%Y']
 
-	  rango=self.getRango(inicio,fin,str(self.cbEscala.itemData(self.cbEscala.currentIndex()).toString()))
-	  #self.graf=chart(self.cbEscala.currentText(),'Total',rango)
-	  #self.graf.show()
-	  self.setGrafica(rango)
+      
+    def actualizar(self):
+      	self.setCursor(QtGui.QCursor(3))
+	self.cambiarFecha()
+	self.tablarVentas()
+	self.parcial()
+	self.setCursor(QtGui.QCursor(0))
+	
+    def graficar(self):
+	w=self.stackReportes.width()
+	h=self.stackReportes.height()
+	chart=Chart(self.parent,w-20,h-40)
+	inicio=str(self.deFrom.date().toString('yyyy-MM-dd'))
+	fin=str(self.deTo.date().toString('yyyy-MM-dd'))
+	
+	if inicio==fin:
+	  chart.hoursPlot(self.periodo)	
+	  chart.setTitle("Ventas horas del dia")	    
+	else:
+	  dformat="%Y-%m-%d"
+	  i=datetime.strptime(inicio,dformat)
+	  f=datetime.strptime(fin,dformat)
+	  ndays=(f-i).days
+	  if ndays in range(7):
+	    chart.xPlot('%W','%w',self.periodo)
+	    chart.setTitle("Ventas por dias de la semana")	    
+	  elif ndays in range(7,15): #Si son de 1 a 15 dias grafica por dias
+	    chart.dayPlot(self.periodo)
+	    chart.setTitle("Ventas por dias")	    
+	  elif ndays in range(15,60):
+	    chart.xPlot('%U/%M','%U',self.periodo) 
+	    chart.setTitle("Ventas por semanas")
+	  elif ndays in range(60,365):
+	    chart.xPlot('%M','%m',self.periodo) 
+	    chart.setTitle("Ventas por meses")
+	  else:
+	    chart.xPlot('%m.%y','%m%y',self.periodo)
+	    chart.setTitle("Ventas por meses")
+	    
+	self.grafica.setScene(chart.escena)
+	self.chart=chart
+	self.stackReportes.setCurrentIndex(1)
 
     def verReportes(self):
       self.stackReportes.setCurrentIndex(0)
       
     def verGraficas(self):
-      self.stackReportes.setCurrentIndex(1)    
-      self.dayPlot(self.periodo)
-
-      
-    def setGrafica(self,datos):
-	if len(datos[0])>0:
-    	  self.escena=QtGui.QGraphicsScene()
-    	  self.escena.setBackgroundBrush(QtGui.QColor('#fff'))
-    	  pen=QtGui.QPen()
-    	  pen.setWidth(2)
-    	  pen.setColor(QtGui.QColor('#0C4361'))
-    	  rBrush=QtGui.QBrush(QtGui.QColor(101, 163, 255, 250))
-    	  blueb=QtGui.QBrush(QtGui.QColor(0, 118, 117, 50))
-    	  grid=QtGui.QPen(QtGui.QColor("#999"),1,Qt.DashLine)
-    	  top=200
-    	  alto=self.grafica.height()
-   	  ancho=(self.grafica.width()-60)/len(datos[1])
-	  maxim=max(datos[0])
-	  Y=alto-50
-	  axe=ancho*len(datos[1])+85 #acho del eje x
-
-	  self.escena.addLine(70,0,70,Y,pen)
-	  self.escena.addLine(0,Y,axe,Y,pen)
-
-  	  for i in range(5):
-	    self.escena.addLine(60,Y*i*.25,self.grafica.width()-20,Y*i*.25,grid)
-	    text=self.escena.addSimpleText(str(libutil.cifra(round(maxim*i*.25,1))))
-	    text.setPos(5,Y-(Y*i*.25))
-	    mi=80
-	  dm=1 #num de dia
-	  for i,val in enumerate(datos[0]):
-	    if maxim>0:
-	      dm+=1
-	      if (int(datos[1][i])==1 or dm>31):
-		self.escena.addRect(mi,0,axe-mi,alto-50,QtGui.QPen(QtGui.QColor("#fff")),QtGui.QBrush(QtGui.QColor(20, 110, 170,10)))
-		mi=(ancho*i)+85
-		dm=1
-	      scale=(float(val)/float(maxim))*(alto-50)
-	      #self.escena.addRect((ancho*i)+80, (alto-50)-scale,ancho,scale,pen,blueb)
-	      if len(datos[0])>10:
-		  n=round(len(datos[0])*.05)
-	      else:
-		  n=1
-	      if i>0:
-		self.escena.addLine(ax,ay,(ancho*i)+85,alto-50-scale,pen)
-	      self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,alto-50-scale,grid)
-	      if i%n==0:
-		text=self.escena.addSimpleText(str(datos[1][i]))
-		text.setPos((ancho*i)+85,alto-35)
-		self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,alto-35,grid)
-
-	      ax=(ancho*i)+85
-	      ay=alto-50-scale
-
-      
-	  self.grafica.setScene(self.escena)
-	
-	
-    def getRango(self,inicio,fin,escala='%j'):
-    #recoge dos fechas inicio y fin en formato de cadena "yyyy-MM-dd" y una escala de dias, horas, semanas meses "%j" "%e" "%Y"
-    #Devuelve un diccionario con X y Y datos
-    	#print "SELECT sum(total), DATE_FORMAT(fecha,'"+escala+"') FROM `notas` where DATE(fecha)>'"+inicio+"' and DATE(fecha)<'"+fin+"' GROUP BY DATE_FORMAT(fecha,'"+escala+"') ORDER BY DATE_FORMAT(fecha,'"+escala+"');"
-	self.parent.cursor.execute("SELECT ROUND(sum(total),2), DATE_FORMAT(fecha,'"+escala+"') FROM `notas` where DATE(fecha)>DATE('"+inicio+"') and DATE(fecha)<DATE('"+fin+"') GROUP BY DATE_FORMAT(fecha,'"+escala+"') ORDER BY DATE_FORMAT(fecha,'"+escala+"');")
-	datos=self.parent.cursor.fetchall()
-	total=[]
-	escala=[]
-	for fila in datos:
-	    total.append(fila[0])
-	    escala.append(fila[1])
-	    print "%s  %s"%(fila[0],fila[1])
-	return [total,escala]
-
-    def weekPlot(self):
-	dias=[]
-	total=[]
-	self.parent.cursor.execute(" SELECT ROUND(sum(total),2) as `total`, DATE_FORMAT(fecha,'%w') as `dia` FROM `notas` where MONTH(fecha)=MONTH(date(current_timestamp)) and YEAR(fecha)=YEAR(date(current_timestamp)) and WEEK(fecha)=WEEK(date(current_timestamp)) GROUP BY DATE_FORMAT(fecha,'%w') ORDER BY DATE_FORMAT(fecha,'%w')")
-	datos=self.parent.cursor.fetchall()
-	Dias=['Domingo','Lunes','Martes', 'Miercoles','Jueves','Viernes','Sabado']
-	for hora in datos:
-	    total.append(round(float(hora[0]),1))
-	    dias.append(Dias[int(hora[1])])
-	data=[total,dias]
-       	self.setGrafica(data)
-
-	#self.graf=chart('Dias','total',data)
-	#self.graf.show()
-	#try: 
-	  #self.vlVentas2.removeWidget(self.sc)
-	#except:
-	    #pass
-	#self.sc=grafica(self, dias,total)
-	#self.vlVentas2.addWidget(self.sc)
-
-    def dayPlot(self,fecha='DATE(fecha)=date(current_timestamp)'):
-	hours=[]
-	total=[]
-	sql="SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%%d') as `hora` FROM `notas` where %s GROUP BY DATE_FORMAT(fecha,'%%j')"%fecha
-	self.parent.cursor.execute(sql)
-	#print sql
-	datos=self.parent.cursor.fetchall()
-	for hora in datos:
-	    hours.append(hora[1])
-	    total.append(round(float(hora[0]),1))
-	data=[total,hours]
-       	self.setGrafica(data)
+      #### Deprecated
+	self.graficar()
 
 
-    def yearPlot(self):
-	meses=[]
-	total=[]
-	self.cursor.execute("SELECT ROUND(sum(total),2) as `total`, DATE_FORMAT(fecha,'%m') as `mes` FROM `notas` where  YEAR(`fecha`)=YEAR(date(current_timestamp)) GROUP BY DATE_FORMAT(fecha,'%m');")
-	#self.cursor.execute("SELECT sum(`total`) as `total`, DATE_FORMAT(fecha,'%Y') as `mes` FROM `notas`  GROUP BY DATE_FORMAT(fecha,'%Y');")
-	datos=self.cursor.fetchall()
-	for mes in datos:
-	    meses.append(mes[1])
-	    total.append(round(float(mes[0]),1))
-	data=[total,meses]
-       	self.setGrafica(data)
-
-    def monthPlot(self):
-	meses=[]
-	total=[]
-	#self.cursor.execute("SELECT sum(`total`) as `total`, DATE_FORMAT(fecha,'%m') as `mes` FROM `notas` where  YEAR(`fecha`)=YEAR(date(current_timestamp)) GROUP BY DATE_FORMAT(fecha,'%m');")
-	self.cursor.execute("SELECT ROUND(sum(total),2) as `total`, DATE_FORMAT(fecha,'%d') as `mes` FROM `notas` where  YEAR(`fecha`)=YEAR(date(current_timestamp)) and MONTH(fecha)=MONTH(date(current_timestamp)) GROUP BY DATE_FORMAT(fecha,'%d') ORDER BY mes ;")
-	datos=self.cursor.fetchall()
-	for mes in datos:
-	    meses.append(mes[1])
-	    total.append(round(float(mes[0]),1))
-	data=[total,meses]
-       	self.setGrafica(data)
-
-
-	#self.graf=chart('mes','total',data)
-	#self.graf.show()
     def cambiarFecha(self,date=False):
 	if date!=False:
 	  self.fecha="'%s'"%date.toString('yyyy-MM-dd')
@@ -290,24 +204,51 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	  self.bCorteT.setEnabled(False)
 	#self.actualizar()
 	
-    def actualizar(self):
+    def detallar(self):
       	self.setCursor(QtGui.QCursor(3))
-	self.cambiarFecha()
-	self.tablarVentas()
-	self.parcial()
+	ventas=RVentas(self.parent,self.periodo)
+	(lista,resumen)=ventas.resumir(self.periodo,self.caja)
+	movimientos=libutil.listaHtml(lista,'Entradas y salidas',['Concepto','Monto'],'#fff','#1162A7',14,anchos=[70,30])
+	tventas=ventas.detallarVentas(caja=self.caja)+"<br/>"
+	tcajas=ventas.detallarCajas(caja=self.caja)
+	tusuarios=ventas.detallarUsuarios(caja=self.caja)
+	tdeptos=ventas.detallarDeptos(caja=self.caja)
+	tprods=ventas.detallarProds(caja=self.caja)
+	tabla2=libutil.listaHtml([[tventas+tusuarios+tcajas,movimientos+tdeptos]],titulo="Resumen de movimientos",color='#fff',fondo='#1162A7',opc="000",anchos=[50,50])
+	self.html=tabla2+tprods
+	self.teResumen.setHtml(tabla2+tprods)	
+	self.stackReportes.setCurrentIndex(2)
 	self.setCursor(QtGui.QCursor(0))
+	
+    def detallarProds(self):
+      self.setCursor(QtGui.QCursor(3))
+      vs=RVentas(self.parent,self.periodo)
+      num=QtGui.QInputDialog.getInt(self, self.parent.tr("Limite de articulos"),self.parent.tr("Limite de articulos a mostrar:"))
+      tabla=vs.detallarProdsVendidos(num[0])
+      self.teResumen.setHtml(tabla)
+      self.html=tabla
+      self.stackReportes.setCurrentIndex(2)
+      self.setCursor(QtGui.QCursor(0))	
 
     def tablarVentas(self): 
       if self.cbListas.currentIndex()==0:
-	head=('Id','Usuario','Cliente','Caja','Hora',"Formato","Estado",'Total')
-	sql="select n.id,u.usuario, SUBSTR(clientes.nombre,1,12),caja,time(fecha),n.tipo+1 ,status,Total  from notas as n,usuarios as u, clientes where %s and n.usuario=u.id_usuario and cliente=clientes.id order by n.id; "%(self.periodo)
+	head=('Id','Usuario','Cliente','Id Caja','Hora',"Formato","Estado",'Total')
+	sql="""select n.id,u.usuario, SUBSTR(clientes.nombre,1,12),caja,time(fecha),ELT(n.tipo+1,'Nota','Factura') ,
+	ELT(status+1,'Sin pagar','Pagadas','En credito'), Total  from notas as n,usuarios as u, clientes 
+	where {periodo} and {caja} and n.usuario=u.id_usuario and cliente=clientes.id order by n.id; """.format(periodo=self.periodo,caja=self.caja)
 	#print sql
       elif self.cbListas.currentIndex()==1:
 	head=('Id','Fecha','Comprador','Total')
-	sql="select id, fecha, nombre, total  from compras,usuarios where id_usuario=comprador and %s order by id; "%(self.periodo)	
+	sql="select id, fecha, nombre, total  from compras,usuarios where id_usuario=comprador and %s order by id; ".format(periodo=self.periodo,caja=self.caja)	
       elif self.cbListas.currentIndex()==2:
-	head=('Num','Usuario','Caja','Fecha','Concepto','Cantidad')
-	sql="select num_gasto, nombre, caja, fecha, concepto, cantidad  from gastos as g,usuarios where id_usuario=g.usuario and %s order by fecha; "%self.periodo	
+	head=('Num','Usuario','Caja','Detalle','Tipo','Monto','Fecha')
+	sql="select id_movimiento, usuarios.nombre, cajas.nombre, detalle, tipo, monto, fecha  from movimientos as m,usuarios, cajas where tipo='gasto' and id_usuario=m.usuario and cajas.num_caja=caja and  {periodo} and {caja} order by fecha; ".format(periodo=self.periodo,caja=self.caja)	
+      elif self.cbListas.currentIndex()==3:
+	head=('Num','Usuario','Caja','Detalle','Tipo','Monto','Fecha')
+	sql="select id_movimiento, usuarios.nombre, cajas.nombre, detalle, tipo, monto, fecha  from movimientos as m,usuarios, cajas where tipo='retiro' and id_usuario=m.usuario and cajas.num_caja=caja and  {periodo} and {caja} order by fecha; ".format(periodo=self.periodo,caja=self.caja)	
+      elif self.cbListas.currentIndex()==4:
+	head=('Num','Usuario','Caja','Detalle','Tipo','Monto','Fecha')
+	sql="select id_movimiento, usuarios.nombre, cajas.nombre, detalle, tipo, monto, fecha  from movimientos as m,usuarios, cajas where tipo='deposito' and id_usuario=m.usuario and cajas.num_caja=caja and {periodo} and {caja} order by fecha; ".format(periodo=self.periodo,caja=self.caja)	
       else:
 	return False
       #print sql
@@ -319,61 +260,15 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	
 	
     def parcial(self):
-	ventas={'realizadas':[],'cobradas':[],'facturas':[],'notas':[],'efectivo':[],'credito':[]}
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['realizadas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s and status>0 "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['cobradas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s and tipo=1 "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['facturas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s and tipo=0 "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['notas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s and status=1 "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['efectivo']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where %s and status=2 "%self.periodo)
-	row=self.cursor.fetchone()
-	ventas['credito']=row
-	tabla='<h3>Tabla general de ventas</h3>\
-<table cellspacing="6px" width="100%%">\
-<TR> <Th align=\"left\">Concepto</Th><TH width="12%%" align=\"right\">#</TH><th width="15%%" align=\"right\">Valor</th>	</TR>\
-<tr> <TD>Ventas realizadas</TD>	<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-<tr> <TD>Ventas cobradas</TD>	<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-<tr> <TD>Facturas</TD>		<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-<tr> <TD>Notas</TD>		<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-<tr> <TD>En efectivo</TD>	<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-<tr> <TD>En credito</TD>	<TD width="12%%" align=\"right\">%s</TD>       <TD align=\"right\">%s</TD>      </tr>\
-</table>'%(ventas['realizadas'][0],ventas['realizadas'][1],ventas['cobradas'][0],ventas['cobradas'][1],ventas['facturas'][0],ventas['facturas'][1],ventas['notas'][0],ventas['notas'][1],ventas['efectivo'][0],ventas['efectivo'][1],ventas['credito'][0],ventas['credito'][1])
-	tabla+='<br>%s'%self.resumir(self.fecha);
+	vs=RVentas(self.parent,self.periodo)
+	tabla=vs.detallarVentas(caja=self.caja)
 	self.teDetalles.setText(tabla)
-	#self.lVentas.setText(str(row[0]))
-	#self.lEfectivo.setText(str(row[2]))
-	#self.lTotal.setText(str(row[1]))
+
 	
-    def resumir(self,fecha='date(current_timestamp)'):
-	resumen={'ventas':0,'gastos':0,'compras':0, 'inicial':0.0}
-	#sql="select  IFNULL(ROUND(sum(total),2),0) from notas where date(fecha)={0} and {1};".format(fecha,self.caja)
-	#self.cursor.execute(sql)
-	#self.cursor.execute("select  IFNULL(ROUND(sum(cantidad),2),0) from gastos where date(fecha)={0} and {1};".format(fecha,self.caja))
-	#self.cursor.execute("select  IFNULL(ROUND(sum(total),2),0) from compras where date(fecha)={0} and {1};".format(fecha,self.caja))
-	#self.cursor.execute("SELECT saldo_inicial from cajas where num_caja=%s and estado=date(current_timestamp);"%self.parent.caja)
-	con=self.parent.conexion
-	resumen['ventas']=Venta(con).suma("date(fecha)={0} and {1}".format(fecha,self.caja))
-	resumen['gastos']=Gasto(con).suma("date(fecha)={0} and {1}".format(fecha,self.caja))
-	resumen['compras']=Compra(con).suma("date(fecha)={0} and {1}".format(fecha,self.caja))
-	resumen['inicial']=Caja(con).saldo_inicial(self.parent.caja)	
-	self.efectivo=(resumen['ventas']-resumen['compras']-resumen['gastos']+resumen['inicial'])
-	lista=[
-	  ['Ventas:',resumen['ventas']],
-	  ['Compras:',resumen['compras']],
-	  ['Gastos:',resumen['gastos']],
-	  ['Efectivo inicial:',resumen['inicial']],
-	  ['Efectivo final:',self.efectivo]
-	  ]
+    def resumir(self,fecha='CURDATE()'):
+	rvs=RVentas(self.parent,fecha)
+	(lista,resumen)=rvs.resumir("date(fecha)={0}".format(fecha),self.caja)
+	self.efectivo=resumen['efectivo']
 	tabla=libutil.listaHtml(lista,'Tabla de movimientos de dinero',['Concepto','Monto'],'#333','#E2E6E7',14,anchos=[70,30])
 	return tabla
 
@@ -513,16 +408,17 @@ class Reportes(QtGui.QDialog, Ui_Form):
       elif self.cbListas.currentIndex()==1:
 	self.editarCompra()
 
+    def guardarGrafica(self):
+      File = QtGui.QFileDialog.getSaveFileName (self,"Guardar imagen",self.parent.home+'/grafica.png',self.tr("Imagenes (*.png)"))
+      if File != '':
+	self.chart.toPixmap().save(File)
+      
     def imprimirGrafica(self):
-	#printer=QtGui.QPrinter(QtGui.QPrinter.PrinterResolution)
-	#printer.setResolution(20)
-	#printer.setPageMargins ( .5,0,.3,0,QtGui.QPrinter.Inch )
-	#printer.setOutputFormat(QtGui.QPrinter.NativeFormat)
 
 	printer=QtGui.QPrinter(QtGui.QPrinter.HighResolution)
 	printer.setPaperSize(QtGui.QPrinter.Letter)   
 	printer.setOutputFormat(QtGui.QPrinter.PdfFormat)
-	printer.setOutputFileName("/tmp/Grafica.pdf")
+	printer.setOutputFileName(self.parent.home+"/Grafica.pdf")
 	prev=QtGui.QPrintDialog(printer,self.parent)
 	if prev.exec_()==QtGui.QDialog.Accepted:
 		paint=QtGui.QPainter()
@@ -546,30 +442,42 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	#doc.addPixmap(pixMap)
 	
     def imprimir(self):
-      	campos={'fecha':self.parent.fecha}
-	for key in self.parent.modulos['config'].modulos['empresa']:
-	    try:
-	      campos[key]=self.parent.cfg.get('empresa',key)
-	    except:
-	      pass
-	#print campos
-	#self.dayPlot(self.periodo)
-	#pixMap = QtGui.QPixmap.grabWidget(self.grafica)
-	#pixMap.save("/tmp/plot.png")
-      	html=str(self.teDetalles.toHtml())
-	head="""<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
-		<tr valign='top'>
-			<td width="50%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
-			    <span style=" font-size:large; font-weight:800; 
-			    color:#222;">{nombre}</span><br/>
-			    <span>{slogan}</span></td>
-		  <td width=40%>
-		  <span style=" font-size:xx-large; font-weight:800; color:#294e5e;">Reporte de ventas</span><br/>
-		  <span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>	""".format(**campos)
-	foot="""	<hr align="center"/>
-			<p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
-			""".format(**campos)
-	printa(head+html+foot,"Reporte de ventas",self)
+      if not self.html:
+	self.detallar()      
+      inicio=str(self.deFrom.date().toString('dd MMMM.yy'))
+      fin=str(self.deTo.date().toString('dd MMMM.yy'))
+      if inicio==fin:
+	periodo=inicio
+      else:
+	periodo="{0} al {1}".format(inicio,fin)
+      head="""<h2 align="center">Reporte de ventas</h2><center><b>Del {periodo}</b></center>""".format(periodo=periodo)
+      printa(head+self.html,titulo="Reporte de ventas {periodo}".format(periodo=periodo),orientacion=0)
+      self.html=False
+      
+      	#campos={'fecha':self.parent.fecha}
+	#for key in self.parent.modulos['config'].modulos['empresa']:
+	    #try:
+	      #campos[key]=self.parent.cfg.get('empresa',key)
+	    #except:
+	      #pass
+	##print campos
+	##self.dayPlot(self.periodo)
+	##pixMap = QtGui.QPixmap.grabWidget(self.grafica)
+	##pixMap.save("/tmp/plot.png")
+      	#html=str(self.teDetalles.toHtml())
+	#head="""<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
+		#<tr valign='top'>
+			#<td width="50%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
+			    #<span style=" font-size:large; font-weight:800; 
+			    #color:#222;">{nombre}</span><br/>
+			    #<span>{slogan}</span></td>
+		  #<td width=40%>
+		  #<span style=" font-size:x-large; font-weight:800; color:#294e5e;text-align:right">Reporte de ventas</span><br/>
+		  #<span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>	""".format(**campos)
+	#foot="""	<hr align="center"/>
+			#<p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
+			#<br/><br/>""".format(**campos)
+	#printa(head+html+foot,"Reporte de ventas",self)
 
 	
 	
@@ -611,18 +519,33 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Eliminacion correcta","Se ha eliminado la compra.",QtGui.QMessageBox.Close,self)
 	self.tablarVentas()
       msgBox.exec_()  
-   
-    def agregarGasto(self):
-	gasto=GastoUi(self.parent)
-	if gasto.agregar():
-	  self.tablarVentas()
-	  self.parcial() 
-	      
-    def eliminarGasto(self):
-	gasto=GastoUi(self.parent)
-	if gasto.eliminar(libutil.seleccionar(self.tVentas, self.moventas)[0]):
-	  self.tablarVentas()
-	  self.parcial() 
+    
+    def getEntidadMovimiento(self):
+      if self.cbListas.currentIndex()==2:
+	entidad=('gasto',Gasto)
+      elif self.cbListas.currentIndex()==3:
+	entidad=('retiro',Retiro)
+      elif self.cbListas.currentIndex()==4:
+	entidad=('deposito',Deposito)
+      return entidad
+	
+    def agregar(self): 
+      entidad=self.getEntidadMovimiento()
+      ag=AgregaGasto(self.parent,self.parent.sesion['usuario']['id_usuario'],entidad[0])
+      if ag.exec_()>0:
+	self.tablarVentas()
+	self.parcial()       
+    
+    def remover(self):
+	entidad=self.getEntidadMovimiento()
+	msgBox=QMessageBox(QMessageBox.Question,"Confirma eliminar {mov}(s)",
+	"Confirme para eliminar los {mov}(s) seleccionado(s)".format(mov=entidad[0]),QMessageBox.Yes|QMessageBox.No,self.parent)
+	ret=msgBox.exec_()
+	if ret==QMessageBox.Yes:
+	  obj=entidad[1](self.parent.conexion)
+	  if obj.eliminar(','.join(map(str,libutil.seleccionar(self.tVentas, self.moventas)[0]))):
+	    self.tablarVentas()
+	    self.parcial()      
 	      
     def ocm(self, point):
 	 point.setY(point.y()+25)
@@ -631,7 +554,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 	  self.menuVentas.exec_(self.tVentas.mapToGlobal(point) )	
          elif self.cbListas.currentIndex()==1:
 	  self.menuCompras.exec_(self.tVentas.mapToGlobal(point) )		  
-         elif self.cbListas.currentIndex()==2:
+         elif self.cbListas.currentIndex() in (2,3,4):
 	  self.menuGastos.exec_(self.tVentas.mapToGlobal(point) )
 	  
     def setId(self,ide):
@@ -646,7 +569,7 @@ class Reportes(QtGui.QDialog, Ui_Form):
 
     def setCaja(self,index):
       if index==0:
-	self.caja=" true "
+	self.caja=" 1 "
       else:
 	self.caja=" caja={0} ".format(str(self.cbCaja.itemData(index).toString()))
     
@@ -661,11 +584,18 @@ class Reportes(QtGui.QDialog, Ui_Form):
     def cobrar(self):
 	notas=libutil.seleccionar(self.tVentas, self.moventas)
 	status=libutil.seleccionar(self.tVentas, self.moventas,6)
-	if '0' in status:
+	if 'Sin pagar' in status:
 	  cobra=Cobrador(conexion=self.parent.conexion,ventas=notas,usuario=self.parent.sesion['usuario']['id_usuario'],
 	  cliente=self.parent.cliente['id'],caja=self.parent.caja)
-	  if cobra.exec_()>0:
+	  if cobra.exec_()==QtGui.QDialog.Accepted:
 	    self.actualizar()
+	    
+    def selecColor(self):
+	col = QtGui.QColorDialog.getColor()
+        if col.isValid():
+	  col.setAlpha(100)
+	  self.chart.changeColor(col)
+
 
     #def export(self):
       #relationships = relationshiplist()

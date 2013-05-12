@@ -35,7 +35,7 @@ class Faltante(QDialog, Ui_Faltante):
 	for ref in self.ide:
 	  if self.editar==False:
 	    try:
-	      sql="INSERT INTO faltantes VALUES(%s,%s,%s,%s,date(current_timestamp));"%(ref,self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()))
+	      sql="INSERT INTO faltantes VALUES(%s,%s,%s,%s,CURDATE());"%(ref,self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()))
 	      #print sql
 	      self.cursor.execute("DELETE FROM faltantes where producto=%s"%ref)
 	      self.cursor.execute(sql)
@@ -46,7 +46,7 @@ class Faltante(QDialog, Ui_Faltante):
 	  
 	  else:
 	      try:
-		sql="UPDATE faltantes set usuario=%s, cantidad=%s,prioridad=%s,fecha=date(current_timestamp) where producto=%s;"%(self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()),ref)
+		sql="UPDATE faltantes set usuario=%s, cantidad=%s,prioridad=%s,fecha=CURDATE() where producto=%s;"%(self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()),ref)
 		self.cursor.execute(sql)
 	      except MySQLdb.Error, e:
 		print "Error al marcar como faltante",e

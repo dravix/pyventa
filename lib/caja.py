@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-import sys,os
+import os
 from PyQt4 import QtCore, QtGui
 #from PyQt4.QtCore import QLocale 
 from ui.ui_ventas import Ui_Form
-from ui.ui_resumen import Ui_Form as Display
 from lib.utileria import Documento
-from lib.clases import Gasto
+from lib.dialogos.agrega_gasto import AgregaGasto
 from lib import libutil
 from lib.librepo import Ventas, Chart
-import  datetime
-import MySQLdb
-
+from lib.modelos.gasto import Gasto 
+from lib.modelos.caja import Caja 
+from lib.modelos.retiro import Retiro 
+from lib.modelos.deposito import Deposito 
+from lib.modelos.movimiento import Movimiento 
+from lib.librerias.comun import *
 class Cajas(QtGui.QDialog, Ui_Form):
     def __init__(self,parent,id):
     		QtGui.QDialog.__init__(self)
@@ -40,42 +42,39 @@ class Cajas(QtGui.QDialog, Ui_Form):
 		self.connect(copy, QtCore.SIGNAL("triggered()"), self.teEntradasDetalle.copy)
 
         	self.teEntradasDetalle.addAction(copy)
-		#self.connect(self.action, QtCore.SIGNAL("triggered()"), self.iniciar )
-		self.connect(self.agasto, QtCore.SIGNAL("triggered()"), self.agregarGasto)
 		self.connect(self.tboImprimir, QtCore.SIGNAL("clicked()"), self.imprimir)
-		#self.connect(self.agasto, QtCore.SIGNAL("clicked()"), self.agregarGasto)
-		self.connect(self.tbAgregar, QtCore.SIGNAL("clicked()"), self.agregarGasto)
+		self.connect(self.tboActualizar, QtCore.SIGNAL("clicked()"), self.actualizar)
+		self.connect(self.agasto, QtCore.SIGNAL("triggered()"), self.gastar)
+		self.connect(self.tboInicial, QtCore.SIGNAL("clicked()"), self.inicial)
+		self.connect(self.pbDepositar, QtCore.SIGNAL("clicked()"), self.depositar)
+		self.connect(self.tbRetirar, QtCore.SIGNAL("clicked()"), self.retirar)
+		self.connect(self.pbAgregarGasto, QtCore.SIGNAL("clicked()"), self.gastar)
+		self.connect(self.pbDetallarProds, QtCore.SIGNAL("clicked()"), self.detallarProds)
 		self.connect(self.pbVerResumen, QtCore.SIGNAL("clicked()"),lambda: self.stack.setCurrentIndex(0))
-		self.connect(self.pbVerResumen_2, QtCore.SIGNAL("clicked()"),lambda: self.stack.setCurrentIndex(0))
 		self.connect(self.action, QtCore.SIGNAL("triggered()"),self.iniciar )
 		
-		self.connect(self.pbVerDetallada,QtCore.SIGNAL("clicked()"), self.detallarGastos)
 		self.connect(self.pbVerEnDetallada,QtCore.SIGNAL("clicked()"), self.detallarEntradas)
-		#self.connect(self.tboHome,QtCore.SIGNAL("clicked()"), lambda: self.stack.setCurrentIndex(0))
 		self.connect(self.tboDetalles,QtCore.SIGNAL("clicked()"), self.detallarEntradas)
-		self.connect(self.tboInicial, QtCore.SIGNAL("clicked()"), self.inicial)
-		self.connect(self.tboActualizar, QtCore.SIGNAL("clicked()"), self.actualizar)
+		self.connect(self.tbGraficar,QtCore.SIGNAL("clicked()"), self.graficar)
 		self.parent.menuEdicion.addAction(self.agasto)
 		self.tmp={'notas':[],'clientes':[],'total':0}
-		self.tablas=[self.teDetalles,self.teDetalles_2,self.teDetalles_3]
+		#self.tablas=[self.teDetalles,self.teDetalles_2,self.teDetalles_3]
 		self.cliente=0
 		#inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
-		self.periodo=" date(fecha)=date(current_timestamp)  "
+		self.periodo=" date(fecha)=CURDATE()  "
+		self.grafica=False
 
     def iniciar(self):
       if self.parent.aut(self.datos['nivel'])>0:
 	  self.parent.stack.setCurrentIndex(self.datos['id'])
 	  self.setCursor(QtGui.QCursor(16))
 	  self.entradas()
-	  self.salidas()
+	  #self.salidas()
 	  self.resumir()
 	  self.setCursor(QtGui.QCursor(0))
       
-    def agregarGasto(self):
-	gasto=Gasto(self.parent)
-	if gasto.agregar():
-	  self.salidas()
-	  self.resumir()
+ 
+	  
 	      
     def actualizar(self):
 	self.setCursor(QtGui.QCursor(3))
@@ -85,63 +84,43 @@ class Cajas(QtGui.QDialog, Ui_Form):
 	  self.periodo=" date(fecha)='%s'"%inicio
 	else:
 	  self.periodo=" date(fecha) BETWEEN '%s' and  '%s' "%(inicio,fin)
-	self.salidas()
+	#self.salidas()
 	self.resumir()
 	self.entradas()
 	self.setCursor(QtGui.QCursor(0))	
 	
     def entradas(self):
-	ventas={'realizadas':[],'cobradas':[],'facturas':[],'notas':[],'efectivo':[],'credito':[]}
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo)
-	row=self.cursor.fetchone()
-	ventas['realizadas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+" and status>0 ")
-	row=self.cursor.fetchone()
-	ventas['cobradas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and tipo=1 ")
-	row=self.cursor.fetchone()
-	ventas['facturas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and tipo=0 ")
-	row=self.cursor.fetchone()
-	ventas['notas']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+"  and status=1 ")
-	row=self.cursor.fetchone()
-	ventas['efectivo']=row
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from notas where "+self.periodo+" and status=2 ")
-	row=self.cursor.fetchone()
-	ventas['credito']=row
-	tabla='<h2>Tabla general de ventas</h2>\
-<table cellspacing="6px" width="100%%">\
-<TR> <Th>Concepto</Th><TH>Cantidad</TH><th>Valor</th>	</TR>\
-<tr> <TD>Ventas realizadas</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-<tr> <TD>Ventas cobradas</TD>	<TD >%s		</TD>       <TD	>		%s</TD>      </tr>\
-<tr> <TD>En efectivo</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-<tr> <TD>En credito</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-</table>'%(ventas['realizadas'][0],ventas['realizadas'][1],ventas['cobradas'][0],ventas['cobradas'][1],ventas['efectivo'][0],ventas['efectivo'][1],ventas['credito'][0],ventas['credito'][1])
-	self.teDetalles.setText(tabla)
+      pass
 
-
+    def graficar(self):
+      	inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
+	fin=str(self.deHasta.date().toString('yyyy-MM-dd'))
+	ch=Chart(self.parent,700,300)
+	if (inicio==fin):
+	  ch.hoursPlot(self.periodo)	
+	else:
+	  ch.dayPlot(self.periodo)	
+	pix=ch.toPix(home+'/grafica.png')
+	self.grafica=pix
+	self.lblGrafica.setPixmap(pix)
+	self.stack.setCurrentIndex(2)
+	
+	#ch.popGrafica(pix)  
+	  
       
     def detallarEntradas(self):
 	self.setCursor(QtGui.QCursor(3))
 	ventas=Ventas(self.parent,self.periodo)
-	tventas=ventas.detallarVentas()
+	tventas=ventas.detallarVentas(caja=self.parent.caja)+"<br/>"
 	tcajas=ventas.detallarCajas()
 	tusuarios=ventas.detallarUsuarios()
 	tdeptos=ventas.detallarDeptos()
 	tprods=ventas.detallarProds()
-	tabla2=libutil.listaHtml([[tventas+tusuarios+tcajas,tdeptos]],titulo="Resumen de movimientos",opc="100",anchos=[40,60])
+	tabla2=libutil.listaHtml([[tventas+tusuarios+tcajas,tdeptos]],titulo="Resumen de movimientos",opc="000",anchos=[40,60])
 	self.teEntradasDetalle.setText(tabla2+tprods)	
-	self.stack.setCurrentIndex(2)
-	self.setCursor(QtGui.QCursor(0))
-	
-    def detallarGastos(self):
+	self.detalle=tabla2+tprods
 	self.stack.setCurrentIndex(1)
-	head=['Num','Fecha','Usuario','Caja','Concepto','Cantidad']
-	#periodo=self.periodo.replace("fecha", "G.fecha")
-	sql="SELECT num_gasto,fecha, usuarios.nombre,cajas.nombre,concepto,cantidad  FROM gastos,cajas, usuarios where usuario=usuarios.id_usuario and caja=num_caja and "+self.periodo
-	self.parent.tabular(self.twGastos,sql,head)
-	self.detallarCompras()
+	self.setCursor(QtGui.QCursor(0))
 	
     def detallarCompras(self):
 	self.stack.setCurrentIndex(1)
@@ -151,68 +130,80 @@ class Cajas(QtGui.QDialog, Ui_Form):
 
 
     def salidas(self):
-	compras={'realizadas':[],'gastos':[]}
-	self.cursor.execute("select count(id), ROUND(sum(total),2) from compras where "+self.periodo)
-	row=self.cursor.fetchone()
-	compras['realizadas']=row
-	self.cursor.execute("select count(num_gasto), ROUND(sum(cantidad),2) from gastos where "+self.periodo)
-	row=self.cursor.fetchone()
-	compras['gastos']=row
-
-	tabla='<H2>Tabla de salidas de dinero</H2>\
-<table cellspacing="6px" width="100%%">\
-<TR> <Th>Concepto</Th><TH>Cantidad</TH><th>Valor</th>	</TR>\
-<tr> <TD>Compras recibidas:</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-<tr> <TD>Gastos pagados:</TD>	<TD >%s		</TD>       <TD >		%s</TD>      </tr>\
-</table>'%(compras['realizadas'][0],compras['realizadas'][1],compras['gastos'][0],compras['gastos'][1])
-	self.teDetalles_2.setText(tabla)	
+	pass
 	
     def resumir(self):
-	resumen={'ventas':0,'gastos':0,'compras':0}
-	self.cursor.execute("select  IFNULL(ROUND(sum(total),2),0) from notas where "+self.periodo)
-	resumen['ventas']=self.cursor.fetchone()[0]
-	self.cursor.execute("select  IFNULL(ROUND(sum(cantidad),2),0) from gastos where "+self.periodo)
-	resumen['gastos']=self.cursor.fetchone()[0]
-	self.cursor.execute("select  IFNULL(ROUND(sum(total),2),0) from compras where "+self.periodo)
-	resumen['compras']=self.cursor.fetchone()[0]
-	resumen['efectivo']=(resumen['ventas']-resumen['compras']-resumen['gastos'])
-	tabla='<H2>Movimientos de dinero </H2>\
-<table cellspacing="6px" width="100%%">\
-<TR> <Th>Concepto</Th><TH>Cantidad</TH></TR>\
-<tr> <TD>Ventas:</TD><TD >{ventas}		</TD></tr>\
-<tr> <TD>Compras:</TD><TD >{compras}		</TD></tr>\
-<tr> <TD>Gastos:</TD><TD >{gastos}		</TD></tr>\
-<tr> <TD>Efectivo final:</TD><TD >{efectivo}		</TD></tr>\
-</table>'.format(**resumen)
-	self.teDetalles_3.setText(tabla)
+	vs=Ventas(self.parent,self.periodo)
+	(lista,resumen)=vs.resumir(self.periodo,self.parent.caja)
+	self.efectivo=resumen['efectivo']
+	movimientos=libutil.listaHtml(lista,'Tabla de movimientos',['Concepto','Monto'],'#fff','#1162A7',14,anchos=[70,30])
+	head="id_movimiento,usuarios.nombre,cajas.nombre,detalle,tipo, monto,fecha"
+	lista=Movimiento(self.parent.conexion).buscar(head,self.periodo+" order by tipo")
+	movs=libutil.listaHtml(lista,'Tabla de movimientos de efectivo',
+	"#,Usuario,Caja,Detalle,Tipo, Monto,Fecha".split(','),'#fff','#1162A7',10,opc="110",anchos=[5,15,15,22,13,15,15])
+	ventas=vs.detallarVentas(caja=self.parent.caja,color='#fff',fondo='#1162A7')
+	#dns=vs.detalleNotas(periodo=self.periodo,caja=self.parent.caja)
+	#ventas=libutil.listaHtml(dns,'Detalle de ventas',['Tipo','Estado','Valor'],'#fff','#1162A7',12,anchos=[40,30,30])
+	tabla=libutil.listaHtml([[movimientos+ventas,movs]],color='#fff',fondo='#1162A7',opc="000",anchos=[40,60])
+	self.resumen=tabla
+	self.teResumen.setHtml(tabla)
+	
+    def detallarProds(self):
+      self.setCursor(QtGui.QCursor(3))
+      vs=Ventas(self.parent,self.periodo)
+      num=QtGui.QInputDialog.getInt(self, self.parent.tr("Limite de articulos"),self.parent.tr("Limite de articulos a mostrar:"))
+      tabla=vs.detallarProdsVendidos(num[0])
+      self.teEntradasDetalle.setHtml(tabla)
+      self.detalle=tabla
+      self.stack.setCurrentIndex(1)
+      self.setCursor(QtGui.QCursor(0))
 	  
     def inicial(self):
+	self.hacerMovimiento('inicial')
+	    
+    def depositar(self):
+	self.hacerMovimiento('deposito')
+
+    def retirar(self):
+	self.hacerMovimiento('retiro')
+
+    def gastar(self):
+	self.hacerMovimiento('gasto')
+	    
+    def hacerMovimiento(self,tipo=''):
 	if self.parent.aut(2):
-	  val=QtGui.QInputDialog.getDouble(self, self.tr("Establecer efectivo inicial"),self.tr("Ingrese la cantidad de efectivo<br> inicial al abrir las cajas."))
-	  #print val[0]
-	      Caja(self.parent.conexion).setSaldoInicial(self.parent.caja,val[0])
-	  else:
+	  ag=AgregaGasto(self.parent,self.parent.sesion['usuario']['id_usuario'],tipo)
+	  if ag.exec_()>0:
 	    self.resumir()
 	    
     def imprimir(self):
-	fecha="%s-%s"%(self.deDesde.date().toString("(dd.MMM.yyyy)"),self.deHasta.date().toString("(dd.MMM.yyyy)"))
-	campos={'titulo':'Reporte de ventas de %s'%fecha,'%fecha%':fecha}
-	for key in self.parent.modulos['config'].modulos['empresa']:
-	    try:
-	      campos['%'+key+'%']=self.parent.cfg.get('empresa',key)
-	    except:
-	      pass
-	campos['%detalles%']=str(self.teEntradasDetalle.toHtml())
-	#libutil.printb(self.parent,'Reporte de ventas',os.path.join(self.parent.home,"formas","ventas.xml"),campos)
-	#for tabla in self.tablas:
-	  #campos['%detalles%']+=str(tabla.toHtml())+"<br>"
-	doc=Documento(self.parent,os.path.join(self.parent.home,"formas","ventas.xml"),campos)
-	ch=Chart(self.parent,700,300)
-	ch.dayPlot(self.periodo)
-	pix=ch.toPix('/tmp/grafica.png')
-	doc.addPage(ch.escena)
-	doc.guardarPDF()
-	####! Cambiar apartir de aqui
+      inicio=str(self.deDesde.date().toString('dd MMMM.yy'))
+      fin=str(self.deHasta.date().toString('dd MMMM.yy'))
+      if inicio==fin:
+	periodo=inicio
+      else:
+	periodo="{0} al {1}".format(inicio,fin)
+      head="""<h2 align="center">Reporte de ventas</h2><center><b>Del {periodo}</b></center>""".format(periodo=periodo)
+      libutil.printa(head+self.resumen+self.detalle,titulo="Reporte de ventas {periodo}".format(periodo=periodo),orientacion=1)
+
+    #def imprimir(self):
+	#fecha="%s a %s"%(self.deDesde.date().toString("(dd.MMM.yyyy)"),self.deHasta.date().toString("(dd.MMM.yyyy)"))
+	#campos={'titulo':'Reporte de ventas de %s'%fecha,'%fecha%':fecha}
+	#for key in self.parent.modulos['config'].modulos['empresa']:
+	    #try:
+	      #campos['%'+key+'%']=self.parent.cfg.get('empresa',key)
+	    #except:
+	      #pass
+	
+	#campos['%detalles%']=self.html
+	##libutil.printb(self.parent,'Reporte de ventas',os.path.join(self.parent.home,"formas","ventas.xml"),campos)
+	##for tabla in self.tablas:
+	  ##campos['%detalles%']+=str(tabla.toHtml())+"<br>"
+	#doc=Documento(self.parent,os.path.join(self.parent.home,"formas","ventas.xml"),campos)
+	#if self.grafica:
+	  #doc.addPage(self.grafica)
+	#doc.guardarPDF()
+	#####! Cambiar apartir de aqui
 
 	
 

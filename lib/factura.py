@@ -43,7 +43,10 @@ class Factura:
 	datos.setTextWidth(int(self.cfg.get("cliente", "ancho")))
 	self.curser.execute("SELECT cantidad, `descripcion`,total/cantidad as precio,total,porcentaje as imp,unidades.nombre as unidad, ' ' as espacio  from productos,vendidos, impuestos , unidades where ref=producto and venta="+str(self.num)+" and impuestos.id=impuesto and unidades.id=unidad group by ref")
 	fecha=self.escena.addText("",ffont)
-	fecha.setHtml(datetime.datetime.strptime(cliente['fecha'],'%Y-%m-%d %H:%M:%S').strftime(self.cfg.get("fecha", "formato")))
+	if isinstance(cliente['fecha'],datetime.datetime):
+	  fecha.setHtml(cliente['fecha'].strftime(self.cfg.get("fecha", "formato")))
+	else:
+	  fecha.setHtml(datetime.datetime.strptime(cliente['fecha'],'%Y-%m-%d %H:%M:%S').strftime(self.cfg.get("fecha", "formato")))
 	fecha.setPos(int(self.cfg.get("fecha", "x")),int(self.cfg.get("fecha", "y")))
 	fecha.setTextWidth(int(self.cfg.get("fecha", "ancho")))
 	#print "SELECT cantidad, `descripcion`,precio,total from productos,vendidos where ref=producto and venta="+str(self.num)+" group by ref"
@@ -77,7 +80,7 @@ class Factura:
 
 	  heads=heads.replace("{","").replace("}","") 
 	  tabla=self.escena.addText("",pfont)
-	  tabla.setHtml(listaHtml(filas,cabezas=campos,color='#fff',fondo="#FFF", tfuente=11,opc="100",css="th{color:#FFF} .celda{margin:10px;padding:5px;}",anchos=anchos,espacio=20))
+	  tabla.setHtml(listaHtml(filas,cabezas=campos,color='#fff',fondo="#FFF", tfuente=11,opc="101",css="th{color:#FFF} .celda{margin:10px;padding:5px;}",anchos=anchos))
 	  tabla.setPos(int(self.cfg.get("productos", "x")),int(self.cfg.get("productos", "y")))
 	  tabla.setTextWidth(int(self.cfg.get("productos", "ancho")))
 

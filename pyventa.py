@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys, os, datetime, base64, locale, md5
+from re import sub
 from lib.librerias.comun import *
 
 version=2.340
@@ -310,19 +311,19 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
       if self.aut(2)>0:
 	
 	  caja=self.cfg.get("pyventa", "caja")
-	  if caja>0:
-	    self.cursor.execute("SELECT maquina FROM cajas WHERE estado != {0} and num_caja={1} ;".format(self.hoy,caja))
-	    mac=self.cursor.fetchone()
-	    if mac!=None: #Si caja esta disponible
-		sql="UPDATE cajas SET estado={0}, maquina='{1}' where num_caja={2};".format(self.hoy,self.maquina,caja)
-		self.cursor.execute(sql)
-		self.caja=caja
-		self.setCaja()
-	  else:
-	    self.cursor.execute("SELECT maquina='{0}' FROM cajas WHERE  num_caja={1} ;".format(self.maquina,caja))
-	    mac=self.cursor.fetchone()
-	    if mac!=None and mac>0:
-	      self.caja=caja
+	  #if caja>0:
+	    #self.cursor.execute("SELECT maquina FROM cajas WHERE estado != {0} and num_caja={1} ;".format(self.hoy,caja))
+	    #mac=self.cursor.fetchone()
+	    #if mac!=None: #Si caja esta disponible
+		#sql="UPDATE cajas SET estado={0}, maquina='{1}' where num_caja={2};".format(self.hoy,self.maquina,caja)
+		#self.cursor.execute(sql)
+		#self.caja=caja
+		#self.setCaja()
+	  #else:
+	    #self.cursor.execute("SELECT maquina='{0}' FROM cajas WHERE  num_caja={1} ;".format(self.maquina,caja))
+	    #mac=self.cursor.fetchone()
+	    #if mac!=None and mac>0:
+	      #self.caja=caja
 
 	  
 	#print "caja",self.caja
@@ -803,13 +804,13 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	    self.cliente['nombre']=cliente['nombre']
 	    self.csCliente.setText(self.cliente['nombre'])
 	    self.nota=str(ide)
-	    self.curser.execute("SELECT ref,`descripcion`,precio,cantidad, V.total as total FROM notas as N, vendidos as V, productos as P where V.venta=N.id AND P.ref=V.producto AND  N.id=%s ;"%ide)
+	    self.curser.execute("SELECT ref,`descripcion`,precio,cantidad, V.total as total, unidades.nombre as unidad FROM notas as N, unidades, vendidos as V, productos as P where V.venta=N.id AND P.ref=V.producto AND unidades.id=unidad and N.id=%s ;"%ide)
 	    notas=self.curser.fetchall()
 	    if notas!=None:
 	      notas=dicursor(self.curser,notas)
 	      for nota in notas:
 		total=float(nota['cantidad'])*float(nota['precio'])
-		tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total']]
+		tmp=[nota['ref'],float(nota['cantidad']), str(nota['descripcion']),float(nota['precio']),total,nota['total'],[],[],nota['unidad']]
 		self.ingreso(tmp)
 	      self.logo.setText("Edicion de venta")
 	      return True
@@ -1127,26 +1128,61 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	campos['{importes}']=''
 	campos['{unidades}']=''
 	nl="<br/>"
+	filas=""
 	for item in self.basket:
-	  campos['{descripciones}']+="{0} {2}{nl}".format(nl=nl,*item)
-	  campos['{cantidades}']+="{0:.2f}{1}".format(item[1],nl)
-	  campos['{precios}']+="{0:.2f}{1}".format(item[3],nl)
-	  campos['{importes}']+="{0:.2f}{1}".format(item[4],nl)
-	  campos['{unidades}']+="{0}{1}".format(item[8],nl)
+	  filas+="""
+	  <table:table-row table:style-name="tabla.3">
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" >
+      <text:p text:style-name="P43">{0} {2}</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" >
+      <text:p text:style-name="P44">{1}</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" >
+      <text:p text:style-name="P44">{8}</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" >
+      <text:p text:style-name="P44">{3}</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.E3" office:value-type="string" >
+      <text:p text:style-name="P44">{4}</text:p>
+     </table:table-cell>
+    </table:table-row>\n
+    """.format(*item)
+
+	
 	campos['{total}']=str(gt[2])
 	campos['{fecha}']=str(self.fecha)  
 	campos['{cliente}']=self.cliente['nombre']
-	new="/tmp/presupuesto.html"
-	doc=open("perfil/formas/presupuesto.html","r")
+	new="/tmp/presupuesto.fodt"
+	doc=open("perfil/formas/presupuesto.fodt","r")
 	tmp=open(new,"w")
 	body=doc.read()
+	tabla="""<table:table-row table:style-name="tabla.3">
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" table:protected="true">
+      <text:p text:style-name="P43">Descripcion del producto</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" table:protected="true">
+      <text:p text:style-name="P44">000,000.00 </text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" table:protected="true">
+      <text:p text:style-name="P44">PIEZA</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.A3" office:value-type="string" table:protected="true">
+      <text:p text:style-name="P44">$000,000.00</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="tabla.E3" office:value-type="string" table:protected="true">
+      <text:p text:style-name="P44">$000,000.00</text:p>
+     </table:table-cell>
+    </table:table-row>"""
+	body=body.replace(tabla,filas)
 	for key,item in campos.iteritems():
 	  body=body.replace(key,item)
 	tmp.write(body)
 	doc.close()
 	tmp.close()	
 	if sys.platform == 'linux2':
-	  os.system("libreoffice '%s' "%new)
+	  os.system("gnome-open '%s' "%new)
 	else:
 	  os.startfile(new)
 	
@@ -1213,12 +1249,14 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	#doc.guardarPDF()
 
     def cerrarFactura(self):
-	#F=Factura(self, 14)
-	#F.imprimir()
-	self.modulos["cventa"].facturar()
-	#if (self.modulos["cventa"].checkCliente()):
-	    #self.facturar(self.modulos["cventa"].allocate(1,0))
-	    #self.limpiar()
+       self.banderas['tipo']='f'
+       self.modulos["cventa"].ver()
+	##F=Factura(self, 14)
+	##F.imprimir()
+	#self.modulos["cventa"].facturar()
+	##if (self.modulos["cventa"].checkCliente()):
+	    ##self.facturar(self.modulos["cventa"].allocate(1,0))
+	    ##self.limpiar()
 	    
     def facturar(self,id):
 	F=Factura(self, id)

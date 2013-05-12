@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/dialogos/ui_cobrador.ui'
 #
-# Created: Mon May  6 11:25:43 2013
+# Created: Sat May 11 15:46:29 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,6 +18,9 @@ class Ui_Cobrador(object):
     def setupUi(self, Cobrador):
         Cobrador.setObjectName(_fromUtf8("Cobrador"))
         Cobrador.resize(668, 334)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/coin.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Cobrador.setWindowIcon(icon)
         self.horizontalLayout = QtGui.QHBoxLayout(Cobrador)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setMargin(0)
@@ -149,14 +152,14 @@ class Ui_Cobrador(object):
         self.botonUnion.setStyleSheet(_fromUtf8("*{border-radius:8px;\n"
 "border: 1.2px solid #999;\n"
 "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));}\n"
-"QToolButton::hover{\n"
+"QToolButton::hover,QPushButton::hover{\n"
 "    background-color:rgba(133, 217, 255, 100);\n"
 "}\n"
-"QToolButton::pressed{\n"
+"QToolButton::pressed,QPushButton::pressed{\n"
 "    \n"
 "    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(239, 239, 239, 27), stop:1 rgba(68, 68, 68, 205));\n"
 "}\n"
-"QToolButton{padding:4px; background:transparent; border-radius:0;}\n"
+"QPushButton,QToolButton{padding:4px; background:transparent; border-radius:0;}\n"
 " \n"
 ""))
         self.botonUnion.setFrameShape(QtGui.QFrame.StyledPanel)
@@ -166,22 +169,22 @@ class Ui_Cobrador(object):
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setMargin(0)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
-        self.tbCerrar = QtGui.QToolButton(self.botonUnion)
+        self.pbCerrar = QtGui.QPushButton(self.botonUnion)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tbCerrar.sizePolicy().hasHeightForWidth())
-        self.tbCerrar.setSizePolicy(sizePolicy)
-        self.tbCerrar.setStyleSheet(_fromUtf8(" border:0px;border-radius:0;\n"
+        sizePolicy.setHeightForWidth(self.pbCerrar.sizePolicy().hasHeightForWidth())
+        self.pbCerrar.setSizePolicy(sizePolicy)
+        self.pbCerrar.setStyleSheet(_fromUtf8(" border:0px;border-radius:0;\n"
 ""))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/cancel.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tbCerrar.setIcon(icon)
-        self.tbCerrar.setIconSize(QtCore.QSize(18, 18))
-        self.tbCerrar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-        self.tbCerrar.setObjectName(_fromUtf8("tbCerrar"))
-        self.horizontalLayout_4.addWidget(self.tbCerrar)
-        self.tbCobrar = QtGui.QToolButton(self.botonUnion)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/cancel.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pbCerrar.setIcon(icon1)
+        self.pbCerrar.setIconSize(QtCore.QSize(18, 18))
+        self.pbCerrar.setAutoDefault(False)
+        self.pbCerrar.setObjectName(_fromUtf8("pbCerrar"))
+        self.horizontalLayout_4.addWidget(self.pbCerrar)
+        self.tbCobrar = QtGui.QPushButton(self.botonUnion)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -194,24 +197,24 @@ class Ui_Cobrador(object):
         self.tbCobrar.setStyleSheet(_fromUtf8(" border:0px;border-left:1px solid #999;  \n"
 "\n"
 ""))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/bill.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tbCobrar.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/bill.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.tbCobrar.setIcon(icon2)
         self.tbCobrar.setIconSize(QtCore.QSize(18, 18))
         self.tbCobrar.setCheckable(False)
         self.tbCobrar.setChecked(False)
-        self.tbCobrar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.tbCobrar.setDefault(True)
         self.tbCobrar.setObjectName(_fromUtf8("tbCobrar"))
         self.horizontalLayout_4.addWidget(self.tbCobrar)
         self.verticalLayout.addWidget(self.botonUnion)
         self.horizontalLayout.addWidget(self.frame)
 
         self.retranslateUi(Cobrador)
-        QtCore.QObject.connect(self.tbCerrar, QtCore.SIGNAL(_fromUtf8("clicked()")), Cobrador.reject)
+        QtCore.QObject.connect(self.pbCerrar, QtCore.SIGNAL(_fromUtf8("clicked()")), Cobrador.accept)
         QtCore.QMetaObject.connectSlotsByName(Cobrador)
         Cobrador.setTabOrder(self.leRecibo, self.tbCobrar)
-        Cobrador.setTabOrder(self.tbCobrar, self.tbCerrar)
-        Cobrador.setTabOrder(self.tbCerrar, self.tabla)
+        Cobrador.setTabOrder(self.tbCobrar, self.pbCerrar)
+        Cobrador.setTabOrder(self.pbCerrar, self.tabla)
         Cobrador.setTabOrder(self.tabla, self.dsbCambio)
         Cobrador.setTabOrder(self.dsbCambio, self.dsbTotal)
 
@@ -224,7 +227,7 @@ class Ui_Cobrador(object):
         self.dsbTotal.setPrefix(QtGui.QApplication.translate("Cobrador", " $ ", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("Cobrador", "Cambio:", None, QtGui.QApplication.UnicodeUTF8))
         self.dsbCambio.setPrefix(QtGui.QApplication.translate("Cobrador", " $ ", None, QtGui.QApplication.UnicodeUTF8))
-        self.tbCerrar.setText(QtGui.QApplication.translate("Cobrador", "Cerrar", None, QtGui.QApplication.UnicodeUTF8))
+        self.pbCerrar.setText(QtGui.QApplication.translate("Cobrador", "Cerrar", None, QtGui.QApplication.UnicodeUTF8))
         self.tbCobrar.setToolTip(QtGui.QApplication.translate("Cobrador", "Cobrar ventas", None, QtGui.QApplication.UnicodeUTF8))
         self.tbCobrar.setText(QtGui.QApplication.translate("Cobrador", "Cobrar", None, QtGui.QApplication.UnicodeUTF8))
 

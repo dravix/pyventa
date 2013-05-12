@@ -133,7 +133,7 @@ class Cobros(QtGui.QDialog, Ui_Form):
 	self.leNumero.setFocus(True)
 
     def actualizarNotas(self):
-      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=date(current_timestamp) ")
+      #self.cursor.execute("SELECT count(fecha) from ventas where fecha=CURDATE() ")
       #qry=self.cursor.fetchone()
       #if (qry[0]==0):
 	head=('Id','Cliente','time(fecha)','Total')
@@ -144,7 +144,7 @@ class Cobros(QtGui.QDialog, Ui_Form):
 	  tipo=''
 	else:
 	  tipo=" and tipo="+str(self.cbTipo.currentIndex()-1)
-	sql="select "+col+"  from notas where date(fecha)=date(current_timestamp)  "+str(tipo)+" and status=0 order by id; "
+	sql="select "+col+"  from notas where date(fecha)=CURDATE()  "+str(tipo)+" and status=0 order by id; "
 	self.parent.tabular(self.twNotas,sql,head) 
 
     def cuentasPendientes(self):

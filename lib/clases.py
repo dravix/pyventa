@@ -1,66 +1,7 @@
 from PyQt4 import QtCore, QtGui#,  Qt
-from ui.ui_agregar_gasto import Ui_Form as Ui_Gasto
 import MySQLdb as My, os, sys
 import lib.libutil,tarfile,datetime, csv 
-from lib.modelos.gasto import Gasto 
-from lib.modelos.compra import Compra 
-from lib.modelos.venta import Venta 
-from lib.modelos.caja import Caja 
-class Gasto:
-    def __init__(self, parent):
-      self.parent=parent
-      self.cursor=self.parent.cursor
-    
-    def agregar(self):
-	usuario=self.parent.aut(2)
-	if int(usuario)>0:
-	    nuevo=NuevoGasto(self.parent,usuario)
-	    if nuevo.exec_()>0:
-	      return True 
-	    else:
-	      False
-	else:
-	  False
-	      
-    def eliminar(self,ide):
-      if ide>0:
-	try:
-	  self.cursor.execute("DELETE FROM gastos where num_gasto=%s;"%ide)
-	except:
-	  return False
-	else:
-	  self.parent.conexion.commit()
-	  return True
-	  
-class NuevoGasto(QtGui.QDialog, Ui_Gasto):
-    def __init__(self, parent,usuario):
-    		QtGui.QDialog.__init__(self)
-		self.parent=parent
-		self.usuario=usuario
-		self.caja=self.parent.caja
-		self.cursor=self.parent.cursor
-		self.setupUi(self)
-        	#self.connect(self.leClave, SIGNAL("returnPressed()"), self.autentificar)
-        	self.connect(self.tbDone, QtCore.SIGNAL("clicked()"), self.agregar)
-        	self.connect(self.tbCancelar, QtCore.SIGNAL("clicked()"), lambda:self.done(-1))
-        	self.leConcepto.setFocus()
 
-		if self.caja<1:
-		  #print self.caja
-		  self.lbinfo.setText('<h3 style="color:#C00">Este punto de venta no es Caja.</h3> \nLos gastos deben ser manejados desde una caja')
-		  self.dsbCantidad.setEnabled(False)
-		  self.leConcepto.setEnabled(False)
-
-    def agregar(self):
-      if self.caja>1:
-	try:
-	  self.cursor.execute("""INSERT INTO gastos VALUES(NULL,%s,%s,NOW(),%s,%s) """%(self.usuario,self.caja,self.leConcepto.text(),self.dsbCantidad.value()))
-	except:
-	  self.info.setText('Ha ocurrido un error, verifique los datos e intente mas tarde')
-	else:
-	    self.done(1)
-      else:
-	self.lbinfo.setText('Este punto de venta no es Caja. \nLos gastos deben ser manejados desde una caja')
 
 class Mantenimiento:
   def __init__(self):

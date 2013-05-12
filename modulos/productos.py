@@ -228,7 +228,7 @@ class Productos:
     def extraInfo(self,ref):
 	html='<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:12pt; font-weight:600; color:#002d42;">%s</span></p><table width="100%%" style=" font-weight:600; color:#002d42;"><tr><td>Apartir de</td>  <td>Desc.</td></tr><tr style="color:#f00;text-align:right"><td>%s</td> <td >%s%%</td></tr><tr><td>Precio</td>  <td>Subtotal</td></tr><tr><td>$ %s</td> <td>$ %s</td></tr></table><br/>'
 	
-	sql="SELECT P.nombre,minimo,descuento,precio-(precio*descuento*0.01), (precio-(precio*descuento*0.01))*minimo FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND date(current_timestamp) BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
+	sql="SELECT P.nombre,minimo,descuento,precio-(precio*descuento*0.01), (precio-(precio*descuento*0.01))*minimo FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
 	#self.cursor.execute()
 	self.parent.entabla(self.parent.tvpPrecios,['Promocion','Apartir de','%','P.Unitario','P.Total'],sql)
 	#ofertas=self.cursor.fetchall()

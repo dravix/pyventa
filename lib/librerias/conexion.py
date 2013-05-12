@@ -55,6 +55,7 @@ class Conexion:
 	  self.db.create_function("NOW", 0, ahora)
 	  self.db.create_function("CURDATE", 0, hoy)
 	  self.db.create_function("DATE_FORMAT", 2, dateformat)
+	  self.db.create_function("ELT", -1, elt)
 	  self.cursor=self.db.cursor()
 	  self.curser=self.db.cursor()
 	  self.stat=True
@@ -85,7 +86,8 @@ class Conexion:
       if self.cfg.getDato('pyventa','motor')=="sqlite3":
 	self.db.commit()
       else:
-	self.cursor.execute("COMMIT")
+	pass
+	#self.cursor.execute("COMMIT")
 	
     def ultimo(self):
       if self.cfg.getDato('pyventa','motor')=="sqlite3":	
@@ -98,7 +100,8 @@ class Conexion:
       if self.cfg.getDato('pyventa','motor')=="sqlite3":
 	self.db.rollback() 
       else:
-	self.cursor.execute("ROLLBACK")
+	pass
+	#self.cursor.execute("ROLLBACK")
 
     def close(self):
       
@@ -150,6 +153,13 @@ def ahora():
 def hoy():
   return datetime.now().strftime("%Y-%m-%d")
 
+def elt(n,*args):
+  #tupla=tupla.replace('(','').replace(')','').split(',')
+  n-=1
+  if n<=len(args):
+    return args[n]
+  else:
+    return ''
 
 def dateformat(fecha,formato):
   return datetime.strptime(fecha,"%Y-%m-%d %H:%M:%S").strftime(formato)

@@ -16,7 +16,7 @@ from ui.dl_resumen_venta import Ui_Dialog as Ui_Resumen
 from ui.ui_resumen import Ui_Form as Ui_RVenta
 from lib.nletras import *
 import _mysql, locale
-from ui.ui_apertura_caja import Ui_Dialog as Apertura
+from ui.ui_agregar_deposito import Ui_Dialog as Apertura
 from subprocess import call
 from lib.librerias.conexion import dicursor
 
