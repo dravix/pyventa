@@ -314,7 +314,7 @@ class Respaldo:
 	  respaldo=os.path.join(home,"respaldo.sql")
 	  if os.path.exists(respaldo):
 	    try:
-		retcode = call("mysql -u{0} -h{1} -p{2} {3} < {4}".format(user,host,password,data,respaldo), shell=True)
+		retcode = call("cat {4} | mysql -u{0} -h{1} -p{2} {3} ".format(user,host,password,data,respaldo), shell=True)
 		if retcode < 0:
 		    print >>sys.stderr, "Child was terminated by signal", -retcode
 		    return False
@@ -456,7 +456,7 @@ class VisorNotas(QtGui.QDialog, Ui_Resumen):
 		    head=['ref','Descripcion','Cantidad','Precio','Total']
 		    col=','.join(head).lower()
 		    sql="select "+col+" from productos,vendidos where ref=producto and venta="+str(ide)
-		    self.parent.tabular(self.twProductos,sql,head)
+		    tabular(self.twProductos,sql,head)
 		    self.nota=nota
 		  else:
 		    self.lbResumen.setText("No se encontro la nota")

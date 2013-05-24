@@ -1,5 +1,6 @@
 import os,sys
 from time import time
+from datetime import timedelta
 from PyQt4 import QtCore, QtGui#,  Qt
 from PyQt4.QtGui import QPrinter,QPrintDialog, QDialog
 from PyQt4.QtCore import Qt, QAbstractTableModel, QVariant
@@ -28,7 +29,7 @@ def odic(adict): ##Ordena los indices de un diccionacio
     return map(adict.get, keys)
 
 def cifra(num):	
-    locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+    #locale.setlocale(locale.LC_ALL, 'en_US.utf8')
     dato=num
     if (str(num)[0].isdigit() or str(num)[0]=='-' or str(num)[0]=='$' or str(num)[0]=='#') and str(num)[-1].isdigit() and len(str(num))<10:
     #cuando detecte que es un numero 
@@ -70,7 +71,9 @@ def seleccionar(tabla,modelo,col=0): #regresa las referencias seleccionadas
 	refs.append(str(modelo.getCell(li,col)))      
   return list(set(refs))
 
-def seleccionarFilas(tabla,modelo): #regresa las filas seleccionadas 
+def seleccionarFilas(tabla,modelo=False): #regresa las filas seleccionadas 
+  if not modelo:
+    modelo=tabla.model()
   refs=[]
   lista=tabla.selectedIndexes()
   lastrow=-1
@@ -139,9 +142,10 @@ def setComboModelKey(combo, key): #Establece el combo en el valor de la llave
   
   
 def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=11,opc="110",css="", anchos=False,width="100%"): #opc(titulo:true,cabezas:true,odd:false)
+  """Recibe una lista y la devuelve una tabla creada en html"""
   #ide=str(int(time()))
   ide='tabla'
-  locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+  #locale.setlocale(locale.LC_ALL, 'en_US.utf8')
   if opc[2]=='0':
     css+=".odd{background:#efefef}"
   html="""<style> table {{border-collapse:collapse;}}
@@ -203,7 +207,7 @@ table.{ide} {{border-style:solid; font-size:{fuente}px;}}
 
 def listaHtml1(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css="",anchos=False,espacio=0): #opc(titulo:true,cabezas:true,enumerado:false)
   ide=titulo.lower().replace(' ','')
-  locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+  #locale.setlocale(locale.LC_ALL, 'en_US.utf8')
   html="""<style type="text/css">
 table{border-collapse:collapse;}
 .%s .odd{background:#efefef}
@@ -302,19 +306,35 @@ def toCsv(tabla,parent):
     for row in tabla:
       hoja.writerow(row)
 
-def toXls(lista,namepath):
+def toxls(lista,namepath,cabezas=False, titulo=False):
   # Ejemplo de creacion de hoja Excel
+  if not titulo: titulo="Hoja"
   import xlwt
   from datetime import datetime
-  style0 = xlwt.easyxf('font: name Sans, colour red, bold on')
+  sheads = xlwt.easyxf('pattern: pattern solid, fore_colour 30;font: name Sans, colour white, bold on')
+  scells = xlwt.easyxf('font: name Sans, colour black')
   style1 = xlwt.easyxf('',num_format_str='DD-MMM-YY')
   wb = xlwt.Workbook()
-  ws = wb.add_sheet('A Test Sheet',cell_overwrite_ok=True)
-  ws.write(0, 0, 'Test', style0)
-  ws.write(1, 0, datetime.now(), style1)
-  ws.write(2, 0, 4)
-  ws.write(2, 1, 1)
-  ws.write(2, 2, xlwt.Formula("A3+B3"))
+  if titulo:
+    ws = wb.add_sheet("Hoja 1",cell_overwrite_ok=True)
+    ws.write_merge(0,0,0,len(lista[0])-1,titulo,sheads)
+  else:
+    ws = wb.add_sheet("Hoja 1",cell_overwrite_ok=True)
+  if cabezas:
+    anchos=[]
+    for i,cabeza in enumerate(cabezas):
+      ws.write(1,i,cabeza,sheads)
+      anchos.append(len(str(cabeza)))
+  else:
+    anchos=[0]*len(lista[0])
+  for i,row in enumerate(lista):
+    for j,column in enumerate(row):
+	if isinstance(column,timedelta):
+	  column=str(column)
+        ws.write(i+2,j,column,scells)
+        anchos[j]=max(anchos[j],len(str(column)))
+        ws.col(j).width=256 * (anchos[j]+2)
+  #print anchos
   wb.save(namepath)
 
 def llenarPlantilla(self,ruta=False,campos=False):

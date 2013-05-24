@@ -12,4 +12,4 @@ class Unidades(Admin1):
       self.ui.connect(self.ui.verUnidades, QtCore.SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tUnidades, QtCore.SIGNAL("clicked()"), self.iniciar)
       #self.ui.tbrProductos.addAction(self.ui.verUnidades)
-      self.anclar(attached)
+      self.anclar(not attached)

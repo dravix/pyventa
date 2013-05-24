@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/ui_pyventa.ui'
 #
-# Created: Sun May  5 08:28:08 2013
+# Created: Mon May 13 19:35:04 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Principal(object):
     def setupUi(self, Principal):
         Principal.setObjectName(_fromUtf8("Principal"))
-        Principal.resize(938, 619)
+        Principal.resize(938, 612)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/modulos/images/pyventa.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Principal.setWindowIcon(icon)
@@ -134,7 +134,7 @@ class Ui_Principal(object):
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/modulos/images/png/elegant/ventas.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bventa.setIcon(icon1)
-        self.bventa.setIconSize(QtCore.QSize(32, 32))
+        self.bventa.setIconSize(QtCore.QSize(36, 36))
         self.bventa.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.bventa.setAutoRaise(True)
         self.bventa.setObjectName(_fromUtf8("bventa"))
@@ -787,8 +787,15 @@ class Ui_Principal(object):
         self.actionSwap.setObjectName(_fromUtf8("actionSwap"))
         self.action = QtGui.QAction(Principal)
         self.action.setObjectName(_fromUtf8("action"))
+        self.actionAbrir_venta_extemporanea = QtGui.QAction(Principal)
+        self.actionAbrir_venta_extemporanea.setIcon(icon5)
+        self.actionAbrir_venta_extemporanea.setObjectName(_fromUtf8("actionAbrir_venta_extemporanea"))
+        self.actionReimprimir_archivada = QtGui.QAction(Principal)
+        self.actionReimprimir_archivada.setIcon(icon10)
+        self.actionReimprimir_archivada.setObjectName(_fromUtf8("actionReimprimir_archivada"))
         self.menuArchivo.addAction(self.actionOpen)
         self.menuArchivo.addAction(self.aAbrir)
+        self.menuArchivo.addAction(self.actionAbrir_venta_extemporanea)
         self.menuArchivo.addAction(self.actionAbrir_compra)
         self.menuArchivo.addSeparator()
         self.menuArchivo.addAction(self.aGuardar)
@@ -802,6 +809,7 @@ class Ui_Principal(object):
         self.menuArchivo.addSeparator()
         self.menuArchivo.addAction(self.actionImprimir)
         self.menuArchivo.addAction(self.actionReimprimir)
+        self.menuArchivo.addAction(self.actionReimprimir_archivada)
         self.menuArchivo.addAction(self.actionPresupuesto)
         self.menuArchivo.addSeparator()
         self.menuModulos.addAction(self.actionPunto_de_venta)
@@ -979,5 +987,7 @@ class Ui_Principal(object):
         self.actionNueva_compra.setShortcut(QtGui.QApplication.translate("Principal", "Ctrl+Shift+N", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSwap.setText(QtGui.QApplication.translate("Principal", "Intecambiar productos", None, QtGui.QApplication.UnicodeUTF8))
         self.action.setText(QtGui.QApplication.translate("Principal", "Respaldos", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbrir_venta_extemporanea.setText(QtGui.QApplication.translate("Principal", "Abrir venta archivada", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionReimprimir_archivada.setText(QtGui.QApplication.translate("Principal", "Reimprimir archivada", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc

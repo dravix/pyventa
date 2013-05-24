@@ -54,7 +54,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Cuentas pendientes</string>
+         <string>Caja</string>
         </property>
         <property name="margin">
          <number>5</number>
@@ -79,36 +79,26 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton, QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;
+}
+QPushButton::pressed,QToolButton::pressed{
+color:#fff;
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+
+}</string>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Cuentas por cobrar</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="1" column="1">
-             <widget class="QToolButton" name="bScliente">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>Selecciona un cliente para mostrar el historial de 
-ventas en credito de ese cliente en particular.</string>
-              </property>
-              <property name="text">
-               <string>Seleccione cliente</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../icons.qrc">
-                <normaloff>:/actions/images/actions/color_18/user_woman.png</normaloff>:/actions/images/actions/color_18/user_woman.png</iconset>
-              </property>
-              <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonTextBesideIcon</enum>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_2">
               <property name="text">
@@ -165,11 +155,6 @@ ventas en credito de ese cliente en particular.</string>
                 <string>Facturas</string>
                </property>
               </item>
-              <item>
-               <property name="text">
-                <string>Compras</string>
-               </property>
-              </item>
              </widget>
             </item>
             <item row="1" column="0">
@@ -186,14 +171,27 @@ ventas en credito de ese cliente en particular.</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QToolButton" name="toolButton">
+            <item row="1" column="1">
+             <widget class="QToolButton" name="tbScliente">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Selecciona un cliente para mostrar el historial de 
+ventas en credito de ese cliente en particular.</string>
+              </property>
               <property name="text">
-               <string>Todos los clientes</string>
+               <string>Seleccione cliente</string>
               </property>
               <property name="icon">
                <iconset resource="../../icons.qrc">
-                <normaloff>:/actions/images/actions/color_18/group.png</normaloff>:/actions/images/actions/color_18/group.png</iconset>
+                <normaloff>:/actions/images/actions/color_18/user_woman.png</normaloff>:/actions/images/actions/color_18/user_woman.png</iconset>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
               </property>
              </widget>
             </item>
@@ -201,23 +199,6 @@ ventas en credito de ese cliente en particular.</string>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QPushButton" name="pbLimpiar">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Limpiar</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../icons.qrc">
-                <normaloff>:/actions/images/actions/black_18/cancel.png</normaloff>:/actions/images/actions/black_18/cancel.png</iconset>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QToolButton" name="ncactualizar">
               <property name="font">
@@ -249,41 +230,148 @@ background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgb
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="nctotal">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Total:</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="margin">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="teResultados">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Registro de entradas</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="tbDepositar">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Deposito</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons.qrc">
+                 <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="tbInicial">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Efectivo inicial</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons.qrc">
+                 <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string>Registro de salidas</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QToolButton" name="tbRetirar">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Retiro</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons.qrc">
+                 <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="tbGastar">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Gasto</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../icons.qrc">
+                 <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -329,6 +417,17 @@ background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgb
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leNumero</tabstop>
+  <tabstop>tbScliente</tabstop>
+  <tabstop>cbTipo</tabstop>
+  <tabstop>ncactualizar</tabstop>
+  <tabstop>tbDepositar</tabstop>
+  <tabstop>tbInicial</tabstop>
+  <tabstop>tbRetirar</tabstop>
+  <tabstop>tbGastar</tabstop>
+  <tabstop>tvCuentas</tabstop>
+ </tabstops>
  <resources>
   <include location="../../icons.qrc"/>
  </resources>

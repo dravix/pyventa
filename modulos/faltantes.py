@@ -4,6 +4,8 @@ from PyQt4.QtGui import *
 import MySQLdb as my
 from lib import libutil
 from lib.dialogos.marca_faltante import Faltante
+from lib.selector import Selector
+
 class Faltantes:
     def __init__(self,parent):
       self.ui=parent
@@ -20,6 +22,7 @@ class Faltantes:
       self.ui.connect(self.ui.tbFLista,SIGNAL("clicked()"), self.verOrdenCompra)
       self.ui.connect(self.ui.deFFecha, SIGNAL("dateChanged ( const QDate)"), self.listar)
 
+      self.ui.connect(self.ui.tbfAgregarProducto,SIGNAL("clicked()"), self.agregarProducto)
       self.ui.connect(self.ui.tbFaltantes,SIGNAL("clicked()"), lambda:self.ui.stackFaltantes.setCurrentIndex(0))
       self.ui.connect(self.ui.tvFaltantes,SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm)
      
@@ -30,6 +33,17 @@ class Faltantes:
       self.ui.stack.setCurrentIndex(4)
       self.ui.stackFaltantes.setCurrentIndex(0)
       self.listar()	
+      
+    def agregarProducto(self):
+      app=Selector(self.ui,"Producto",'productos','ref,descripcion,precio',"Ref,Descripcion, Precio ","descripcion like '%{0}%' order by descripcion ")
+      done=app.exec_()
+      if done==1:
+	refs=app.retorno
+	prods=[ref[0] for ref in refs]
+	lis=Faltante(self.ui,prods,self.ui.usuario['id_usuario'])	
+	if lis.exec_()>0:
+	  self.listar()
+	
       
     def listar(self):
 	fecha=str(self.ui.deFFecha.date().toString('yyyy-MM-dd'))

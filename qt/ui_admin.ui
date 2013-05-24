@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>810</width>
-    <height>640</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,8 +47,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>808</width>
-         <height>611</height>
+         <width>793</width>
+         <height>617</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -95,6 +95,30 @@
              </property>
              <item>
               <widget class="QScrollArea" name="menu">
+               <property name="styleSheet">
+                <string notr="true">.QToolButton{
+	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0 rgba(3, 120, 158, 255), stop:0.507177 rgba(0, 111, 150, 255), stop:0.516746 rgba(9, 125, 159, 255), stop:1 rgba(10, 135, 173, 255));border:0px;
+border-bottom:1px solid rgb(33, 178, 221);color:#fff;
+}
+.QToolButton::pressed{	background-color: rgb(3, 120, 158)}
+.QToolButton::hover{
+	background-color: rgb(18, 166, 199);
+
+}
+.QScrollArea{
+	background-color: rgb(131, 131, 131);
+
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
@@ -137,12 +161,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/productos.png</normaloff>:/modulos/images/png/elegant/productos.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/access_point.png</normaloff>:/actions/images/actions/white_18/access_point.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -176,12 +200,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/inventarios.png</normaloff>:/modulos/images/png/elegant/inventarios.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/abacus.png</normaloff>:/actions/images/actions/white_18/abacus.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -215,12 +239,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/ofertas.png</normaloff>:/modulos/images/png/elegant/ofertas.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/bell.png</normaloff>:/actions/images/actions/white_18/bell.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -254,12 +278,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/compras.png</normaloff>:/modulos/images/png/elegant/compras.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/shopping_basket.png</normaloff>:/actions/images/actions/white_18/shopping_basket.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -293,12 +317,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/usuarios.png</normaloff>:/modulos/images/png/elegant/usuarios.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/group.png</normaloff>:/actions/images/actions/white_18/group.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -332,12 +356,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/clientes.png</normaloff>:/modulos/images/png/elegant/clientes.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/user_woman.png</normaloff>:/actions/images/actions/white_18/user_woman.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -371,12 +395,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/proveedores.png</normaloff>:/modulos/images/png/elegant/proveedores.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/diary.png</normaloff>:/actions/images/actions/white_18/diary.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -410,12 +434,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/faltantes.png</normaloff>:/modulos/images/png/elegant/faltantes.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/battery_empty.png</normaloff>:/actions/images/actions/white_18/battery_empty.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -429,7 +453,7 @@
                  <item>
                   <widget class="QToolButton" name="tCajas">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -449,12 +473,12 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/modulos/images/png/elegant/catalogos.png</normaloff>:/modulos/images/png/elegant/catalogos.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/window.png</normaloff>:/actions/images/actions/white_18/window.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>32</width>
-                     <height>32</height>
+                     <width>18</width>
+                     <height>18</height>
                     </size>
                    </property>
                    <property name="toolButtonStyle">
@@ -466,16 +490,9 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QToolButton" name="tImpuestos">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -495,7 +512,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/actions/images/actions/color_18/money_bag.png</normaloff>:/actions/images/actions/color_18/money_bag.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/money_bag.png</normaloff>:/actions/images/actions/white_18/money_bag.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -514,7 +531,7 @@
                  <item>
                   <widget class="QToolButton" name="tDepartamentos">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -534,7 +551,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/actions/images/actions/color_18/pyramid.png</normaloff>:/actions/images/actions/color_18/pyramid.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/pyramid.png</normaloff>:/actions/images/actions/white_18/pyramid.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -553,7 +570,7 @@
                  <item>
                   <widget class="QToolButton" name="tFamilias">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -573,7 +590,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/actions/images/actions/color_18/card_spades.png</normaloff>:/actions/images/actions/color_18/card_spades.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/card_spades.png</normaloff>:/actions/images/actions/white_18/card_spades.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -592,7 +609,7 @@
                  <item>
                   <widget class="QToolButton" name="tUnidades">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -612,7 +629,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/actions/images/actions/color_18/ruler_square.png</normaloff>:/actions/images/actions/color_18/ruler_square.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/ruler_square.png</normaloff>:/actions/images/actions/white_18/ruler_square.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -631,7 +648,7 @@
                  <item>
                   <widget class="QToolButton" name="tConexiones">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -646,13 +663,50 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../2.3/icons.qrc">
-                     <normaloff>:/actions/images/actions/color_18/connect.png</normaloff>:/actions/images/actions/color_18/connect.png</iconset>
+                     <normaloff>:/actions/images/actions/white_18/connect.png</normaloff>:/actions/images/actions/white_18/connect.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>18</width>
+                     <height>18</height>
+                    </size>
                    </property>
                    <property name="toolButtonStyle">
                     <enum>Qt::ToolButtonTextBesideIcon</enum>
                    </property>
                    <property name="autoRaise">
                     <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="tbConfiguraciones">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Configuraciones</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../2.3/icons.qrc">
+                     <normaloff>:/actions/images/actions/white_18/gear.png</normaloff>:/actions/images/actions/white_18/gear.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>18</width>
+                     <height>18</height>
+                    </size>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
                    </property>
                   </widget>
                  </item>
@@ -669,7 +723,7 @@
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>6</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1071,6 +1125,9 @@ Descuentos</string>
                  </property>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <property name="leftMargin">
+                    <number>5</number>
+                   </property>
                    <property name="topMargin">
                     <number>0</number>
                    </property>
@@ -1124,7 +1181,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                         </property>
                         <property name="icon">
                          <iconset resource="../../2.3/icons.qrc">
-                          <normaloff>:/modulos/images/png/mini/productos.png</normaloff>:/modulos/images/png/mini/productos.png</iconset>
+                          <normaloff>:/actions/images/actions/color_18/barcode.png</normaloff>:/actions/images/actions/color_18/barcode.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -1343,7 +1400,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                       </size>
                      </property>
                      <property name="shortcut">
-                      <string>Ctrl+Backspace</string>
+                      <string>Ctrl+Del</string>
                      </property>
                      <property name="toolButtonStyle">
                       <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -2116,7 +2173,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                              </sizepolicy>
                             </property>
                             <property name="title">
-                             <string>Productos dentro de este producto</string>
+                             <string>Este producto es un empaque o servicio</string>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -2126,58 +2183,115 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                             </property>
                             <layout class="QVBoxLayout" name="verticalLayout_39">
                              <item>
-                              <layout class="QHBoxLayout" name="horizontalLayout_30">
-                               <item>
-                                <widget class="QLabel" name="label_78">
-                                 <property name="text">
-                                  <string>Cantidad</string>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
+                              <widget class="QLabel" name="label_21">
+                               <property name="font">
+                                <font>
+                                 <pointsize>10</pointsize>
+                                </font>
+                               </property>
+                               <property name="text">
+                                <string>En caso de ser un empaque o kit defina que y cuantos productos  lo componen.</string>
+                               </property>
+                               <property name="wordWrap">
+                                <bool>true</bool>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <layout class="QGridLayout" name="gridLayout_7">
+                               <item row="1" column="3">
                                 <widget class="QDoubleSpinBox" name="leNum">
-                                 <property name="alignment">
-                                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                                 </property>
-                                 <property name="buttonSymbols">
-                                  <enum>QAbstractSpinBox::NoButtons</enum>
-                                 </property>
-                                 <property name="maximum">
-                                  <double>9999.989999999999782</double>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QLabel" name="label_79">
-                                 <property name="text">
-                                  <string>Producto</string>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QLineEdit" name="leProd">
                                  <property name="sizePolicy">
                                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                    <horstretch>0</horstretch>
                                    <verstretch>0</verstretch>
                                   </sizepolicy>
                                  </property>
+                                 <property name="alignment">
+                                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                                 </property>
+                                 <property name="buttonSymbols">
+                                  <enum>QAbstractSpinBox::NoButtons</enum>
+                                 </property>
+                                 <property name="decimals">
+                                  <number>4</number>
+                                 </property>
+                                 <property name="maximum">
+                                  <double>9999.000000000000000</double>
+                                 </property>
                                 </widget>
                                </item>
-                               <item>
-                                <spacer name="horizontalSpacer_13">
-                                 <property name="orientation">
-                                  <enum>Qt::Horizontal</enum>
+                               <item row="1" column="2">
+                                <widget class="QLineEdit" name="leProd">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
                                  </property>
-                                 <property name="sizeHint" stdset="0">
-                                  <size>
-                                   <width>40</width>
-                                   <height>20</height>
-                                  </size>
+                                </widget>
+                               </item>
+                               <item row="0" column="2">
+                                <widget class="QLabel" name="label_79">
+                                 <property name="text">
+                                  <string>Producto</string>
                                  </property>
-                                </spacer>
+                                </widget>
+                               </item>
+                               <item row="1" column="4">
+                                <widget class="QPushButton" name="pbpAgregar">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <property name="font">
+                                  <font>
+                                   <family>Droid Sans</family>
+                                   <pointsize>10</pointsize>
+                                  </font>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">QToolButton, QAbstractButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;
+}
+QAbstractButton::pressed{
+color:#fff;
+	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+
+}</string>
+                                 </property>
+                                 <property name="text">
+                                  <string>Agregar</string>
+                                 </property>
+                                </widget>
+                               </item>
+                               <item row="0" column="3">
+                                <widget class="QLabel" name="label_78">
+                                 <property name="text">
+                                  <string>Cantidad</string>
+                                 </property>
+                                </widget>
                                </item>
                               </layout>
+                             </item>
+                             <item>
+                              <widget class="QTableView" name="tvSubproductos">
+                               <property name="editTriggers">
+                                <set>QAbstractItemView::NoEditTriggers</set>
+                               </property>
+                               <property name="alternatingRowColors">
+                                <bool>true</bool>
+                               </property>
+                               <property name="selectionBehavior">
+                                <enum>QAbstractItemView::SelectRows</enum>
+                               </property>
+                               <attribute name="verticalHeaderVisible">
+                                <bool>false</bool>
+                               </attribute>
+                              </widget>
                              </item>
                              <item>
                               <spacer name="verticalSpacer_2">
@@ -2199,7 +2313,23 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTableView" name="tvpPrecios"/>
+                        <widget class="QTableView" name="tvpPrecios">
+                         <property name="editTriggers">
+                          <set>QAbstractItemView::NoEditTriggers</set>
+                         </property>
+                         <property name="alternatingRowColors">
+                          <bool>true</bool>
+                         </property>
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::MultiSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                         <attribute name="verticalHeaderVisible">
+                          <bool>false</bool>
+                         </attribute>
+                        </widget>
                        </item>
                       </layout>
                      </item>
@@ -2492,7 +2622,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
               <item>
                <widget class="QStackedWidget" name="stkVentas">
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="page_18">
                  <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -2760,7 +2890,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                            </property>
                            <property name="icon">
                             <iconset resource="../../2.3/icons.qrc">
-                             <normaloff>:/modulos/images/png/mini/faltantes.png</normaloff>:/modulos/images/png/mini/faltantes.png</iconset>
+                             <normaloff>:/actions/images/actions/color_18/battery_empty.png</normaloff>:/actions/images/actions/color_18/battery_empty.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -2905,7 +3035,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="tbMas">
+                       <widget class="QToolButton" name="tbfAgregarProducto">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                           <horstretch>0</horstretch>
@@ -3865,7 +3995,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                         </property>
                         <property name="icon">
                          <iconset resource="../../2.3/icons.qrc">
-                          <normaloff>:/modulos/images/png/inventario-out.png</normaloff>:/modulos/images/png/inventario-out.png</iconset>
+                          <normaloff>:/actions/images/actions/color_18/abacus.png</normaloff>:/actions/images/actions/color_18/abacus.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -4065,25 +4195,6 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                     </widget>
                    </item>
                    <item>
-                    <widget class="QToolButton" name="tbpEliminar_5">
-                     <property name="font">
-                      <font>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Eliminar</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../../2.3/icons.qrc">
-                       <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
-                     </property>
-                     <property name="toolButtonStyle">
-                      <enum>Qt::ToolButtonTextBesideIcon</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QToolButton" name="pbiVerInc">
                      <property name="font">
                       <font>
@@ -4187,32 +4298,36 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QTableView" name="tblInventario">
-                    <property name="frameShape">
-                     <enum>QFrame::NoFrame</enum>
-                    </property>
-                    <property name="editTriggers">
-                     <set>QAbstractItemView::NoEditTriggers</set>
-                    </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
-                    </property>
-                    <property name="selectionBehavior">
-                     <enum>QAbstractItemView::SelectRows</enum>
-                    </property>
-                    <property name="gridStyle">
-                     <enum>Qt::DotLine</enum>
-                    </property>
-                    <property name="sortingEnabled">
-                     <bool>true</bool>
-                    </property>
-                    <attribute name="verticalHeaderVisible">
-                     <bool>false</bool>
-                    </attribute>
-                    <attribute name="verticalHeaderCascadingSectionResizes">
-                     <bool>true</bool>
-                    </attribute>
-                   </widget>
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <widget class="QTableView" name="tblInventario">
+                      <property name="frameShape">
+                       <enum>QFrame::NoFrame</enum>
+                      </property>
+                      <property name="editTriggers">
+                       <set>QAbstractItemView::NoEditTriggers</set>
+                      </property>
+                      <property name="alternatingRowColors">
+                       <bool>true</bool>
+                      </property>
+                      <property name="selectionBehavior">
+                       <enum>QAbstractItemView::SelectRows</enum>
+                      </property>
+                      <property name="gridStyle">
+                       <enum>Qt::DotLine</enum>
+                      </property>
+                      <property name="sortingEnabled">
+                       <bool>true</bool>
+                      </property>
+                      <attribute name="verticalHeaderVisible">
+                       <bool>false</bool>
+                      </attribute>
+                      <attribute name="verticalHeaderCascadingSectionResizes">
+                       <bool>true</bool>
+                      </attribute>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -4233,14 +4348,14 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
 &lt;td bgcolor=&quot;#eeeeee&quot;&gt;
-&lt;p style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;Resumen de inventario&lt;/span&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;$empresa&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;p style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;Resumen de inventario&lt;/span&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;$empresa&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td bgcolor=&quot;#eeeeee&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;Fecha:  $fecha&lt;br /&gt;Departamentos:  $deps&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;Fecha:  $fecha&lt;br /&gt;Departamentos:  $deps&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;hr /&gt;
 &lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
 &lt;tr&gt;
@@ -4248,24 +4363,24 @@ p, li { white-space: pre-wrap; }
 &lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;Total de articulos contabilizados: &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;Total de articulos contabilizados: &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;$nacontados&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;$nacontados&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;Valor del inventario (costo): &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;Valor del inventario (costo): &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;$invalor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;$invalor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;Articulos con inconsistencias: &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;Articulos con inconsistencias: &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;$naicon&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;$naicon&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt;&quot;&gt;Balance de inconsistencias (costo): &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans';&quot;&gt;Balance de inconsistencias (costo): &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:10pt; font-weight:600;&quot;&gt;$baincon&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;$baincon&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </widget>
                   </item>
@@ -4751,7 +4866,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                         </property>
                         <property name="icon">
                          <iconset resource="../../2.3/icons.qrc">
-                          <normaloff>:/modulos/images/png/mini/compras.png</normaloff>:/modulos/images/png/mini/compras.png</iconset>
+                          <normaloff>:/actions/images/actions/color_18/shopping_basket.png</normaloff>:/actions/images/actions/color_18/shopping_basket.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -5087,7 +5202,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
               <item>
                <widget class="QStackedWidget" name="stkCompras">
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_14">
                  <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -5756,7 +5871,7 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                         </property>
                         <property name="icon">
                          <iconset resource="../../2.3/icons.qrc">
-                          <normaloff>:/modulos/images/png/mini/ofertas.png</normaloff>:/modulos/images/png/mini/ofertas.png</iconset>
+                          <normaloff>:/actions/images/actions/color_18/bell.png</normaloff>:/actions/images/actions/color_18/bell.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -5810,6 +5925,12 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                       </item>
                       <item>
                        <widget class="QDateEdit" name="deFecha">
+                        <property name="minimumSize">
+                         <size>
+                          <width>100</width>
+                          <height>0</height>
+                         </size>
+                        </property>
                         <property name="alignment">
                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                         </property>
@@ -6117,9 +6238,6 @@ image: url(:/actions/images/actions/black_18/calendar.png);
                  </property>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_29">
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
                    <item>
                     <widget class="QFrame" name="fBuscar_4">
                      <property name="sizePolicy">
@@ -6205,34 +6323,6 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                      </layout>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QToolButton" name="tbpEditor_2">
-                     <property name="font">
-                      <font>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Editor</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../../2.3/icons.qrc">
-                       <normaloff>:/actions/images/actions/color_18/list.png</normaloff>:/actions/images/actions/color_18/list.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>18</width>
-                       <height>18</height>
-                      </size>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                     <property name="toolButtonStyle">
-                      <enum>Qt::ToolButtonTextUnderIcon</enum>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </item>
                  <item>
@@ -6278,43 +6368,6 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QToolButton" name="tbuGuardar">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="toolTip">
-                      <string>Guardar</string>
-                     </property>
-                     <property name="text">
-                      <string>Guardar</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../../2.3/icons.qrc">
-                       <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>18</width>
-                       <height>18</height>
-                      </size>
-                     </property>
-                     <property name="shortcut">
-                      <string>Ctrl+G</string>
-                     </property>
-                     <property name="toolButtonStyle">
-                      <enum>Qt::ToolButtonTextBesideIcon</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QToolButton" name="tbpActualizar">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -6352,25 +6405,6 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QToolButton" name="tbpEliminar_2">
-                     <property name="font">
-                      <font>
-                       <pointsize>10</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Eliminar</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../../2.3/icons.qrc">
-                       <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
-                     </property>
-                     <property name="toolButtonStyle">
-                      <enum>Qt::ToolButtonTextBesideIcon</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <spacer name="horizontalSpacer_9">
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
@@ -6394,86 +6428,93 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QTableWidget" name="twUsuarios">
-                  <property name="editTriggers">
-                   <set>QAbstractItemView::NoEditTriggers</set>
-                  </property>
-                  <property name="alternatingRowColors">
-                   <bool>true</bool>
-                  </property>
-                  <property name="selectionBehavior">
-                   <enum>QAbstractItemView::SelectRows</enum>
-                  </property>
-                  <property name="showGrid">
-                   <bool>false</bool>
-                  </property>
-                  <property name="sortingEnabled">
-                   <bool>true</bool>
-                  </property>
-                  <attribute name="horizontalHeaderStretchLastSection">
-                   <bool>true</bool>
-                  </attribute>
-                  <attribute name="verticalHeaderVisible">
-                   <bool>false</bool>
-                  </attribute>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QWidget" name="wuControls" native="true">
+                  <property name="maximumSize">
+                   <size>
+                    <width>350</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">.QWidget{padding:5px}</string>
                   </property>
-                  <layout class="QFormLayout" name="formLayout_4">
-                   <property name="fieldGrowthPolicy">
-                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                   </property>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label">
-                     <property name="text">
-                      <string>Nombre completo</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QLineEdit" name="leNombre">
-                     <property name="placeholderText">
-                      <string>Nombre y Apellidos</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_7">
-                     <property name="text">
-                      <string>Usuario:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QLineEdit" name="leUsuario">
-                     <property name="placeholderText">
-                      <string>Nombre corto y unico</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="0">
-                    <widget class="QLabel" name="label_12">
-                     <property name="text">
-                      <string>Clave de acceso:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="1">
-                    <layout class="QHBoxLayout" name="horizontalLayout_20">
-                     <property name="topMargin">
-                      <number>10</number>
-                     </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_30">
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_24">
                      <item>
-                      <widget class="QLineEdit" name="leClave">
-                       <property name="echoMode">
-                        <enum>QLineEdit::Password</enum>
+                      <widget class="QLabel" name="label">
+                       <property name="text">
+                        <string>Nombre completo</string>
+                       </property>
+                       <property name="margin">
+                        <number>5</number>
                        </property>
                       </widget>
                      </item>
+                     <item>
+                      <widget class="QLineEdit" name="leNombre"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QFormLayout" name="formLayout">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_7">
+                       <property name="text">
+                        <string>Usuario:</string>
+                       </property>
+                       <property name="margin">
+                        <number>5</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="leUsuario"/>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_12">
+                       <property name="text">
+                        <string>Clave de acceso:</string>
+                       </property>
+                       <property name="margin">
+                        <number>5</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_20">
+                       <property name="topMargin">
+                        <number>10</number>
+                       </property>
+                       <item>
+                        <widget class="QLineEdit" name="leClave">
+                         <property name="echoMode">
+                          <enum>QLineEdit::Password</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_13">
+                       <property name="text">
+                        <string>Puesto:</string>
+                       </property>
+                       <property name="margin">
+                        <number>5</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="cbNivel"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_23">
+                     <property name="topMargin">
+                      <number>28</number>
+                     </property>
                      <item>
                       <widget class="QPushButton" name="tbuCambiar">
                        <property name="sizePolicy">
@@ -6481,6 +6522,11 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                        </font>
                        </property>
                        <property name="styleSheet">
                         <string notr="true">QToolButton, QAbstractButton{
@@ -6500,19 +6546,85 @@ QAbstractButton::hover{
                        </property>
                       </widget>
                      </item>
+                     <item>
+                      <widget class="QToolButton" name="tbuGuardar">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                        </font>
+                       </property>
+                       <property name="toolTip">
+                        <string>Guardar</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QToolButton, QAbstractButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;
+}
+QAbstractButton::hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(175, 236, 224, 255), stop:0.536364 rgba(94, 192, 226, 255), stop:0.554545 rgba(72, 170, 199, 255), stop:0.977273 rgba(65, 163, 198, 255), stop:1 rgba(255, 255, 255, 255));
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Guardar</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../../2.3/icons.qrc">
+                         <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
+                       </property>
+                       <property name="shortcut">
+                        <string>Ctrl+G</string>
+                       </property>
+                       <property name="toolButtonStyle">
+                        <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       </property>
+                      </widget>
+                     </item>
                     </layout>
                    </item>
-                   <item row="3" column="0">
-                    <widget class="QLabel" name="label_13">
-                     <property name="text">
-                      <string>Puesto:</string>
+                   <item>
+                    <spacer name="verticalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
                      </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QComboBox" name="cbNivel"/>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableView" name="tvUsuarios">
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="verticalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
                  </widget>
                 </item>
                </layout>
@@ -6626,7 +6738,7 @@ QAbstractButton::hover{
      <x>0</x>
      <y>0</y>
      <width>810</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuObjetos">
@@ -6657,13 +6769,20 @@ QAbstractButton::hover{
      <string>Ayuda</string>
     </property>
     <addaction name="actionConfigurador"/>
-    <addaction name="actionAcerca_de_padmin"/>
    </widget>
    <widget class="QMenu" name="menuHerramientas">
     <property name="title">
      <string>Herramientas</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuPadmin">
+    <property name="title">
+     <string>Padmin</string>
+    </property>
+    <addaction name="actionAcerca_de_padmin"/>
+    <addaction name="actionCerrar"/>
+   </widget>
+   <addaction name="menuPadmin"/>
    <addaction name="menuObjetos"/>
    <addaction name="menuHerramientas"/>
    <addaction name="menuInicio"/>
@@ -7021,6 +7140,21 @@ QAbstractButton::hover{
     <string>Conexiones</string>
    </property>
   </action>
+  <action name="actionCerrar">
+   <property name="icon">
+    <iconset resource="../../2.3/icons.qrc">
+     <normaloff>:/actions/images/actions/black_18/close.png</normaloff>:/actions/images/actions/black_18/close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cerrar</string>
+   </property>
+   <property name="toolTip">
+    <string>Quitar padmin</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>lepFiltro</tabstop>
@@ -7070,8 +7204,6 @@ QAbstractButton::hover{
   <tabstop>dsbStock</tabstop>
   <tabstop>tbaOfertas</tabstop>
   <tabstop>tbaCompras</tabstop>
-  <tabstop>leNum</tabstop>
-  <tabstop>leProd</tabstop>
   <tabstop>tvpPrecios</tabstop>
   <tabstop>tblProductos</tabstop>
   <tabstop>tbvHome</tabstop>
@@ -7090,7 +7222,7 @@ QAbstractButton::hover{
   <tabstop>deFFecha</tabstop>
   <tabstop>tbFaltantes</tabstop>
   <tabstop>tbFLista</tabstop>
-  <tabstop>tbMas</tabstop>
+  <tabstop>tbfAgregarProducto</tabstop>
   <tabstop>tbMenos</tabstop>
   <tabstop>tbpGuardar_2</tabstop>
   <tabstop>tbFImprimir</tabstop>
@@ -7111,11 +7243,9 @@ QAbstractButton::hover{
   <tabstop>tbiConteo</tabstop>
   <tabstop>tbiNuevo</tabstop>
   <tabstop>pbiActualizar</tabstop>
-  <tabstop>tbpEliminar_5</tabstop>
   <tabstop>pbiVerInc</tabstop>
   <tabstop>tbPrintInc</tabstop>
   <tabstop>tbExport</tabstop>
-  <tabstop>tblInventario</tabstop>
   <tabstop>qteResumen</tabstop>
   <tabstop>tviInc</tabstop>
   <tabstop>leiFiltro</tabstop>
@@ -7155,16 +7285,11 @@ QAbstractButton::hover{
   <tabstop>tvOfertas</tabstop>
   <tabstop>tbuHome</tabstop>
   <tabstop>leuFiltro</tabstop>
-  <tabstop>tbpEditor_2</tabstop>
   <tabstop>tbAgregarUsuario</tabstop>
-  <tabstop>tbuGuardar</tabstop>
   <tabstop>tbpActualizar</tabstop>
-  <tabstop>tbpEliminar_2</tabstop>
-  <tabstop>twUsuarios</tabstop>
-  <tabstop>leNombre</tabstop>
+  <tabstop>tvUsuarios</tabstop>
   <tabstop>leUsuario</tabstop>
   <tabstop>leClave</tabstop>
-  <tabstop>tbuCambiar</tabstop>
   <tabstop>cbNivel</tabstop>
   <tabstop>pbStat</tabstop>
   <tabstop>menu</tabstop>
@@ -7190,8 +7315,8 @@ QAbstractButton::hover{
      <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>684</x>
-     <y>42</y>
+     <x>226</x>
+     <y>57</y>
     </hint>
    </hints>
   </connection>
@@ -7206,8 +7331,8 @@ QAbstractButton::hover{
      <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>740</x>
-     <y>48</y>
+     <x>226</x>
+     <y>57</y>
     </hint>
    </hints>
   </connection>
@@ -7224,6 +7349,22 @@ QAbstractButton::hover{
     <hint type="destinationlabel">
      <x>715</x>
      <y>62</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCerrar</sender>
+   <signal>triggered()</signal>
+   <receiver>admin</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>318</y>
     </hint>
    </hints>
   </connection>

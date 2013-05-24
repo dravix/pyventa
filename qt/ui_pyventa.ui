@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>938</width>
-    <height>619</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -266,8 +266,8 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
            </property>
            <property name="iconSize">
             <size>
-             <width>32</width>
-             <height>32</height>
+             <width>36</width>
+             <height>36</height>
             </size>
            </property>
            <property name="toolButtonStyle">
@@ -1078,7 +1078,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>938</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -1093,6 +1093,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionOpen"/>
     <addaction name="aAbrir"/>
+    <addaction name="actionAbrir_venta_extemporanea"/>
     <addaction name="actionAbrir_compra"/>
     <addaction name="separator"/>
     <addaction name="aGuardar"/>
@@ -1106,6 +1107,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="actionImprimir"/>
     <addaction name="actionReimprimir"/>
+    <addaction name="actionReimprimir_archivada"/>
     <addaction name="actionPresupuesto"/>
     <addaction name="separator"/>
    </widget>
@@ -1727,6 +1729,24 @@ p, li { white-space: pre-wrap; }
   <action name="action">
    <property name="text">
     <string>Respaldos</string>
+   </property>
+  </action>
+  <action name="actionAbrir_venta_extemporanea">
+   <property name="icon">
+    <iconset resource="../../2.3/icons.qrc">
+     <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir venta archivada</string>
+   </property>
+  </action>
+  <action name="actionReimprimir_archivada">
+   <property name="icon">
+    <iconset resource="../../2.3/icons.qrc">
+     <normaloff>:/actions/images/actions/black_18/print.png</normaloff>:/actions/images/actions/black_18/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reimprimir archivada</string>
    </property>
   </action>
  </widget>

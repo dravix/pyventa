@@ -791,6 +791,14 @@ QTextEdit{border:1.5px solid #ccc;border-top:1px;border-bottom:1px;}</string>
                <bool>true</bool>
               </property>
               <widget class="QWidget" name="scrollAreaWidgetContents_2">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>71</width>
+                 <height>71</height>
+                </rect>
+               </property>
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <property name="spacing">
                  <number>0</number>

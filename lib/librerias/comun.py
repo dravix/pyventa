@@ -5,3 +5,4 @@ import os,sys
 home=os.path.join(os.path.expanduser('~'),"pyventa")
 if sys.platform == 'linux2':
 	home=os.path.join(os.path.expanduser('~'),".pyventa")
+raiz='/var/usr/share/pyventa/'

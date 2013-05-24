@@ -4,19 +4,21 @@
 <i><pagina/></i>
 Fecha: <fecha/>     Venta: #<b> <nota/> </b></p>
 Total de articulos: <numero-productos/>
-<hr/>
+--------------------------------
 <p>
 	<cantidad/> x <ref/> <producto/> 
-	<cantidad/> x <precio/> <descontado/> = <idesc/>
+	<cantidad/> x <precio/> - <descontado/> = <idesc/>
 </p>
-<center><hr/>
+<center>
+--------------------------------
 <h3><t/><t/>Subtotal: <t/> <subtotal/></h3>
 <h3><t/><t/>Descuento:<t/><descuento/></h3>
 <h1><t/><t/>TOTAL:<t/><total/></h1>
 <h3><center> <tletra> <center></h3> 
-<hr/><center><p>
-<red>Comprobante simplificado.</red>
+--------------------------------
+<center><p>
+Comprobante simplificado.
 Este comprobante no tiene validez fiscal
-Muchas gracias por su prefencia.
+Muchas gracias por su prefencia.</p>
 <f1><bar><nota/></bar>
 <corte/>

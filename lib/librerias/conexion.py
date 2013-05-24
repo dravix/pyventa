@@ -3,19 +3,21 @@ from lib.db_conf import configurador as BDConfig
 from lib.librerias.comun import *
 import base64
 from datetime import datetime
-from os.path import join
+from os.path import join,exists
 import MySQLdb
 from PyQt4.QtCore import QTimer
 from lib.dialogos.notificaciones import notify
-import sqlite3,shutil
+from lib.librerias.comun import *
+import sqlite3,shutil,hashlib
 class Conexion:
-    def __init__(self, parent, config=False,datos=False):
+    def __init__(self, parent, config=False,datos=False,driver=False):
 	self.parent=parent
 	if datos and isinstance(datos,dict) and len(datos)>0:
 	  self._host=datos['host']
 	  self._user=datos['user']
 	  self._pass=datos['pass']
 	  self._schema=datos['schema']
+	  self.driver='mysql'
 	  self.conectar()
 	else:
 	  if not config:
@@ -23,6 +25,9 @@ class Conexion:
 	  else :
 	    self.cfg=config
 	  if self.cfg.stat:
+	    if not driver:
+		driver=self.cfg.getDato('pyventa','motor')
+	    self.driver=driver
 	    self._host=self.cfg.getDato('mysql','host')
 	    self._user=self.cfg.getDato('mysql','user')
 	    self._pass=base64.b64decode(self.cfg.getDato('mysql','pass'))
@@ -41,27 +46,28 @@ class Conexion:
 	  self.stat=False
     
     def lastId(self):
-      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+      if self.driver=='sqlite3':
        return "SELECT last_insert_rowid();"
       else:
 	return "SELECT LAST_INSERT_ID();"
       
 
     def conectar(self):
-      if self.cfg.getDato('pyventa','motor')=="sqlite3":
-	dbpath=os.path.join(home,"pyventa.sqlite")
-	if os.path.exists(dbpath):
+      if self.driver=='sqlite3':
+	dbpath=join(home,"pyventa.db")
+	if exists(dbpath):
 	  self.db=sqlite3.connect(dbpath)
 	  self.db.create_function("NOW", 0, ahora)
 	  self.db.create_function("CURDATE", 0, hoy)
 	  self.db.create_function("DATE_FORMAT", 2, dateformat)
 	  self.db.create_function("ELT", -1, elt)
+	  self.db.create_function("MD5", 1, md5)
 	  self.cursor=self.db.cursor()
 	  self.curser=self.db.cursor()
 	  self.stat=True
 	else:
 	  try:
-	    shutil.copy("perfil/pyventa.sqlite",dbpath)
+	    shutil.copy(join(self.parent.raiz,"perfil","pyventa.db"),dbpath)
 	  except shutil.Error, e:
 	    print "No se encontro el archivo de la base de datos y no se pudo copiar una nueva"
 	    raise(e)
@@ -83,21 +89,24 @@ class Conexion:
 	    self.stat=True
 
     def commit(self):
-      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+      if self.driver=='sqlite3':
 	self.db.commit()
       else:
 	pass
 	#self.cursor.execute("COMMIT")
+    def affected(self):
+      if self.driver=='sqlite3':
+	return self.cursor.rowcount
 	
     def ultimo(self):
-      if self.cfg.getDato('pyventa','motor')=="sqlite3":	
+      if self.driver=='sqlite3':	
 	  return self.cursor.lastrowid
       else:
 	return self.db.insert_id()
       
 	
     def rollback(self):
-      if self.cfg.getDato('pyventa','motor')=="sqlite3":
+      if self.driver=='sqlite3':
 	self.db.rollback() 
       else:
 	pass
@@ -149,6 +158,9 @@ class Conexion:
 	
 def ahora():
   return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def md5(string):  
+  return hashlib.md5(string).hexdigest()
 
 def hoy():
   return datetime.now().strftime("%Y-%m-%d")

@@ -7,13 +7,15 @@ from ui.ui_editor_claves import Ui_Claves
 import MySQLdb
 import md5, sqlite3
 from lib.librerias.conexion import dicursor
+from lib.modelos.qmodelotablasql import QModeloTablaSql
+
 class Usuarios:
     def __init__(self,parent):
 		self.ui=parent
 		self.cursor=parent.cursor
 		self.curser=parent.curser
 		self.parent=parent
-		self.ui.twUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
+		self.ui.tvUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
 		self.index=8
         	self.ui.connect(self.ui.tUsuarios, SIGNAL("clicked()"), self.ver)		
         	self.ui.connect(self.ui.verUsuarios, SIGNAL("triggered()"), self.ver)		
@@ -22,10 +24,14 @@ class Usuarios:
         	self.ui.connect(self.ui.tbAgregarUsuario, SIGNAL("clicked()"), self.nuevo)		
         	self.ui.connect(self.ui.tbuGuardar, SIGNAL("clicked()"), self.guardar)		
         	self.ui.connect(self.ui.leuFiltro, SIGNAL("returnPressed()"), lambda: self.listar(self.ui.leuFiltro.text()))
-		self.ui.connect(self.ui.twUsuarios,SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm)
-		self.ui.connect(self.ui.twUsuarios,SIGNAL('cellDoubleClicked (int, int)'),self.editar)
-		
-		#self.ui.connect(self.ui.twUsuarios,SIGNAL('cellDoubleClicked (int, int)'),self.editar)
+		self.ui.connect(self.ui.tvUsuarios,SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm)
+		self.ui.connect(self.ui.tvUsuarios,SIGNAL("activated(const QModelIndex&)"),self.editar)
+
+		#self.ui.connect(self.ui.tvUsuarios,SIGNAL('cellDoubleClicked (int, int)'),self.editar)
+		self.ui.wuControls.setVisible(False)
+		self.modelo=QModeloTablaSql(self.cursor,self.ui)
+		self.ui.tvUsuarios.setModel(self.modelo)
+		#self.ui.connect(self.ui.tvUsuarios,SIGNAL('cellDoubleClicked (int, int)'),self.editar)
 		self.iniciarActions()
 		self.ide=-1
 		self.nivel={0:'Reserva',1:'Vendedor',2:'Cajero',3:'Gerente',6:'Auditor',5:'Administrador',4:'Manager'}		
@@ -53,12 +59,11 @@ class Usuarios:
 	#self.ui.menuPersonal.addAction(action)
 
 	action= self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/pencil.png"),"Editar ")
-	self.ui.connect(action, SIGNAL("triggered()"), lambda: self.editar(self.ui.twUsuarios.currentRow(),self.ui.twUsuarios.currentColumn()))
+	self.ui.connect(action, SIGNAL("triggered()"), self.editar)
 	#self.ui.menuPersonal.addAction(action)
 
 	action= self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/password.png"),"Cambiar clave ")
-	self.ui.connect(action, SIGNAL("triggered()"), lambda: self.cambiarClaves(self.ui.twUsuarios.currentRow(),self.ui.twUsuarios.currentColumn()))
-	#self.ui.menuPersonal.addAction(action)
+	self.ui.connect(action, SIGNAL("triggered()"), self.cambiarClaves)
 
 	action=self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/delete.png"),"Eliminar")
 	self.ui.connect(action, SIGNAL("triggered()"), self.eliminar)
@@ -69,20 +74,13 @@ class Usuarios:
 	if texto!='':
 	    texto=" WHERE nombre like '%"+str(texto)+"%'"
 	head=['Id','Nombre','Usuario','Nivel']
-	self.cursor.execute(" SELECT id_usuario,nombre,usuario,nivel FROM usuarios %s"%texto)
-	query=self.cursor.fetchall()
-	lista=[]
-	for item in query:
-	    tmp=list(item)
-	    if tmp[3]>6: lev=6
-	    else: lev=int(tmp[3])
-	    tmp[3]=self.nivel[lev]
-	    lista.append(tmp)
-	self.ui.entablar(self.ui.twUsuarios,lista,head)
+	sql=""" SELECT id_usuario,nombre,usuario,ELT(nivel+1,'Reserva','Vendedor','Cajero','Gerente','Manager','Administrador','Auditor')
+	FROM usuarios %s"""%texto
+	self.modelo.query(sql,head)
 
     def nuevo(self):
-      #self.ui.wuControls.setVisible(True)
       self.limpiar()
+      self.ui.wuControls.setVisible(True)
       self.ui.leNombre.setFocus()
 	#editor=editorUsuarios(self.ui)
 	#if editor.exec_()>0:
@@ -91,19 +89,15 @@ class Usuarios:
     def eliminar(self):
 	msgBox=QMessageBox(QMessageBox.Question,"Confirmar dar de baja?","Esta a punto de eliminar un usuario .Desea continuar?",QMessageBox.Yes|QMessageBox.No,self.ui, Qt.WindowStaysOnTopHint)
 	if msgBox.exec_()==QMessageBox.Yes:
-	  lista=self.ui.twUsuarios.selectedItems()
-	  for item in lista:
-	    if self.ui.twUsuarios.column(item)==0:
-	      key=str(item.text())
-	  #dep=self.ui.twFamilias.item(self.ui.twFamilias.currentRow(),0).text()
-	      #self.ui.cursor.execute("UPDATE productos set familia=0 where familia="+str(dep))
-	      self.ui.cursor.execute("delete from usuarios where id_usuario="+str(key))
-	      self.ui.conexion.commit()
+	  keys=[item.data().toInt()[0] for item in self.ui.tvUsuarios.selectionModel().selectedRows()]
+	  keys=map(str,keys)
+	  self.ui.cursor.execute("delete from usuarios where id_usuario in (%s) "%(','.join(keys)))
+	  self.ui.conexion.commit()
 	  self.listar()
 
-    def editar(self,y,x):
+    def editar(self):
 	#head=['id','nombre']
-	key=self.ui.twUsuarios.item(y,0).text()
+	key=self.ui.tvUsuarios.selectionModel().selectedRows()[0].data().toInt()[0]
 	self.ide=key
 	self.curser.execute("SELECT * FROM usuarios where id_usuario=%s"%key)
 	usuario=self.curser.fetchone()
@@ -113,18 +107,21 @@ class Usuarios:
 	  self.ui.leUsuario.setText(str(usuario['usuario']))
 	  self.ui.leClave.setEnabled(False)
 	  self.ui.cbNivel.setCurrentIndex(self.ui.cbNivel.findData(QVariant(usuario['nivel'])))
-	  #self.ui.wuControls.setVisible(True)
+	  self.ui.wuControls.setVisible(True)
 	  
     def guardar(self):
 	  nivel=int(self.ui.cbNivel.itemData(self.ui.cbNivel.currentIndex()).toString())
+	  flag=0
 	  try:
 	    if self.ide!=-1:
 	      familia=(self.ui.leNombre.text(),self.ui.leUsuario.text(),nivel,self.ide)
-	      self.curser.execute("""UPDATE usuarios set nombre=%s, usuario=%s, nivel=%s where id_usuario=%s"""%familia)
+	      self.curser.execute("""UPDATE usuarios set nombre='%s', usuario='%s', nivel=%s where id_usuario=%s"""%familia)
+	      flag=1
 	    else:
 	      m=md5.new(str(self.ui.leClave.text()))
 	      familia=(self.ui.leNombre.text(),self.ui.leUsuario.text(),m.hexdigest(),nivel)
 	      self.curser.execute("""INSERT INTO usuarios values (NULL,'%s', '%s','%s',%s )"""%familia)
+	      flag=2
 	  except MySQLdb.Error, e:
 	    if e.args[0]==1062:
 	      self.parent.notify("error","No se registro el usuario","El nombre de usuario ya existe, elija otro.",7)
@@ -134,6 +131,10 @@ class Usuarios:
 	      self.parent.notify("error","No se registro el usuario","Compruebe sus datos",5)
 	      raise(e)
 	  else:
+	    if flag==1:
+	      self.parent.notify("info","Los datos de usuario {0} fueron actualizados".format(familia[0]),"",5)
+	    elif flag==2:
+	      self.parent.notify("info","Nuevo usuario","Se ha registrado un nuevo usuario,%s "%familia[0],5)
 	    self.ui.conexion.commit()
 	    self.limpiar()
 	    self.listar()
@@ -144,18 +145,19 @@ class Usuarios:
 	self.ui.leClave.setText('')
 	self.ui.leClave.setEnabled(True)
 	self.ui.cbNivel.setCurrentIndex(0)
+	self.ui.wuControls.setVisible(False)
 	self.ide=-1
 
-    def cambiarClaves(self,y=-1,x=-1):
-	if self.ide==-1 or (y>-1 and x>-1):
-	  key=self.ui.twUsuarios.item(y,0).text()
-	else:
+    def cambiarClaves(self):
+      if not self.ui.wuControls.isVisible():
+	  key=self.ui.tvUsuarios.selectionModel().selectedRows()[0].data().toInt()[0]
+      else:
 	  key=self.ide
-	editor=editorClaves(self.ui,key)
-	editor.exec_()
+      editor=editorClaves(self.ui,key)
+      editor.exec_()
 
     def ocm(self, point):
-         self.popMenu.exec_(self.ui.twUsuarios.mapToGlobal(point) )
+         self.popMenu.exec_(self.ui.tvUsuarios.mapToGlobal(point) )
 
 
 
@@ -251,8 +253,13 @@ class editorClaves(QDialog, Ui_Claves):
 	  if self.bandera['repeat']==True:
 	    #print """UPDATE usuarios set clave=MD5(%s) WHERE id_usuario=%s"""%(nueva,self.ide)
 	    m=md5.new(nueva)
-	    self.cursor.execute("""UPDATE usuarios set clave='%s' WHERE id_usuario=%s"""%(m.hexdigest(),self.ide))
-	    self.ui.conexion.commit()
+	    try:
+	      self.cursor.execute("""UPDATE usuarios set clave='%s' WHERE id_usuario=%s"""%(m.hexdigest(),self.ide))
+	    except  :
+		self.parent.notify("error","Error al cambia la clave","Compruebe sus datos",5)
+	    else:
+	      self.parent.conexion.commit()
+	      self.parent.notify("info","Se ha cambiado la clave","",5)
 
     def limpiarAlerta(self):
 	self.lbAlerta.clear()

@@ -2,12 +2,15 @@ from PyQt4.QtCore import Qt, SIGNAL
 from PyQt4.QtGui import QMenu, QMessageBox, QIcon, QInputDialog
 import MySQLdb
 from lib.utileria import MyTableModel,  setComboModelKey
+from lib.modelos.qmodelotabla import QModeloTabla
 from lib.listacodigos import ListadorCodigos
 from lib import libutil
 from lib.dialogos.cambia_precios import CambiaPrecios
 from lib.dialogos.marca_faltante import Faltante
 import sqlite3,time
 from lib.librerias.conexion import dicursor
+from lib.selector import Selector
+
 class Productos:
     def __init__(self,parent):
 	self.parent=parent
@@ -21,6 +24,9 @@ class Productos:
 	self.banderas={'retorno':1,'anterior':[],'siguiente':[],'editor':'e'} #Editor:n nuevo, e edicion, m edicion masiva
 	self.tmpRef=0
 	self.modelo=None
+	self.modelosub=QModeloTabla([],['Ref','Descripcion','Cantidad','Precio'])
+	self.parent.tvSubproductos.setModel(self.modelosub)
+	self.tmpsub=False
       
     def setupSignals(self):
 	self.parent.tblProductos.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -40,7 +46,8 @@ class Productos:
 	self.parent.connect(self.parent.tbpAgregarStock, SIGNAL("clicked()"), self.agregarStock)
 	self.parent.connect(self.parent.lepFiltro, SIGNAL("returnPressed()"), self.buscar)
 	self.parent.connect(self.parent.tpcodigo, SIGNAL("returnPressed()"), self.checkCodigo)
-	self.parent.connect(self.parent.leProd, SIGNAL("returnPressed()"), lambda:self.buscarProducto(self.parent.leProd))
+	self.parent.connect(self.parent.leProd, SIGNAL("returnPressed()"), self.buscarProducto)
+	self.parent.connect(self.parent.leNum, SIGNAL("editingFinished ()"), self.addOnSub)
 	#self.connect(self.parent.tstock, SIGNAL("valueChanged ( double d )"), addStock)
 	#self.connect(self.parent.cbpDepartamentos,SIGNAL("activated(int )"), lambda:self.filtrarFamilias(self.parent.cbpDepartamentos.itemData(self.parent.cbpDepartamentos.currentIndex()).toString(),self.parent.cbpFamilias))
 	#self.parent.connect(self.parent.cbpFamilias,SIGNAL("currentIndexChanged(int )"),self.buscar)
@@ -58,9 +65,13 @@ class Productos:
 	#actionInicio= self.menuInicio.addAction(QIcon("/usr/share/pyventa/images/32/Remove-32.png"),"Cerrar programa")
 	#self.connect(actionInicio, SIGNAL("triggered()"),self.close )
 	self.popMenu = QMenu(self.parent)
+	popSubMenu = QMenu(self.parent)
 	self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/coin.png"),"Cambiar precios",self.cambiarPrecios)
 	self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/battery_empty.png"),"Marcar como faltante",self.marcarFalta)
 	self.popMenu.addAction(QIcon(":/actions/images/actions/black_18/delete.png"),"Eliminar producto",self.eliminarProducto)
+	
+	self.parent.tvSubproductos.setContextMenuPolicy(2)
+	self.parent.tvSubproductos.addAction(popSubMenu.addAction(QIcon(":/actions/images/actions/black_18/delete.png"),"Eliminar subproducto",self.eliminarSub))
 	#self.connect(action, SIGNAL("triggered()"),self.productos.eliminarProducto)
 
 		
@@ -115,14 +126,18 @@ class Productos:
 	    print "No se encontraron productos con tales criterios de busqueda",sql	  
 	  else:
 	    if lista!=None:
-	      if self.modelo==None:
-		self.modelo = MyTableModel(lista, head, self.parent) 
-		self.parent.tblProductos.setModel(self.modelo)
+	      if len(lista)==1:
+		  self.editarProducto(str(lista[0][0]))
+		  self.banderas['editor']='e'
 	      else:
-		self.modelo.setVector(lista)
-	    self.parent.tblProductos.resizeColumnsToContents()
-	    self.parent.stkProductos.setCurrentIndex(1)
-	    self.parent.setStatus(0,"Mostrando %s resultados en la tabla."%self.modelo.getRowCount())
+		if self.modelo==None:
+		  self.modelo = MyTableModel(lista, head, self.parent) 
+		  self.parent.tblProductos.setModel(self.modelo)
+		else:
+		  self.modelo.setVector(lista)
+		self.parent.tblProductos.resizeColumnsToContents()
+		self.parent.stkProductos.setCurrentIndex(1)
+		self.parent.setStatus(0,"Mostrando %s resultados en la tabla."%self.modelo.getRowCount())
 	      
     def edicionMasiva(self):
 	  lista=self.parent.tblProductos.selectedItems()
@@ -228,9 +243,9 @@ class Productos:
     def extraInfo(self,ref):
 	html='<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:12pt; font-weight:600; color:#002d42;">%s</span></p><table width="100%%" style=" font-weight:600; color:#002d42;"><tr><td>Apartir de</td>  <td>Desc.</td></tr><tr style="color:#f00;text-align:right"><td>%s</td> <td >%s%%</td></tr><tr><td>Precio</td>  <td>Subtotal</td></tr><tr><td>$ %s</td> <td>$ %s</td></tr></table><br/>'
 	
-	sql="SELECT P.nombre,minimo,descuento,precio-(precio*descuento*0.01), (precio-(precio*descuento*0.01))*minimo FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
+	sql="SELECT minimo,maximo,precio-(precio*descuento*0.01) FROM ofertas as O,promociones as P, productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin AND familia=F.id and ref=%s   order by P.descuento desc"%ref
 	#self.cursor.execute()
-	self.parent.entabla(self.parent.tvpPrecios,['Promocion','Apartir de','%','P.Unitario','P.Total'],sql)
+	self.parent.entabla(self.parent.tvpPrecios,['Min.','Max','Precio'],sql)
 	#ofertas=self.cursor.fetchall()
 	#if ofertas!=None:
 	  #for oferta in ofertas:	    
@@ -265,19 +280,21 @@ class Productos:
 	  #self.parent.cbeImpuestos.setCurrentIndex(self.parent.cbeImpuestos.findData(producto['impuesto']))
 	  #self.parent.cbeUnidades.setCurrentIndex(self.parent.cbeUnidades.findData(producto['unidad']))
 	  self.tmpRef=str(ref)
-	  try:
-	    self.curser.execute("SELECT *,count(subproducto)as num FROM subproductos where subproducto="+str(ref))
-	    sub=self.curser.fetchone()
-	    if sub['num']>0:
-	      self.parent.leNum.setValue(float(sub['cantidad']))
-	      self.parent.leProd.setText(str(sub['producto']))
-	      self.parent.gbRelacion.setChecked(True)
-	    else:
-	      self.parent.leNum.clear()
-	      self.parent.leProd.clear()
-	      self.parent.gbRelacion.setChecked(False)
-	  except:
-	      self.parent.gbRelacion.setChecked(False)
+	  self.listarSubproductos()
+	  #try:
+	    #self.curser.execute("SELECT *,count(subproducto) as num FROM subproductos where subproducto="+str(ref))
+	    #sub=self.curser.fetchone()
+	    #if sub['num']>0:
+	      ##self.parent.leNum.setValue(float(sub['cantidad']))
+	      ##self.parent.leProd.setText(str(sub['producto']))
+	      #self.parent.gbRelacion.setChecked(True)
+	      
+	    #else:
+	      #self.parent.leNum.clear()
+	      #self.parent.leProd.clear()
+	      #self.parent.gbRelacion.setChecked(False)
+	  #except:
+	      #self.parent.gbRelacion.setChecked(False)
 
     def nuevoProducto(self):
 	self.parent.stack.setCurrentIndex(1)
@@ -311,7 +328,7 @@ class Productos:
 		    suma=0
 		    for e in producto['descripcion']:
 		      suma+=ord(e)
-		    producto['codigo']="%s"%(int(time()))
+		    producto['codigo']="%s"%(int(time.time()))
 		    self.nuevoProducto_guardar(producto)
 		else:
 		   self.parent.tpcodigo.setFocus(True)
@@ -330,22 +347,21 @@ class Productos:
                 self.pbStat.setToolTip("%s"%e)
 	  else:
 		self.parent.conexion.commit()
-		sql=self.parent.conexion.lastId()
-		self.cursor.execute(sql)
-		pd=self.cursor.fetchone()
+		pd=self.parent.conexion.ultimo()
 		for code in self.alternos:
 		  try:
-		    sql="INSERT INTO codigos values (%s,%s)"%(pd[0],code[0])
+		    sql="INSERT INTO codigos values (%s,%s)"%(pd,code[0])
 		    self.cursor.execute(sql)
 		  except:
 		    pass
 		self.alternos=[]
-		self.cursor.execute("INSERT INTO existencia VALUES(%s,0,0,0,0)"%pd[0])
-                mb=QMessageBox.information(self.parent, "El producto ha sido dado de alta", ".Su referencia es: %s "%pd[0])
-                self.parent.setStatus(1,"El producto ha sido dado de alta. Su referencia es: {0}".format(pd[0]))
+		self.cursor.execute("INSERT INTO existencia VALUES(%s,0,0,0,0)"%pd)
+                mb=QMessageBox.information(self.parent, "El producto ha sido dado de alta", "Su referencia es: %s "%pd)
+                self.parent.setStatus(1,"El producto ha sido dado de alta. Su referencia es: {0}".format(pd))
                 if self.parent.gbRelacion.isChecked()==True:
 		    sub={'cantidad':str(self.parent.leNum.value()),'producto':str(self.parent.leProd.text())}
-		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(pd[0],sub['cantidad'],sub['producto']))
+		    #self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(pd[0],sub['cantidad'],sub['producto']))
+		    self.guardarSubproductos(pd,False)
 		    self.parent.conexion.commit()
 		self.limpiarEditor()
 		#self.goProductos()
@@ -394,15 +410,14 @@ class Productos:
 	      sql="UPDATE productos %s where ref=%s"%(out,self.tmpRef)
 	      self.cursor.execute(str(sql))
 	    except MySQLdb.Error, e:
-                self.parent.setStatus(2,"El producto no pudo ser actualizado correctamente, verifique los datos")
+                self.parent.notify("error","El producto no se actualizo","No se guardaron los cambios del producto, verifique datos")
                 print e
                 self.pbStat.setToolTip("%s"%e)                
 		msgBox=QMessageBox(QMessageBox.Critical,"Error","El producto no pudo ser actualizado correctamente, verifique los datos.",QMessageBox.Close,self.parent)
 		msgBox.exec_()
 	    else:
-		self.parent.setStatus(1,"El articulo ha sido editado correctamente")
+		self.parent.notify('exito',"El articulo ha sido editado correctamente")
 		self.parent.conexion.commit()
-		self.parent.stack.setCurrentIndex(2)
 		#self.buscar()
 	else:
 		msgBox=QMessageBox(QMessageBox.Question,"Falta el codigo de barras","No ha escrito ningun codigo de barras, es necesario un codigo unico.<br>Desea que se genere automaticamente?",QMessageBox.Yes|QMessageBox.No,self.parent)
@@ -411,26 +426,29 @@ class Productos:
 		    suma=0
 		    for e in producto['descripcion']:
 		      suma+=ord(e)
-		    self.parent.tpcodigo.setText("2{0}".format(int(time.time()))
+		    self.parent.tpcodigo.setText("2{0}".format(int(time.time())))
 		    #self.parent.tpcodigo.setText("2500%s0%s0%s"%(producto['familia'],suma,producto['precio']))
 		else:
 		    self.parent.tpcodigo.setFocus(True)
 	
 	if self.parent.gbRelacion.isChecked()==True:
-	  	sub={'cantidad':str(self.parent.leNum.value()),'producto':str(self.parent.leProd.text())}
-	  	self.cursor.execute("select count(subproducto) from subproductos where subproducto="+str(self.tmpRef))
-	  	num=self.cursor.fetchone()[0]
-	  	if num>0:
-		    self.cursor.execute("""UPDATE subproductos set cantidad=%s, producto=%s where subproducto=%s"""%(sub['cantidad'],sub['producto'],self.tmpRef))
-		    self.parent.conexion.commit()
-		else:
-		    self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(self.tmpRef,sub['cantidad'],sub['producto']))
-		    self.parent.conexion.commit()
+	  self.guardarSubproductos(self.tmpRef,True)
+	  	#sub={'cantidad':str(self.parent.leNum.value()),'producto':str(self.parent.leProd.text())}
+	  	#self.cursor.execute("select count(subproducto) from subproductos where subproducto="+str(self.tmpRef))
+	  	#num=self.cursor.fetchone()[0]
+	  	#if num>0:
+		    #self.cursor.execute("""UPDATE subproductos set cantidad=%s, producto=%s where subproducto=%s"""%(sub['cantidad'],sub['producto'],self.tmpRef))
+		    #self.parent.conexion.commit()
+		#else:
+		    
+		    ##self.cursor.execute("""INSERT INTO subproductos VALUES( %s,%s,%s)"""%(self.tmpRef,sub['cantidad'],sub['producto']))
+		    #self.parent.conexion.commit()
 	
 	if len(self.siguiente)>0:
 	  self.editarSiguiente()
 	else:
-	  self.parent.stack.setCurrentIndex(self.banderas['retorno'])
+	  self.parent.notify("exito","Se ha actualizado el producto")
+	  #self.parent.stack.setCurrentIndex(self.banderas['retorno'])
 
 	#self.limpiarEditor()
 	
@@ -462,9 +480,6 @@ class Productos:
 	 point.setX(point.x()+30)
          self.popMenu.exec_(self.parent.tblProductos.mapToGlobal(point) )
 
-    def buscarProducto(self,item):
-	dlg=buscador(self,str(item.text()))
-	item.setText(str(dlg.exec_()))	
 	
     def agregarStock(self):
       dsc=QInputDialog.getDouble(self.parent, self.parent.tr("Ajustar stock."),self.parent.tr("Unidades adicionales:"))
@@ -500,15 +515,99 @@ class Productos:
       chp=CambiaPrecios(self.parent,productos)
       chp.exec_()
       
+    def buscarProducto(self):
+	text=str(self.parent.leProd.text())
+	tmpsub=False
+	if text.isdigit():
+	  tmpsub=self.buscarProd(text,"ref,descripcion,precio")
+	else:  
+	  app=Selector(self.parent,"Producto",'productos','ref,descripcion,precio','Ref,Descripcion ,Precio',"`descripcion` like '%{0}%' order by descripcion desc ",text)
+	  done=app.exec_()
+	  if done>0:
+	    tmpsub=app.retorno[0]
+	if tmpsub:
+	  self.parent.leProd.setText(tmpsub[1])	
+	  self.parent.leNum.setValue(1)
+	  self.parent.leNum.setFocus(True)
+	  self.parent.leNum.selectAll()
+	  self.tmpsub=tmpsub
+	else:
+	  self.parent.leProd.selectAll()
 
 	
     def buscarProd(self,codigo,campos='descripcion'):
-	sql=" select %s from productos as p where p.codigo=%s OR ref=%s or (ref=(select producto from codigos as c where c.codigo=%s));"%(campos,codigo,codigo,codigo)
+	sql=" select %s from productos as p where p.codigo=%s OR ref=%s or (ref in (select producto from codigos as c where c.codigo=%s));"%(campos,codigo,codigo,codigo)
 	#print sql
 	self.cursor.execute(sql)
 	prev=self.cursor.fetchone()
 	return prev    	
       
+    def addOnSub(self):
+      print self.tmpsub
+      if self.parent.leNum.hasFocus() and self.tmpsub:
+	cantidad=0
+	for i,item in enumerate(self.modelosub.getVector()):
+	  if int(item[0])==int(self.tmpsub[0]):
+	    self.tmpsub=list(self.tmpsub)
+	    cantidad=item[2]
+	    self.modelosub.eliminar(i)
+	self.modelosub.insertar([self.tmpsub[0],self.tmpsub[1],cantidad+self.parent.leNum.value(),self.tmpsub[2]])
+	self.parent.tvSubproductos.resizeColumnsToContents()
+	self.parent.leProd.clear()
+	self.parent.leProd.setFocus()
+	self.parent.leNum.clear()
+	self.tmpsub=False
+    
+    def eliminarSub(self):
+      selected=self.parent.tvSubproductos.selectedIndexes()
+      if len(selected)>0:
+	if self.banderas['editor'] in ('e','m'):
+	  self.cursor.execute("DELETE FROM subproductos where subproducto={ref} and producto={prod}".format(ref=self.tmpRef,prod=selected[0].data().toInt()[0]))
+	self.modelosub.eliminar(selected[0].row())
+	
+    def listarSubproductos(self):
+      if self.tmpRef:
+	sql=" select ref,descripcion,cantidad, precio from productos, subproductos where ref=producto and subproducto={ref} ;".format(ref=self.tmpRef)
+	self.cursor.execute(sql)
+	subs=self.cursor.fetchall()
+	if len(subs)>0:
+	  self.modelosub.setVector(list(subs))
+	  self.parent.tvSubproductos.resizeColumnsToContents()
+	  self.parent.gbRelacion.setChecked(True)
+	else:
+	  self.parent.gbRelacion.setChecked(False)
+      
+    def guardarSubproductos(self,ref,edicion=False):
+      if not edicion: #Es nuevo producto
+	try:
+	  for row in self.modelosub.getVector():
+	    sql="""INSERT INTO subproductos VALUES({ref},{2},{0})""".format(ref=ref,*row)
+	    self.cursor.execute(sql)
+	except sqlite3.Error,e:
+	  raise(e)
+	  self.parent.conexion.rollback()
+	except MySQLdb.Error,e:
+	  raise(e)
+	except:
+	  self.modelosub.setVector([])
+	else:
+	  self.parent.conexion.commit()
+	  self.modelosub.setVector([])
+      else: #Se esta editando un producto
+	try:
+	  for i,row in enumerate(self.modelosub.getVector()):
+	    sql="""UPDATE subproductos SET cantidad={2} WHERE producto={0} and subproducto={ref} """.format(ref=self.tmpRef,*row)
+	    self.cursor.execute(sql)
+	    if self.cursor.rowcount==0:
+	      self.cursor.execute("""INSERT INTO subproductos VALUES({ref},{2},{0})""".format(ref=ref,*row))
+	except sqlite3.Error,e:
+	  raise(e)
+	  self.parent.conexion.rollback()
+	except MySQLdb.Error,e:
+	  raise(e)
+	else:
+	  self.guardarSubproductos(ref,False)
+	
     def marcarFalta(self, ide=False):
       refs=libutil.seleccionar(self.parent.tblProductos,self.modelo,0)
       lis=Faltante(self.parent,refs,self.parent.usuario['id_usuario'])	

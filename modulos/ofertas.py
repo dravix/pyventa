@@ -2,10 +2,10 @@
 from PyQt4 import  Qt
 from PyQt4.QtCore import Qt,SIGNAL,QModelIndex,QDate
 from PyQt4.QtGui import QMessageBox, QIcon, QDialog,QMenu
-from ui.dlg_buscador import buscador, BuscadorF,BuscadorD
 from lib.modelos.qmodelotablasql import QModeloTablaSql
 from lib.dialogos.editor_ofertas import EditorOferta
 from lib.dialogos.calcula_descuentos import CalculaDescuentos
+from lib.selector import Selector
 class Oferta:
     def __init__(self,parent):
 	self.ui=parent
@@ -68,22 +68,10 @@ class Oferta:
 	#self.modelo=self.ui.entabla(self.ui.tvOfertas,head,sql,self.modelo) 
 	
     def buscarProd(self):
-	dlg=buscador(self.ui,'',['Ref','Descripcion','Familia'])
-	if dlg.exec_()>0:
-	  producto=dlg.producto
-	  #print producto
-	  self.ui.lboProducto.setText("Ofertas de "+producto['Descripcion'])
-	  try:
-	    self.ui.cursor.execute("""SELECT departamento from familias where id=%s"""%producto['Familia'])
-	  except:
-	    print "Hay un problema en la base de datos los campos del producto %s estan incompletos o corruptos."%producto['Ref']
-	  else:
-	    row=self.ui.cursor.fetchone()
-	    if row!=None:
-	      producto['Dep']=row[0]
-	      self.checkPromos(producto)
-	    else:
-	      print "El producto %s no tiene una referencia hacia un departamento, verfique su familia."%producto['Ref']
+      	app=Selector(self.ui,"Producto:",'productos','ref,descripcion,precio','Ref,Descripcion, Precio publico',filtros=" descripcion like '%{0}%'  order by descripcion ")
+	if app.exec_()>0:
+	  self.checkPromo(app.retorno[0][0])
+	  
 	      
     def agregar(self):
 	self.iniciar()
@@ -122,11 +110,19 @@ class Oferta:
 	 point.setY(point.y()+25)
 	 point.setX(point.x()+30)
          self.popMenu.exec_(self.ui.tvOfertas.mapToGlobal(point) )	
-         
-    def checkPromos(self,prod):
+
+    def checkPromo(self,prod):
 	  head=['id','nombre', 'descuento','Precio Pub.','Precio c/Desc','inicio','fin','minimo','maximo']
-	  sql="SELECT P.id,P.nombre, P.descuento,precio, precio-(P.descuento*precio*.1),P.inicio,P.fin,P.minimo, maximo FROM ofertas as O,promociones as P, productos WHERE ref=conjunto and tipo=0  and (conjunto=%s OR conjunto=%s OR conjunto=%s) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin"%(prod['Ref'],prod['Familia'],prod['Dep'])
-	  self.ui.entabla(self.ui.tvOfertas,head,sql) 
+          sql="""SELECT id,P.nombre,descuento,precio,precio-(P.descuento*precio*.1), P.inicio,P.fin,P.minimo, maximo FROM ofertas as O,promociones as P,
+          productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR
+          (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND
+          P.fin AND familia=F.id and ref={ref} order by tipo""".format(ref=prod)
+          self.modelo.query(sql,head)
+	    
+    #def checkPromos(self,prod):
+	  #head=['id','nombre', 'descuento','Precio Pub.','Precio c/Desc','inicio','fin','minimo','maximo']
+	  #sql="SELECT P.id,P.nombre, P.descuento,precio, precio-(P.descuento*precio*.1),P.inicio,P.fin,P.minimo, maximo FROM ofertas as O,promociones as P, productos WHERE ref=conjunto and tipo=0  and (conjunto=%s OR conjunto=%s OR conjunto=%s) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND P.fin"%(prod['Ref'],prod['Familia'],prod['Dep'])
+	  #self.ui.entabla(self.ui.tvOfertas,head,sql) 
 	  
     def calcularPrecio(self):
 	CP=CalculaDescuentos(self.ui)

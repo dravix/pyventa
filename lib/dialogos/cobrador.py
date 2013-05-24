@@ -10,9 +10,17 @@ class Cobrador(QDialog,Ui_Cobrador):
     #Tablename, columnas y filtros vienen dadas por una cadena de elementos separados por comas y es lo que se pasa al query
     QDialog.__init__(self)
     self.setupUi(self)
+    if caja<=0:
+      self.done(1)
     self.conexion=conexion
     self.wCambio.setVisible(False)
-    self.ventas=ventas
+    if isinstance(ventas,list) or isinstance(ventas,tuple):
+      ventas=map(str,ventas)
+      self.ventas=",".join(ventas)
+    elif isinstance(ventas,str) and ventas.find(',')>0:
+      self.ventas=",".join(ventas)
+    else:
+      self.ventas=ventas
     self.modelo=QModeloTablaSql(self.conexion.cursor,self)
     self.tabla.setModel(self.modelo)
     self.connect(self.leRecibo,SIGNAL("returnPressed()"),self.cobrar)
@@ -23,7 +31,8 @@ class Cobrador(QDialog,Ui_Cobrador):
   def iniciar(self):
     self.retorno=False
     venta=Venta(self.conexion)
-    total=venta.sumaTotales(" id in ({ide}) and status=0".format(ide=",".join(self.ventas)))
+    
+    total=venta.sumaTotales(" id in ({ide}) and status=0".format(ide=self.ventas))
     if total!=None:
       if total[0]==None:
 	print "Todas las ventas ya estan pagadas"
@@ -32,7 +41,7 @@ class Cobrador(QDialog,Ui_Cobrador):
 	self.total=float(total[0])
 	self.dsbTotal.setValue(self.total)
 	self.modelo.query("""Select notas.id, usuarios.usuario, cajas.nombre,total from notas,usuarios,cajas 
-	where status=0 and notas.id in ({ide}) and id_usuario=notas.usuario and cajas.num_caja=caja """.format(ide=",".join(self.ventas)),
+	where status=0 and notas.id in ({ide}) and id_usuario=notas.usuario and cajas.num_caja=caja """.format(ide=self.ventas),
 	    "id,usuario,caja,total".split(','))
 	self.tabla.resizeColumnsToContents()  
 	self.leRecibo.selectAll()

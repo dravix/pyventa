@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys, os, datetime, base64, locale, md5
+import sys, os, datetime
 from re import sub
 from lib.librerias.comun import *
 
@@ -24,9 +24,10 @@ else:
 #sys.path.append(os.path.join(aqui,'plugins'))
 #sys.path.append(os.path.join(aqui,'lib'))
 #sys.path.append('ui')
-locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+#locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 sys.path.append(os.path.join(home,'drivers'))
+sys.path.append(os.path.join('lib','extras'))
 import  tempfile, socket
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import Qt, QSize, QTimer
@@ -36,11 +37,10 @@ import MySQLdb, ConfigParser
 from lib.db_conf import configurador
 from lib.buscador import Buscador
 from lib.config import Configs
-from lib.cobro import Cobros
-from lib.caja import Cajas
+from lib.caja import Caja
 from lib.reporte import Reportes
 from lib.cventa import Cventa
-from lib.pendientes import Pendientes
+#from lib.pendientes import Pendientes
 from lib.selector import Selector
 from lib.utileria import Documento, MyTableModel,AperturaCaja
 from lib.dialogos.marca_faltante import Faltante
@@ -64,6 +64,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.setupUi(self)
 		self.showMaximized()
 		self.home=home
+		self.raiz=os.path.dirname(os.path.realpath(__file__))
 		self.datosModulos={}
 		self.stack.setCurrentIndex(0)
 		self.lista2.setSortingEnabled(True)
@@ -108,6 +109,9 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		#self.connect(self.tbusk, QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.adomatic)
 		#self.menubar.setVisible(False)
 		self.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.openf)
+		self.connect(self.actionAbrir_venta_extemporanea, QtCore.SIGNAL("triggered()"), self.abrirVExtempo)
+		self.connect(self.actionReimprimir_archivada, QtCore.SIGNAL("triggered()"), self.imprimirArchivada)
+		
 		self.connect(self.actionGuardar, QtCore.SIGNAL("triggered()"), self.savef)
 		self.connect(self.actionFacturar, QtCore.SIGNAL("triggered()"), self.cerrarFactura)
 		self.connect(self.actionNueva_sesion, QtCore.SIGNAL("triggered()"), self.iniciarSesion)
@@ -134,7 +138,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		    self.iniciarEstilo()
 		    self.iniciarSesion()
 		    driver=self.cfg.get('ticket','driver')
-		    self.ticketDriver=__import__("perfil.drivers.{}".format(driver),globals(),locals(),[driver])
+		    self.ticketDriver=__import__("perfil.drivers.{0}".format(driver),globals(),locals(),[driver])
 		else:
 		  print "Error al iniciar configuraciones"
 		#self.conexion()
@@ -157,33 +161,16 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.hlm.addWidget(self.bventa)
 		
 		self.modulos["config"]=Configs(self,self.stack.count())
-		#self.stack.addWidget(self.modulos["config"])
 		self.modulos["buscador"]=Buscador(self,self.stack.count())
-		self.stack.addWidget(self.modulos["buscador"])
-		
+		self.stack.addWidget(self.modulos["buscador"])		
 		self.modulos["cventa"]=Cventa(self,self.stack.count())
-		#self.stack.addWidget(self.modulos["cventa"])
-		#self.modulos["cobros"]=Cobros(self,self.stack.count())
-		#self.stack.addWidget(self.modulos["cobros"])
-		self.modulos["cajas"]=Cajas(self,self.stack.count())
-		self.stack.addWidget(self.modulos["cajas"])
 		self.modulos["reportes"]=Reportes(self,self.stack.count())
 		self.stack.addWidget(self.modulos["reportes"])
-		self.modulos["pendientes"]=Pendientes(self,self.stack.count())
-		self.stack.addWidget(self.modulos["pendientes"])
+		self.modulos["caja"]=Caja(self,self.stack.count())
+		self.stack.addWidget(self.modulos["caja"])
 		self.connect(self.lista2,QtCore.SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm2)
 		self.tbRegist.setDefaultAction(self.modulos["cventa"].action)
-		#self.modulos["config"]=config(self,self.stack.count())
-		#self.datosModulos.append(self.modulos["config"].datos)
-		#self.stack.addWidget(self.modulos["config"])
-		#self.menuModulos.addAction(self.modulos["config"].action)
-		
-		#self.modulos["cventa"]=cventa(self,self.stack.count())
-		#self.datosModulos.append(self.modulos["cventa"].datos)
         	self.connect(self.aGuardar, QtCore.SIGNAL("triggered()"), self.guardar )
-        	
-		#action=self.menuEdicion.addAction("Registrar compra")
-		#self.connect(action, QtCore.SIGNAL("triggered()"),self.nuevaCompra)
 		self.setupActions()
 		#print self.sesion['usuario']['level']
 		self.scan()
@@ -218,7 +205,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
       
     def setupActions(self):
       menu=QMenu(self)
-      modific=menu.addAction(QIcon(":/actions/images/actions/black_18/pecil.png"),"Modificar")
+      modific=menu.addAction(QIcon(":/actions/images/actions/color_18/calculator.png"),"Cambiar cantidad")
       self.removerProducto=menu.addAction(QIcon(":/actions/images/actions/black_18/cancel.png"),"Quitar de la lista",self.delete)
       self.tabla.addAction(modific)
       self.tabla.addAction(self.removerProducto)
@@ -249,36 +236,6 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	self.lnota.setText("Ultima Nota: <b>#"+self.nota+"</b>")	
 	self.codigo.setFocus()
 	
-    #def conexion(self):
-		#self.check()
-		#self.cfg = ConfigParser.ConfigParser()
-		#if self.cfg.read([os.path.join(self.home,"config.cfg")]):
-			#if self.cfg.has_option("mysql", "user"):
-				#try:
-				  #host = self.cfg.get("mysql", "host")  
-				  #user = self.cfg.get("mysql", "user")  
-				  #password = base64.b64decode(self.cfg.get("mysql", "pass"))
-				  #data = self.cfg.get("mysql", "db")
-				  #db = MySQLdb.connect(host, user, password,data)
-
-				#except:
-				      #self.configBd()
-				#else:
-				    #self.cursor = db.cursor()
-				    #self.curser= db.cursor(MySQLdb.cursors.DictCursor)
-				    #self.cursor.execute("select `id` from notas order by `id` desc limit 1;")
-				    #nota=self.cursor.fetchone()
-				    #if (nota!=None):
-				      #self.nota=str(nota[0])
-				      #self.lnota.setText("Ultima Nota: <b>#"+self.nota+"</b>")
-
-			#else:
-				#print "Iniciando el configurador"
-				#self.configBd()
-
-		#else:  
-		      #print "No se encontro el nombre en el archivo de configuracion.\nIniciando el configurador"
-		      #self.configBd()
 		      
     def iniciarMenus(self):
 	self.popLista2=QtGui.QMenu(self)
@@ -287,7 +244,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	
     def iniciarEstilo(self):	  
 	 try:
-	  kcss = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),"perfil","estilos",self.cfg.get("pyventa","estilo")),"r")
+	  kcss = open(os.path.join(self.raiz,"perfil","estilos",self.cfg.get("pyventa","estilo")),"r")
 	  estilo=kcss.read()
 	  self.setStyleSheet(estilo)
 	  kcss.close()	
@@ -341,7 +298,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		tb=QToolButton(self)
 		tb.setDefaultAction(clase.action)
 		tb.setAutoRaise(True)
-		tb.setIconSize(QSize(32,32))
+		tb.setIconSize(QSize(36,36))
 		tb.setToolButtonStyle(3)
 		self.hlm.addWidget(tb)
 	#self.hlm.addWidget(group)
@@ -365,47 +322,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	self.codigo.setFocus()
 	self.wResumen.setVisible(False)
 
-	
-    def tabular(self,tabla,sql,head):
-	    #col='`'
-	    #col+='`,`'.join(head)
-	    #col+='`' 
-	    tabla.clear()   
-	    try:
-	      self.cursor.execute(sql)
-	      result = self.cursor.fetchall()
-	    except MySQLdb.Error, e:
-	      print e
-	    else:
-	      tabla.setColumnCount(len(head))
-	      tabla.setRowCount(len(result))	 	 
-	      for i,data in enumerate(head):
-		  item = QtGui.QTableWidgetItem(1)
-		  item.setText(str(data))
-		  tabla.setHorizontalHeaderItem(i,item)
-	      for i,elem in enumerate(result):
-		  for j,data in enumerate(elem):
-		    item = QtGui.QTableWidgetItem(1)
-		    item.setText(str(data))
-		    tabla.setItem(i,j,item)
-	      tabla.resizeColumnsToContents()  
-	      
-    def entablar(self,tabla,lista,head):
-	    #Cumple la misma funcion que tabular, con la diferencia que esta recibe una lista de tuplas 
-	      tabla.clear()
-	      tabla.setColumnCount(len(head))
-	      tabla.setRowCount(len(lista))	 	 
-	      for i,data in enumerate(head):
-		  item = QtGui.QTableWidgetItem(1)
-		  item.setText(str(data))
-		  tabla.setHorizontalHeaderItem(i,item)
-	      for i,elem in enumerate(lista):
-		  for j,data in enumerate(elem):
-		    item = QtGui.QTableWidgetItem(1)
-		    item.setText(str(data))
-		    tabla.setItem(i,j,item)
-	      tabla.resizeColumnsToContents()   
-	      
+		      
     #def on_context_menu(self, point):
          #self.popMenu.exec_( self.lista2.mapToGlobal(point) )
 	 
@@ -429,8 +346,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
       else:   
 	Acceso =QtGui.QInputDialog.getText(self, self.tr("Filtro de Acceso"),self.tr("Ingrese su clave de autorizacion."),QtGui.QLineEdit.Password)                         
 	key=str(Acceso[0])
-	m=md5.new(key)
-	self.cursor.execute("select id_usuario,nivel from usuarios where clave='{0}' ".format(m.hexdigest()))
+	self.cursor.execute("select id_usuario,nivel from usuarios where clave=MD5('{0}') ".format(key))
 	val=self.cursor.fetchone()
 	if val!=None:
 	  if int(val[1])>=int(nivel):
@@ -524,7 +440,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		  #self.codigo.selectAll()
 		  return rec
 		else:
-		    self.codigo.setText("Producto no encontrado")
+		    self.codigo.setText("!Producto no encontrado")
+		    self.tutmp=False
 		    self.codigo.selectAll()
 		    self.dsbPrecio.setValue(0)
 		    
@@ -570,7 +487,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	      timer=QTimer.singleShot(5000,self.clearPromo)
 	      descuento=float(promo['descuento'])
 	      desc=producto[4]*(descuento*.01)
-	      self.Promo.setText("Aplica descuento de :{0}. ".format(promo['nombre']))
+	      self.Promo.setText("Aplica descuento de: {0}, {1}% ".format(promo['nombre'],promo['descuento']))
 	      producto[5]=producto[4]-desc
 	      producto[6]=descuento
 	return producto
@@ -580,31 +497,19 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	self.Promo.setText("")
 	
     def checkPromo(self,prod,cant):
-	  self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	  tipo=0 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
-	  maximo>={1} order by P.descuento desc """.format(prod['ref'],cant,hoy=self.hoy))
-	  oferta=self.curser.fetchone()
-	  if oferta==None:
-	    self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	    tipo=1 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
-	    maximo>={1} order by P.descuento desc""".format(prod['familia'],cant,hoy=self.hoy))
-	    oferta=self.curser.fetchone()
-	    if oferta==None:
-	      self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	      tipo=2 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1}  AND 
-	      maximo>={1} order by P.descuento desc""".format(prod['departamento'],cant,hoy=self.hoy))
-	      oferta=self.curser.fetchone()
-	      if oferta==None:
-		return False
-	      else:     
-		oferta=dicursor(self.curser,oferta)
-		return oferta
-	    else:      
-	      oferta=dicursor(self.curser,oferta)
-	      return oferta	    
-	  else:
+          sql="""SELECT tipo,descuento,P.nombre FROM ofertas as O,promociones as P,
+          productos, familias as F WHERE ((conjunto=ref AND tipo=0) OR (conjunto=familia AND tipo=1) OR
+          (conjunto=departamento AND tipo=2) ) AND O.promocion=P.id AND CURDATE() BETWEEN P.inicio AND
+          P.fin AND familia=F.id and ref={ref} and {cantidad} BETWEEN minimo and maximo and {hoy}
+          order by tipo""".format(ref=prod['ref'],cantidad=cant,hoy=self.hoy)
+          self.curser.execute(sql)
+          oferta=self.curser.fetchone()
+	  if oferta!=None and len(oferta)>0:
 	    oferta=dicursor(self.curser,oferta)
 	    return oferta
+	  else:
+	    return False
+
 	    
     def checkAllPromos(self,ref):
 	  promos=[]
@@ -624,9 +529,9 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
     
       
     def buscar(self,txt):
-	if(txt!=None and self.tutmp==False):
+	if(txt!=None):
 	  txt=str(txt)
-	  if ((len(txt)>2) and (txt[0].isdigit()==False)):
+	  if ((len(txt)>2) and (txt[0].isdigit()==False) and txt[0]!='!'):
 	    li=txt.split(' ')
 	    fil=[]
 	    for l in li:
@@ -644,17 +549,18 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	    #self.lista2.resize(self.lista2.columnWidth(1)+self.lista2.columnWidth(2), self.lista2.height() )
 	    self.splitter.moveSplitter(self.lista2.columnWidth(1)+self.lista2.columnWidth(2),1)
 
+
     def busca2(self,modelIndex):
 	ref=self.moli2.getCell(modelIndex,0)
 	desc=self.moli2.getCell(modelIndex,1)
 	precio=self.moli2.getCell(modelIndex,2)
 	self.tutmp=[int(ref), 0,desc, float(precio),0]
 	rec=self.adomatic(ref)
-	self.checkAllPromos(ref)
+	#self.checkAllPromos(ref)
 
 		
     def reprint(self):
-    	nota =QtGui.QInputDialog.getInteger(self, self.tr("Copiar nota"),self.tr("Ingrese el numero de nota."))
+    	nota =QtGui.QInputDialog.getInteger(self, self.tr("Reimprimir venta"),self.tr("Numero de venta."))
     	if nota[1]:
     	  self.limpiar()                         
 	  ide=nota[0]	
@@ -677,7 +583,11 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		self.ingreso(tmp)
 	  self.imprimirTicket()
 	  self.limpiar()
-
+    
+    def imprimirArchivada(self):
+	self.abrirVExtempo()
+	self.imprimirTicket()
+	self.limpiar()
 
 		
 
@@ -695,7 +605,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         desc=round(suma-total,1)
         total=round(total,1)
         sub=round(suma,1)
-        self.ltotal.setText("GT: ${:,.2f}".format(total))        
+        self.ltotal.setText("GT: ${0:,.2f}".format(total))        
 	self.resumen.setText("<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:600; font-style:italic;\">Subtotal:</span><span style=\" font-size:11pt;\"> 	</span><span style=\" font-size:11pt; font-weight:600; \">$ "+str(sub)+"</span></p>\
 <p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; font-weight:600;\"><span style=\" font-style:italic;\">Descuento:	</span><span style=\" \">$ "+str(desc)+"</span></p>")
 	self.datos['subtotal']=sub
@@ -775,7 +685,22 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		total=float(cant[i])*float(producto[1])
 		tmp=[int(prod),float(cant[i]), producto[0],float(producto[1]),total]
 		self.ingreso(tmp)
-
+		
+    def abrirVExtempo(self):
+      ide =QtGui.QInputDialog.getInteger(self, self.tr("Abrir venta archivada"),self.tr("Folio de venta:"))
+      if ide[1]:
+	try:
+	  sql="select nota  from notas_cobradas where id={0} ;".format(ide[0])
+	  self.cursor.execute(sql)
+	except MySQLdb.Error, e:
+	  print e
+	except sqlite3.Error, e:
+	  raise(e)
+	else:
+	  venta=self.cursor.fetchone()
+	  if venta!=None :
+	    self.abrirNota(venta[0],False)
+	    
     def abrirNota(self,ide,edicion=True):
 	nota=None
 	cliente=[]
@@ -876,13 +801,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  return self.modulos['cventa'].eliminarCompra(compra)
 	    
     def cancelNota(self):
-	#msgBox=QMessageBox()
-	#msgBox.setText("Se cancelara la nota <b>"+str(self.nota)+"</b> ")
-	#msgBox.setInformativeText("Desea eliminar permanentemente la nota?")
-	#msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-	#ret=msgBox.exec_()
       if self.aut(2)>0:
-	nota =QtGui.QInputDialog.getInteger(self, self.tr("Cancelar nota"),self.tr("Ingrese el numero de nota."))
+	nota =QtGui.QInputDialog.getInteger(self, self.tr("Cancelar nota"),self.tr("Numero de nota."))
 	if nota[1]:
 	  try:
 	    self.cursor.execute("""UPDATE existencia as e, vendidos as v SET stock_logico=stock_logico+cantidad WHERE e.producto=v.producto and venta=%s;"""%nota[0])
@@ -914,12 +834,6 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	    self.basket.remove(item)
 	self.verCanasta()
 	self.grant()
-      
-	#lista=self.tabla.selectedIndexes()
-	#for index in lista:
-	  #if self.canasta.removeRow(index.row()):
-	    #self.basket=self.canasta.getVector()
-	#self.grant()
 	
     def abrirCajon(self):
 	if self.aut(2)>0:
@@ -1155,7 +1069,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	campos['{fecha}']=str(self.fecha)  
 	campos['{cliente}']=self.cliente['nombre']
 	new="/tmp/presupuesto.fodt"
-	doc=open("perfil/formas/presupuesto.fodt","r")
+	doc=open(self.raiz+"/perfil/formas/presupuesto.fodt","r")
 	tmp=open(new,"w")
 	body=doc.read()
 	tabla="""<table:table-row table:style-name="tabla.3">
@@ -1295,14 +1209,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  self.sesion['usuario']=dlg.usuario
 	  self.cursor=dlg.cursor
 	  self.curser=dlg.curser
-	
-    #def queryTable(self):
-      #print self.dbm.open()
 
-      #model=QtSql.QSqlQueryModel(self)
-      #model.setQuery("select descripcion, costo from productos limit 10,10;")
-      #self.lista2.setModel(model)
-      #return QtSql.QSqlQueryModel(self)
     def verCanasta(self):
       #if len(self.basket)<=0:
 	head=['Ref','Ctd','Descripcion del producto','Precio','Importe','c/Dcto']
@@ -1365,26 +1272,5 @@ if __name__=="__main__":
     aw = Pyventa()
     aw.show()
     app.exec_()
-    
-  #app = QtGui.QApplication(sys.argv)
-  ## Create and display the splash screen
-  #splash_pix = QtGui.QPixmap('/usr/share/pyventa/images/splash.png')
-  #splash = QSplashScreen(splash_pix, Qt.SplashScreen)
-  #splash.setMask(splash_pix.mask())
-  #splash.show()
-  #splash.showMessage("Cargando modulos...",1,Qt.white)
-  #app.processEvents()
-      ## Simulate something that takes time
-  ##time.sleep(2)
-  #aw = Pyventa()
-  #aw.show()
-  #splash.finish(aw)
-  #app.exec_()
-  
-    #app = QtGui.QApplication(sys.argv)
-    #app.processEvents()
-    #aw = ingreso()
-    #aw.show()
-    
-    #sys.exit(app.exec_())
+
 	

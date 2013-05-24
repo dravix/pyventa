@@ -3,7 +3,7 @@ QToolBar,#head,#top {background-color: qlineargradient(spread:pad, x1:0, y1:0, x
 #gingreso,#csCliente,#topBusca,#topReportes,QSplitter{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(78, 182, 195, 255), stop:1 rgba(63, 129, 141, 255));color:#fff;border:0px;} 
 #top QLabel{color:#fff;}
 #titulo{font-size:18px; font-weight:bold;color:#fff;}
-#csCliente{ border:1px solid #2C9CB2; color:#F7B21A; margin-bottom:5px;border-radius:7px}
+#csCliente{ border:1px solid #0E768B; background:#0FA4C2;padding:5px;color:#FFF; margin-bottom:5px;border-radius:7px}
 QLineEdit{padding-left:3px;margin:4px; border:2px solid  #888 ; border-radius:8px; background:#fff;}
 QLineEdit {background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(62, 62, 62, 255), stop:0.0818182 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));border:1 solid #2E6979;border-radius:4px;  color:#222;
 }
@@ -19,9 +19,11 @@ QLineEdit {background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,
  #resumen{ background:none; }
 #wLetreros QLabel{color:#efefef}
 
-QPushButton{color: #576878;border-radius:9px;  border:1px solid  #bbb;background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(216, 216, 216, 255), stop:0.495455 rgba(229, 229, 229, 255), stop:1 rgba(255, 255, 255, 255));padding:4px}
-QPushButton::hover{ color:#ffffff;background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(149, 149, 149, 255), stop:0.495455 rgba(156, 156, 156, 255), stop:1 rgba(214, 214, 214, 255));}
-QAction{ background:#003377;border:solid #bbb 1px;}
+ QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+	border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;}
+QPushButton::pressed,QToolButton::pressed{
+	color:#fff;	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));}
 #head QToolButton{margin:3px;color:#eee;font-weight:500; font-size:10px;}
 #head QToolButton:hover{background: rgba(255, 255, 255,0);color:#fff;border:0px #555 solid;border-radius:5px;}
 #tabla,QTableView QTableCornerButton::section{ background-color: #F3F3DB;selection-background-color:#F6F096; alternate-background-color:#F0F0C9;color:#246;} 

@@ -6,7 +6,7 @@
 -- Generation Time: Oct 16, 2011 at 05:21 AM
 -- Server version: 5.1.58
 -- PHP Version: 5.3.8
-
+-- Version 2.36
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -365,8 +365,7 @@ CREATE TABLE IF NOT EXISTS `subproductos` (
   `subproducto` int(11) NOT NULL,
   `cantidad` float NOT NULL,
   `producto` int(200) NOT NULL,
-  PRIMARY KEY (`subproducto`),
-  KEY `fk_subproductos_productos1` (`producto`)
+  PRIMARY KEY (`subproducto`,`producto`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

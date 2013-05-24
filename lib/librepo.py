@@ -223,6 +223,7 @@ class Ventas:
       
     def detallarDeptos(self,caja='1'):
       periodo=self.periodo.replace("fecha", "n.fecha")
+      
       self.cursor.execute("select DISTINCT d.nombre,count(n.id),ROUND(sum(v.total),2) from productos as p, notas as n, vendidos as v, familias as f, departamentos as d where {periodo}  and v.venta=n.id and p.ref=v.producto and f.id=p.familia  and d.id=f.departamento and {caja} group by d.id order by ROUND(sum(v.total),2) desc;".format(periodo=periodo,caja=caja))
       rows=self.cursor.fetchall()
       self.ventas['deptos']=list([list(a) for a in rows])
@@ -241,10 +242,27 @@ class Ventas:
       periodo=self.periodo.replace("fecha", "n.fecha")
       self.cursor.execute("select DISTINCT descripcion,count(n.id), ROUND(sum(v.total),2),ROUND(sum(v.cantidad),2),u.nombre, stock_logico, ROUND(stock_logico-sum(v.cantidad),2)  from productos as p, notas as n, vendidos as v, existencia as e, unidades as u where {periodo} and {caja}  and v.venta=n.id and p.ref=v.producto and e.producto=ref and u.id=unidad group by ref order by count(n.id) desc limit {limit};".format(periodo=periodo,caja=caja,limit=limit))
       rows=self.cursor.fetchall()
-      self.ventas['prods']=list([list(a) for a in rows])
-      tabla=libutil.listaHtml(self.ventas['prods'],"Mejores productos vendidos",['Producto','# Ventas','Monto total','U. Vendidas','Unidad','Stock <br/>actual','Requeridas'],'#fff',"#239AB1", 12,anchos=[35,10,15,10,10,10,10]) 
-      return tabla      
+      heads=['Producto','# Ventas','Monto total','U. Vendidas','Unidad','Stock actual','Requeridas']
+      titulo="Productos mejor vendidos"
+      lista=list([list(a) for a in rows])
+      lista.insert(0,heads)
+      lista.insert(0,titulo)
+      return lista     
     
+    def detallarFamilia(self,ide,nombre="",caja='1'):
+      """Devuelve la lista de productos pertenecientes a la familia vendidos en el periodo"""
+      periodo=self.periodo.replace("fecha", "n.fecha")
+      self.cursor.execute("select DISTINCT descripcion,count(n.id), ROUND(sum(v.total),2),ROUND(sum(v.cantidad),2),u.nombre, stock_logico, ROUND(stock_logico-sum(v.cantidad),2)  from productos as p, notas as n, vendidos as v, existencia as e, unidades as u where {periodo} and {caja} and familia={familia} and v.venta=n.id and p.ref=v.producto and e.producto=ref and u.id=unidad group by ref order by descripcion ".format(familia=ide,periodo=periodo,caja=caja))
+
+      rows=self.cursor.fetchall()
+      heads=['Producto','# Ventas','Monto total','U. Vendidas','Unidad','Stock actual','Requeridas']
+      titulo="Productos de la familia {0}".format(nombre)
+      lista=list([list(a) for a in rows])
+      lista.insert(0,heads)
+      lista.insert(0,titulo)
+      return lista      
+
+
     def imprimir(self,html):
 	campos={'fecha':self.parent.fecha}
 	for key in self.parent.modulos['config'].modulos['empresa']:

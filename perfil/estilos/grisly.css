@@ -6,6 +6,8 @@ QToolBar,#head {	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x
 	color:#555;}
 #titulo{
 	font-size:18px; font-weight:bold;color:#fff;}
+#csCliente{ border:1px solid #4D4D4D; background:#BFBFBF;padding:5px;color:#FFF; margin-bottom:5px;border-radius:7px}
+
 .QSplitter{background:transparent;}
 #gingreso,#csCliente,#topBusca,#topReportes,#top{
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(200, 200, 200, 

@@ -1,5 +1,5 @@
 #!/bin/sh
-BASE="/home/dave/devel/pyventa/2.3"
+BASE="/home/dave/devel/pyventa/lite"
 cd $BASE;
 BUILDER=$BASE"/../builder"
 VERSION=$(zenity --width 200 --entry --title "Debianizando Pyventa" --text "Indica la version que sera publicada:" );

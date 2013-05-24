@@ -11,4 +11,4 @@ class Impuestos(Admin1):
       self.ui.connect(self.ui.verImpuestos, QtCore.SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tImpuestos, QtCore.SIGNAL("clicked()"), self.iniciar)
       #self.ui.tbrProductos.addAction(self.ui.verImpuestos)
-      self.anclar(attached)
+      self.anclar(not attached)

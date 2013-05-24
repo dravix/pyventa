@@ -111,5 +111,9 @@ ALTER TABLE  `compras` ADD  `estado` INT NOT NULL
 
 -- ----3.5--
 ALTER TABLE  `movimientos` CHANGE  `tipo`  `tipo` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
-ALTER TABLE  `clientes` ADD  `limite_credito` FLOAT NULL
-
+-- ALTER TABLE  `clientes` ADD  `limite_credito` FLOAT NULL
+ALTER TABLE `subproductos`
+  DROP PRIMARY KEY,
+   ADD PRIMARY KEY(
+     `subproducto`,
+     `producto`);

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qt/dialogos/ui_cobrador.ui'
 #
-# Created: Sat May 11 15:46:29 2013
+# Created: Tue May 14 03:29:22 2013
 #      by: PyQt4 UI code generator 4.9.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -182,6 +182,7 @@ class Ui_Cobrador(object):
         self.pbCerrar.setIcon(icon1)
         self.pbCerrar.setIconSize(QtCore.QSize(18, 18))
         self.pbCerrar.setAutoDefault(False)
+        self.pbCerrar.setFlat(True)
         self.pbCerrar.setObjectName(_fromUtf8("pbCerrar"))
         self.horizontalLayout_4.addWidget(self.pbCerrar)
         self.tbCobrar = QtGui.QPushButton(self.botonUnion)

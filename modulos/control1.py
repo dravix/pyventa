@@ -3,6 +3,7 @@ from ui.ui_control1 import Ui_Masul as Form
 from lib import utileria 
 from lib import libutil
 from PyQt4.QtCore import QDate
+import sqlite3
 #from utileria import MyTableModel
 class Admin1(QtGui.QDialog,Form):
     def __init__(self,padre,objeto,campos,info="",logo=-1,ide=-1,ancla=False,cond=""):
@@ -78,7 +79,6 @@ class Admin1(QtGui.QDialog,Form):
 	      #self.connect(self.tbCerrar, QtCore.SIGNAL("clicked()"), lambda:self.done(-1))
 	      self.connect(self.tbHome, QtCore.SIGNAL("clicked()"), self.listar)
 	      self.connect(self.tbModif, QtCore.SIGNAL("clicked()"), self.guardar)
-	      self.connect(self.tbAgregar, QtCore.SIGNAL("clicked()"), self.limpiar)
 	      self.connect(self.tbLimpiar, QtCore.SIGNAL("clicked()"), self.limpiar)
 	      #self.connect(self.tvTabla,QtCore.SIGNAL('cellDoubleClicked (int, int)'),self.seleccionar)
 	      self.connect(self.tvTabla, QtCore.SIGNAL("activated(const QModelIndex&)"), self.seleccionar)
@@ -248,15 +248,19 @@ class Admin1(QtGui.QDialog,Form):
 	    msgBox.exec_()
 	
     def agregar(self):
-	self.setDato(0,'')      
 	campos=[]
 	for key,item in enumerate(self.campos):
-	  campos.append(" '%s' "%(self.getDato(key)))      
-	sql="INSERT INTO %s VALUES(%s)"%(self.objeto,','.join(campos))
+	  if key>0:
+	    campos.append(" '%s' "%(self.getDato(key)))      
+	sql="INSERT INTO %s VALUES(NULL,%s)"%(self.objeto,','.join(campos))
 	try:
 	  self.cursor.execute(sql)
-	except:
+	except sqlite3.Error,e:
 	  print sql
+	  raise(e)
+	  return False
+	except :
+	  #print sql
 	  error="No se agrego correctamente, verifique el log"
 	  print error
 	  return error

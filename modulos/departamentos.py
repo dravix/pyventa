@@ -13,7 +13,7 @@ class Departamentos(Admin1):
       self.ui.connect(self.ui.verDepartamentos, SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tDepartamentos, SIGNAL("clicked()"), self.iniciar)
       #self.ui.tbrProductos.addAction(self.ui.verDepartamentos)
-      self.anclar(attached)
+      self.anclar(not attached)
       
     def eliminar(self,ide=-1):
 	#msgBox=QMessageBox(QMessageBox.Question,"Eliminar relacionados","Desea eliminar las familias relacionadas con este departamento?"%key,QMessageBox.Yes|QMessageBox.No,self.ui, Qt.WindowStaysOnTopHint)

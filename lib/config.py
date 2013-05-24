@@ -9,7 +9,8 @@ from lib.librerias.configurador import Configurador
 import MySQLdb
 import ConfigParser
 from ui.ui_editor_ticket import Ui_Dialog as Editor
-from lib.buscador_pop import buscadorPop
+from lib.selector import Selector
+
 if sys.platform == 'linux2':
   import cups
 class Configs(QtGui.QDialog, Ui_Form):
@@ -151,6 +152,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 		  pass
 	    self.sbCaja.setValue(float(self.kfg.getDato("pyventa","caja")))
 	    self.chbRecibePagos.setCheckState(int(self.kfg.getDato("pyventa","cobra")))
+	    print int(self.kfg.getDato("pyventa","cobra"))
 	    #self.gbTickets.setChecked(bool(int(self.kfg.getDato("ticket","default"))))
 	    #self.gbFacturas.setChecked(bool(int(self.kfg.getDato("factura","default"))))
 	    self.gbBox.setChecked(bool(int(self.kfg.getDato("pyventa","caja"))))
@@ -184,15 +186,18 @@ class Configs(QtGui.QDialog, Ui_Form):
 
 	
     def setupMenus(self):
-      respaldos=self.parent.menuPyventa.addMenu("Respaldos")
-      respaldos.addAction("Generar respaldo",self.respaldarLocal)
-      respaldos.addAction("Restaurar todo",lambda:self.restaurar(True,True))
-      
-      respaldos.addSeparator()
-      respaldos.addAction("Restaurar base de datos",lambda:self.restaurar(True,False))
-      respaldos.addAction("Restaurar configuraciones",lambda:self.restaurar(False,True))
-      
-      self.parent.menuHerramientas.addAction("Configuraciones",self.launch)
+      try:
+	respaldos=self.parent.menuPyventa.addMenu("Respaldos")
+	respaldos.addAction("Generar respaldo",self.respaldarLocal)
+	respaldos.addAction("Restaurar todo",lambda:self.restaurar(True,True))
+	
+	respaldos.addSeparator()
+	respaldos.addAction("Restaurar base de datos",lambda:self.restaurar(True,False))
+	respaldos.addAction("Restaurar configuraciones",lambda:self.restaurar(False,True))
+	
+	self.parent.menuHerramientas.addAction("Configuraciones",self.launch)
+      except:
+	pass
 
       
     def cambiarLogo(self):
@@ -244,7 +249,8 @@ class Configs(QtGui.QDialog, Ui_Form):
 	msgBox.setStandardButtons(QtGui.QMessageBox.Ok | QtGui.QMessageBox.Cancel)
 	ret=msgBox.exec_()
 	if ret==QtGui.QMessageBox.Ok:
-	  self.parent.insert()
+	  self.hide()
+	  #self.parent.insert()
 	    
     def crearDB(self):
 		fi=open('./perfil/db.sql')
@@ -418,11 +424,11 @@ class Configs(QtGui.QDialog, Ui_Form):
 	
     def buscador(self):
       sql="SELECT num_caja, caja, maquina from cajas;"
-      app=buscadorPop(self,'',1,['Num_caja','Nombre','Maquina'],'cajas')
-      #Proceso padre, texto a buscar, numero de columna, arreglo de columnas, tabla sql, seleccion multiple bool
-      ret=app.exec_()
-      if ret>0:
-	caja=app.selected()
+      app=Selector(self.parent,"Caja","cajas",'num_caja,nombre,maquina','Id,Nombre ,Equipo',
+      "(`nombre` like '%{0}%') order by nombre  ")
+      done=app.exec_()
+      if done==1:
+	caja=app.retorno
 	if len(caja)>0 and len(caja[0])>0:
 	  self.sbCaja.setValue(int(caja[0][0]))
 	  self.setCambio('pyventa','caja',self.sbCaja.value())		
@@ -439,7 +445,7 @@ class Configs(QtGui.QDialog, Ui_Form):
       self.datos['nivel']=nivel
     
     def setRecibePagos(self,bo):
-	self.setCambio('pyventa','cobra',bo)		
+	self.setCambio('pyventa','cobra',bo)
 	
     def setPrinter(self,st):
 	self.setCambio('ticket','impresora',st)
@@ -467,6 +473,9 @@ class Configs(QtGui.QDialog, Ui_Form):
        self.setCambio('ticket','copia-trigger',str(self.dsbCopia.value()))
       
       #====GETTERS====
+      
+    def _getRecibePagos(self,bo):
+	self.chbRecibePagos.setCheckState(self.cfg.get('pyventa','cobra'))     
 	
     def datos(self):
       return self.datos
