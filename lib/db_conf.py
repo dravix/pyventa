@@ -40,7 +40,7 @@ class configurador(QtGui.QDialog, Ui_Dialog):
     def crearDB(self):
 		progress=QtGui.QProgressDialog("Cargando la base de datos","Cerrar", 0, 4, self)
 		#progress.setWindowModality(Qt.WindowModal)
-		fi=open('/usr/share/pyventa/perfil/db.sql')
+		fi=open('perfil/db.sql')
 		tpv=fi.read()
 		progress.setValue(1)
 		progress.setLabelText("Verificando BD anteriores")

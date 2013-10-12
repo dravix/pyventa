@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>938</width>
-    <height>612</height>
+    <width>696</width>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Pyventa - Punto de venta</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../2.3/icons.qrc">
+   <iconset resource="../icons.qrc">
     <normaloff>:/modulos/images/pyventa.png</normaloff>:/modulos/images/pyventa.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -44,211 +44,364 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWidget" name="lpinfo" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>6</number>
-            </property>
-            <item>
-             <widget class="QFrame" name="fLine">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QToolButton" name="tbmPyventa">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Pyventa</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbmArchivo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Archivo</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbmEdicion">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Edicion</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbmModulos">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Modulos</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbmHerramientas">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Herramientas</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="tbmSesion">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Sesion</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::NoArrow</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="fLine">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
 QToolButton, QLineEdit,QDoubleSpinBox{background:transparent; border:0px; padding:3px}</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>0</number>
               </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+              <property name="margin">
+               <number>0</number>
               </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+              <item>
+               <widget class="QLineEdit" name="codigo">
+                <property name="minimumSize">
+                 <size>
+                  <width>380</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Referencia, codigo o descripcion</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="dsbPrecio">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Precio</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background:transparent;</string>
+                </property>
+                <property name="frame">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
+                <property name="prefix">
+                 <string>$</string>
+                </property>
+                <property name="maximum">
+                 <double>9999.989999999999782</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="fcant">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
+QToolButton, QLineEdit{background:transparent; border:0px; padding:2px}</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_52">
+              <property name="spacing">
+               <number>0</number>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_51">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="sizeConstraint">
-                <enum>QLayout::SetFixedSize</enum>
-               </property>
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLineEdit" name="codigo">
-                 <property name="minimumSize">
-                  <size>
-                   <width>300</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                  </font>
-                 </property>
-                 <property name="toolTip">
-                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Puede regresar a este punto de registro de productos, presionando la tecla &lt;span style=&quot; font-weight:600;&quot;&gt;Inser&lt;/span&gt; o &lt;span style=&quot; font-weight:600;&quot;&gt;Insertar&lt;/span&gt; desde cualquier lugar del punto de venta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDoubleSpinBox" name="dsbPrecio">
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="toolTip">
-                  <string>Precio</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="prefix">
-                  <string>$</string>
-                 </property>
-                 <property name="maximum">
-                  <double>99999.990000000005239</double>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="fLine_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="leftMargin">
+               <number>0</number>
               </property>
-              <property name="styleSheet">
-               <string notr="true">.QFrame{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}
-QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
+              <property name="topMargin">
+               <number>0</number>
               </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+              <property name="rightMargin">
+               <number>2</number>
               </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+              <property name="bottomMargin">
+               <number>0</number>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_52">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>2</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLineEdit" name="cant">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>90</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="toolTip">
-                  <string>Cantidad</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>1.00</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
+              <item>
+               <widget class="QLineEdit" name="cant">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>90</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Cantidad</string>
+                </property>
+                <property name="text">
+                 <string>1.00</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="hlm">
          <property name="spacing">
           <number>1</number>
          </property>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item>
           <widget class="QToolButton" name="bventa">
            <property name="cursor">
@@ -261,7 +414,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
             <string>Punto</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/modulos/images/png/elegant/ventas.png</normaloff>:/modulos/images/png/elegant/ventas.png</iconset>
            </property>
            <property name="iconSize">
@@ -269,9 +422,6 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
              <width>36</width>
              <height>36</height>
             </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextUnderIcon</enum>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -297,8 +447,8 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
-             <normaloff>:/actions/images/actions/black_18/resize2.png</normaloff>:/actions/images/actions/black_18/resize2.png</iconset>
+            <iconset resource="../icons.qrc">
+             <normaloff>:/actions/images/actions/white_18/resize2.png</normaloff>:/actions/images/actions/white_18/resize2.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -365,7 +515,7 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -373,546 +523,579 @@ QToolButton, QLineEdit{background:transparent; border:0px; padding:3px}</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QSplitter" name="splitter">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="handleWidth">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="layoutWidget">
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <widget class="QTableView" name="lista2">
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                  </font>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::CustomContextMenu</enum>
-                 </property>
-                 <property name="lineWidth">
-                  <number>0</number>
-                 </property>
-                 <property name="verticalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                 <property name="editTriggers">
-                  <set>QAbstractItemView::NoEditTriggers</set>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="selectionBehavior">
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="showGrid">
-                  <bool>false</bool>
-                 </property>
-                 <attribute name="horizontalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QFrame" name="gcanasta">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_8">
-               <property name="spacing">
-                <number>0</number>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QFrame" name="gingreso">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>200</verstretch>
+                </sizepolicy>
                </property>
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QFrame" name="gingreso">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>200</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_9">
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QWidget" name="widget_2" native="true">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_6">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="logo">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>17</pointsize>
-                           <weight>75</weight>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>Nota de Venta</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QToolButton" name="csCliente">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>190</width>
-                           <height>16777215</height>
-                          </size>
-                         </property>
-                         <property name="toolTip">
-                          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QWidget" name="widget_2" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <widget class="QLabel" name="logo">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>17</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="pixmap">
+                      <pixmap resource="../icons.qrc">:/modulos/images/png/pyventa.vende.bien.png</pixmap>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="lfecha">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>&lt;b&gt;Fecha:&lt;/b&gt;</string>
+                     </property>
+                     <property name="textFormat">
+                      <enum>Qt::RichText</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="lnota">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Ultima nota:</string>
+                     </property>
+                     <property name="textFormat">
+                      <enum>Qt::RichText</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>Cliente:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="csCliente">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Para seleccionar un cliente de manera rapida solo presione las teclas &quot;&lt;span style=&quot; font-weight:600;&quot;&gt;Control&lt;/span&gt;&quot; y &quot;&lt;span style=&quot; font-weight:600;&quot;&gt;K&lt;/span&gt;&quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                         </property>
-                         <property name="text">
-                          <string>Seleccionar un cliente</string>
-                         </property>
-                         <property name="icon">
-                          <iconset resource="../../2.3/icons.qrc">
-                           <normaloff>:/actions/images/actions/black_18/administrator.png</normaloff>:/actions/images/actions/black_18/administrator.png</iconset>
-                         </property>
-                         <property name="iconSize">
-                          <size>
-                           <width>18</width>
-                           <height>18</height>
-                          </size>
-                         </property>
-                         <property name="shortcut">
-                          <string>Ctrl+K</string>
-                         </property>
-                         <property name="autoRepeat">
-                          <bool>true</bool>
-                         </property>
-                         <property name="toolButtonStyle">
-                          <enum>Qt::ToolButtonTextBesideIcon</enum>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="wLetreros" native="true">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Seleccionar un cliente</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../icons.qrc">
+                       <normaloff>:/actions/images/actions/black_18/administrator.png</normaloff>:/actions/images/actions/black_18/administrator.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>18</width>
+                       <height>18</height>
+                      </size>
+                     </property>
+                     <property name="shortcut">
+                      <string>Ctrl+K</string>
+                     </property>
+                     <property name="autoRepeat">
+                      <bool>true</bool>
+                     </property>
+                     <property name="toolButtonStyle">
+                      <enum>Qt::ToolButtonTextBesideIcon</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_3">
+                     <property name="text">
+                      <string>Atiende</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="tbUsuario">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Para seleccionar un cliente de manera rapida solo presione las teclas &quot;&lt;span style=&quot; font-weight:600;&quot;&gt;Control&lt;/span&gt;&quot; y &quot;&lt;span style=&quot; font-weight:600;&quot;&gt;K&lt;/span&gt;&quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Usuario</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../icons.qrc">
+                       <normaloff>:/actions/images/actions/black_18/administrator.png</normaloff>:/actions/images/actions/black_18/administrator.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>18</width>
+                       <height>18</height>
+                      </size>
+                     </property>
+                     <property name="shortcut">
+                      <string>Ctrl+K</string>
+                     </property>
+                     <property name="autoRepeat">
+                      <bool>true</bool>
+                     </property>
+                     <property name="toolButtonStyle">
+                      <enum>Qt::ToolButtonTextBesideIcon</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_8">
+                     <item>
+                      <widget class="QToolButton" name="tbRegistrar">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(158, 199, 90);border:rgb(43, 103, 27);</string>
+                       </property>
+                       <property name="text">
+                        <string>Registrar</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/actions/images/actions/white_18/checkmark2.png</normaloff>:/actions/images/actions/white_18/checkmark2.png</iconset>
+                       </property>
+                       <property name="toolButtonStyle">
+                        <enum>Qt::ToolButtonTextUnderIcon</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QToolButton" name="tbBorrar">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(255, 120, 93);border:rgb(145, 40, 40)</string>
+                       </property>
+                       <property name="text">
+                        <string>Borrar todo</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/actions/images/actions/white_18/cancel.png</normaloff>:/actions/images/actions/white_18/cancel.png</iconset>
+                       </property>
+                       <property name="toolButtonStyle">
+                        <enum>Qt::ToolButtonTextUnderIcon</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="lpinfo" native="true">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_4">
+                      <property name="leftMargin">
+                       <number>3</number>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout">
-                       <property name="spacing">
-                        <number>2</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>12</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>2</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>12</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>2</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="lfecha">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="text">
-                          <string>&lt;b&gt;Fecha:&lt;/b&gt;</string>
-                         </property>
-                         <property name="textFormat">
-                          <enum>Qt::RichText</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="lnota">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="text">
-                          <string>Nota:</string>
-                         </property>
-                         <property name="textFormat">
-                          <enum>Qt::RichText</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="lblModo">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>9</pointsize>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>Ingreso manual</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="widget_5" native="true">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_15">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>3</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="resumen">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>12</pointsize>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>Gran Total</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="ltotal">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>26</pointsize>
-                           <weight>75</weight>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>$000.00</string>
-                         </property>
-                         <property name="scaledContents">
-                          <bool>true</bool>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                         </property>
-                         <property name="margin">
-                          <number>5</number>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="wResumen" native="true">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_5">
-                    <item>
-                     <widget class="QWidget" name="widget" native="true">
-                      <layout class="QVBoxLayout" name="verticalLayout_11">
-                       <item>
-                        <widget class="QCheckBox" name="chbImprimirTicket">
-                         <property name="text">
-                          <string>Imprimir ticket</string>
-                         </property>
-                         <property name="checked">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_3">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                      <property name="rightMargin">
+                       <number>3</number>
                       </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
+                      <property name="bottomMargin">
+                       <number>0</number>
                       </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout">
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <pointsize>20</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>Recibido:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QDoubleSpinBox" name="dsbRecibido">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <pointsize>24</pointsize>
-                          <weight>75</weight>
-                          <bold>true</bold>
-                         </font>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="prefix">
-                         <string>$</string>
-                        </property>
-                        <property name="maximum">
-                         <double>99999.990000000005239</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="lblCambio">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <pointsize>20</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>Cambio</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QDoubleSpinBox" name="dsbCambio">
-                        <property name="enabled">
-                         <bool>false</bool>
-                        </property>
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <pointsize>26</pointsize>
-                          <weight>75</weight>
-                          <bold>true</bold>
-                         </font>
-                        </property>
-                        <property name="frame">
-                         <bool>true</bool>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="readOnly">
-                         <bool>true</bool>
-                        </property>
-                        <property name="buttonSymbols">
-                         <enum>QAbstractSpinBox::NoButtons</enum>
-                        </property>
-                        <property name="prefix">
-                         <string>$</string>
-                        </property>
-                        <property name="maximum">
-                         <double>99999.990000000005239</double>
-                        </property>
-                       </widget>
-                      </item>
                      </layout>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="footer" native="true">
-                   <layout class="QHBoxLayout" name="horizontalLayout_4">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="sizeConstraint">
-                     <enum>QLayout::SetDefaultConstraint</enum>
-                    </property>
-                    <item>
-                     <widget class="QLabel" name="Promo">
-                      <property name="font">
-                       <font>
-                        <pointsize>11</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="margin">
-                       <number>5</number>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QTableView" name="tabla">
-                   <property name="font">
-                    <font>
-                     <pointsize>12</pointsize>
-                    </font>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="footer" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <property name="spacing">
+                    <number>0</number>
                    </property>
-                   <property name="contextMenuPolicy">
-                    <enum>Qt::ActionsContextMenu</enum>
+                   <property name="sizeConstraint">
+                    <enum>QLayout::SetDefaultConstraint</enum>
                    </property>
-                   <property name="editTriggers">
-                    <set>QAbstractItemView::NoEditTriggers</set>
+                   <item>
+                    <widget class="QLabel" name="Promo">
+                     <property name="font">
+                      <font>
+                       <pointsize>11</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="margin">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_5" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_15">
+                   <property name="spacing">
+                    <number>0</number>
                    </property>
-                   <property name="alternatingRowColors">
-                    <bool>true</bool>
+                   <property name="bottomMargin">
+                    <number>3</number>
                    </property>
-                   <property name="selectionMode">
-                    <enum>QAbstractItemView::SingleSelection</enum>
-                   </property>
-                   <property name="selectionBehavior">
-                    <enum>QAbstractItemView::SelectRows</enum>
-                   </property>
-                   <property name="showGrid">
-                    <bool>false</bool>
-                   </property>
-                   <property name="sortingEnabled">
-                    <bool>true</bool>
-                   </property>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </widget>
+                   <item>
+                    <widget class="QLabel" name="resumen">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Gran Total</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="ltotal">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>$000.00</string>
+                     </property>
+                     <property name="scaledContents">
+                      <bool>true</bool>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                     <property name="margin">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="wResumen" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item>
+                    <layout class="QGridLayout" name="gridLayout">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>20</pointsize>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Recibido:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QDoubleSpinBox" name="dsbRecibido">
+                       <property name="font">
+                        <font>
+                         <pointsize>24</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>$</string>
+                       </property>
+                       <property name="maximum">
+                        <double>99999.990000000005239</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QDoubleSpinBox" name="dsbCambio">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>26</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="frame">
+                        <bool>true</bool>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                       </property>
+                       <property name="readOnly">
+                        <bool>true</bool>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::NoButtons</enum>
+                       </property>
+                       <property name="prefix">
+                        <string>$</string>
+                       </property>
+                       <property name="maximum">
+                        <double>99999.990000000005239</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="lblCambio">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>20</pointsize>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Cambio</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QCheckBox" name="chbImprimirTicket">
+                       <property name="text">
+                        <string>Imprimir comprobante</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/actions/images/actions/color_18/print.png</normaloff>:/actions/images/actions/color_18/print.png</iconset>
+                       </property>
+                       <property name="checked">
+                        <bool>false</bool>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="gcanasta">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <property name="margin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QTableView" name="tabla">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="contextMenuPolicy">
+                   <enum>Qt::ActionsContextMenu</enum>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::SingleSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="verticalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableView" name="lista2">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="contextMenuPolicy">
+                   <enum>Qt::CustomContextMenu</enum>
+                  </property>
+                  <property name="lineWidth">
+                   <number>0</number>
+                  </property>
+                  <property name="verticalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAlwaysOff</enum>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="alternatingRowColors">
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <attribute name="horizontalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -952,7 +1135,7 @@ p, li { white-space: pre-wrap; }
             <string>Cancelar</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/actions/images/actions/black_18/trash_can.png</normaloff>:/actions/images/actions/black_18/trash_can.png</iconset>
            </property>
            <property name="iconSize">
@@ -975,7 +1158,7 @@ p, li { white-space: pre-wrap; }
             <string>Abrir</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
            </property>
            <property name="iconSize">
@@ -998,7 +1181,7 @@ p, li { white-space: pre-wrap; }
             <string>Guardar</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
            </property>
            <property name="iconSize">
@@ -1021,7 +1204,7 @@ p, li { white-space: pre-wrap; }
             <string>Exportar</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/actions/images/actions/black_18/clip.png</normaloff>:/actions/images/actions/black_18/clip.png</iconset>
            </property>
            <property name="iconSize">
@@ -1051,7 +1234,7 @@ p, li { white-space: pre-wrap; }
             <string>Completar</string>
            </property>
            <property name="icon">
-            <iconset resource="../../2.3/icons.qrc">
+            <iconset resource="../icons.qrc">
              <normaloff>:/actions/images/actions/color_18/thunder.png</normaloff>:/actions/images/actions/color_18/thunder.png</iconset>
            </property>
            <property name="iconSize">
@@ -1077,8 +1260,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>938</width>
-     <height>26</height>
+     <width>696</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -1172,7 +1355,7 @@ p, li { white-space: pre-wrap; }
   </widget>
   <action name="actionNueva">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
    </property>
    <property name="text">
@@ -1187,7 +1370,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionImprimir">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/print.png</normaloff>:/actions/images/actions/black_18/print.png</iconset>
    </property>
    <property name="text">
@@ -1241,7 +1424,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="aGuardar">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/diskette.png</normaloff>:/actions/images/actions/black_18/diskette.png</iconset>
    </property>
    <property name="text">
@@ -1256,7 +1439,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
    </property>
    <property name="text">
@@ -1367,7 +1550,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionGuardar">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/hard_disk.png</normaloff>:/actions/images/actions/black_18/hard_disk.png</iconset>
    </property>
    <property name="text">
@@ -1404,7 +1587,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionCancelar_nota">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/cancel.png</normaloff>:/actions/images/actions/black_18/cancel.png</iconset>
    </property>
    <property name="text">
@@ -1425,7 +1608,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionQuitar_prod">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/delete.png</normaloff>:/actions/images/actions/black_18/delete.png</iconset>
    </property>
    <property name="text">
@@ -1464,7 +1647,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionCerrar_nota">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/checkmark2.png</normaloff>:/actions/images/actions/black_18/checkmark2.png</iconset>
    </property>
    <property name="text">
@@ -1495,7 +1678,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="aAbrir">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
    </property>
    <property name="text">
@@ -1522,11 +1705,14 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionPunto_de_venta">
    <property name="icon">
-    <iconset>
-     <normaloff>../../../../../../../usr/share/pyventa/images/icono.png</normaloff>../../../../../../../usr/share/pyventa/images/icono.png</iconset>
+    <iconset resource="../icons.qrc">
+     <normaloff>:/modulos/images/png/elegant/ventas.png</normaloff>:/modulos/images/png/elegant/ventas.png</iconset>
    </property>
    <property name="text">
     <string>Punto de venta</string>
+   </property>
+   <property name="shortcut">
+    <string>Home</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -1534,7 +1720,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionIngresar">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
    </property>
    <property name="text">
@@ -1549,7 +1735,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFacturar">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/list.png</normaloff>:/actions/images/actions/black_18/list.png</iconset>
    </property>
    <property name="text">
@@ -1581,7 +1767,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/fast_forward.png</normaloff>:/actions/images/actions/black_18/fast_forward.png</iconset>
    </property>
    <property name="text">
@@ -1593,7 +1779,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionPresupuesto">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/document.png</normaloff>:/actions/images/actions/black_18/document.png</iconset>
    </property>
    <property name="text">
@@ -1605,7 +1791,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAutorizar_descuento">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/key.png</normaloff>:/actions/images/actions/black_18/key.png</iconset>
    </property>
    <property name="text">
@@ -1617,7 +1803,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAbrir_cajon">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/bell.png</normaloff>:/actions/images/actions/black_18/bell.png</iconset>
    </property>
    <property name="text">
@@ -1632,7 +1818,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionCambiar_usuario">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/group.png</normaloff>:/actions/images/actions/black_18/group.png</iconset>
    </property>
    <property name="text">
@@ -1644,7 +1830,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionNueva_sesion">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/administrator.png</normaloff>:/actions/images/actions/black_18/administrator.png</iconset>
    </property>
    <property name="text">
@@ -1656,7 +1842,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionCerrar_sesion">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/disconnect.png</normaloff>:/actions/images/actions/black_18/disconnect.png</iconset>
    </property>
    <property name="text">
@@ -1668,7 +1854,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="aConfigBd">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/spreadsheet.png</normaloff>:/actions/images/actions/black_18/spreadsheet.png</iconset>
    </property>
    <property name="text">
@@ -1677,7 +1863,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionGuardarcompra">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/download2.png</normaloff>:/actions/images/actions/black_18/download2.png</iconset>
    </property>
    <property name="text">
@@ -1692,7 +1878,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAbrir_compra">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
    </property>
    <property name="text">
@@ -1704,7 +1890,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionNueva_compra">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/add.png</normaloff>:/actions/images/actions/black_18/add.png</iconset>
    </property>
    <property name="text">
@@ -1716,7 +1902,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSwap">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/arrow_bidirectional.png</normaloff>:/actions/images/actions/black_18/arrow_bidirectional.png</iconset>
    </property>
    <property name="text">
@@ -1733,7 +1919,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAbrir_venta_extemporanea">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/file.png</normaloff>:/actions/images/actions/black_18/file.png</iconset>
    </property>
    <property name="text">
@@ -1742,7 +1928,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionReimprimir_archivada">
    <property name="icon">
-    <iconset resource="../../2.3/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/actions/images/actions/black_18/print.png</normaloff>:/actions/images/actions/black_18/print.png</iconset>
    </property>
    <property name="text">
@@ -1753,23 +1939,23 @@ p, li { white-space: pre-wrap; }
  <layoutdefault spacing="4" margin="0"/>
  <layoutfunction margin="0"/>
  <tabstops>
-  <tabstop>codigo</tabstop>
-  <tabstop>lista2</tabstop>
-  <tabstop>bventa</tabstop>
-  <tabstop>tbFull</tabstop>
-  <tabstop>tabla</tabstop>
+  <tabstop>cant</tabstop>
   <tabstop>tbTrash</tabstop>
   <tabstop>tbOpen</tabstop>
   <tabstop>tbSave</tabstop>
   <tabstop>tbExport</tabstop>
   <tabstop>tbRegist</tabstop>
-  <tabstop>dsbRecibido</tabstop>
-  <tabstop>dsbCambio</tabstop>
-  <tabstop>chbImprimirTicket</tabstop>
-  <tabstop>dsbPrecio</tabstop>
+  <tabstop>tbmPyventa</tabstop>
+  <tabstop>tbmArchivo</tabstop>
+  <tabstop>tbFull</tabstop>
+  <tabstop>tbmEdicion</tabstop>
+  <tabstop>tbmModulos</tabstop>
+  <tabstop>tbmHerramientas</tabstop>
+  <tabstop>tbmSesion</tabstop>
+  <tabstop>bventa</tabstop>
  </tabstops>
  <resources>
-  <include location="../../2.3/icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>

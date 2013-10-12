@@ -26,10 +26,11 @@ class Configurador():
 	    	msgBox=QMessageBox(QMessageBox.Question,"No se ha detectado el archivo de configuracion","Desea que el sistema asigne  una configuracion por defecto? ",QMessageBox.Yes|QMessageBox.No,self.parent)
 		ret=msgBox.exec_()
 		if ret==QMessageBox.Yes:
+		    perfil=os.path.join(self.parent.raiz,"perfil")
 		    if sys.platform == 'linux2':   
-			  os.system("cp -r /usr/share/pyventa/perfil {0}".format(home))
+			  os.system("cp -r {perfil} {home}".format(perfil=perfil,home=home))
 		    else:
-			  os.system("xcopy perfil \"%s\" /i /a /e /k"%self.home)
+			  os.system("xcopy {perfil} \"{home}\" /i /a /e /k".format(perfil=perfil,home=self.home))
 		    msgBox=QMessageBox(QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Se han cargado las configuraciones por defecto, ahora usted puede configurar el sistema. Gracias.</p>.",QMessageBox.Close,self.parent)
 		    msgBox.exec_()
 		    self.__init__(self.parent)

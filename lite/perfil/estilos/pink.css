@@ -1,0 +1,97 @@
+
+QToolBar,#head,#top {background-color: #F38DC7}
+#gingreso,#csCliente,#topBusca,#topReportes,QSplitter{background-color: #D371A9;color:#fff;border:0px;} 
+#top QLabel{color:#fff;}
+#titulo{font-size:18px; font-weight:bold;color:#fff;}
+#csCliente{ border:1px solid #8F5978; color:#FFF; background:#DA5E97;padding:5px; margin-bottom:5px;border-radius:7px}
+QLineEdit{padding-left:3px;margin:4px; border:2px solid  #888 ; border-radius:8px; background:#fff;}
+QLineEdit {background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(62, 62, 62, 255), stop:0.0818182 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));border:1 solid #2E6979;border-radius:4px;  color:#222;
+}
+
+#gingreso QLabel,#gingreso QAbstractButtom,#topBusca QLabel,#topReportes QLabel,#topReportes #tbTitulo{ color:#fff}
+
+#gingreso QLineEdit {background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:4px; border-radius:4px;border:1px solid #5D909E}
+#dsbCambio,#dsbPrecio{color:#E6DA1B;background:transparent;border:0px}
+#dsbPrecio{color:#222}
+#lista2,#resumen1,#wIndex,#tbusk{background-color: #F5E3E6; alternate-background-color:#F2CBD2;color:#555;border:1px solid #999; }
+#lpinfo QLabel{color:#fff;}
+#tabla{border:0px;}
+ #resumen{ background:none; }
+#wLetreros QLabel{color:#efefef}
+
+ QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));
+	border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;}
+QPushButton::pressed,QToolButton::pressed{
+	color:#fff;	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));}
+#head QToolButton{margin:3px;color:#eee;font-weight:500; font-size:10px;}
+#head QToolButton:hover{background: rgba(255, 255, 255,0);color:#fff;border:0px #555 solid;border-radius:5px;}
+#lista2,#tabla,QTableView QTableCornerButton::section{ background-color: #FFEDF6;selection-background-color:#FFC0ED; alternate-background-color:#FFDFF6;color:#571150;} 
+ QDialog{ background:qlineargradient(spread:pad, x1:1, y1:1, x2:0.995, y2:0.011, stop:0  #bfbfbf, stop:1 #e5e5e5);color:#fff}
+ 
+#Promo{background:#ECE233;border:1.5px solid #C8BE14; color:#222; font-weight:700;}
+
+#admin QStackedWidget{ background:rgb(159,159,159)} QStackedWidget QLabel{color:#222;}
+QDateEdit {padding:3 0 3 0;}
+QDateEdit::down-arrow{image:url(:/actions/images/actions/black_18/calendar.png); border:0px; }
+QDateEdit::drop-down{border:0;}
+
+
+
+#admin QStackedWidget .QWidget, #topModule  {background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(159, 159, 159, 255), stop:1 rgba(203, 203, 203, 255));}
+#admin QStackedWidget .QWidget QToolButton{background-color:transparent;
+border:0px; padding:2px; border-radius:5px}
+ QPushButton::disabled, QPushButton::disabled{color:#ccc}
+
+
+#menu{	background-color: #E6ECFA;border:0px; }
+#menu QToolButton{color:#333;border:0px; padding:10 5 10 
+0;background:#E6ECFA;}
+#menu QToolButton::hover{background-color: 
+qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 
+66, 255, 255), stop:1 rgba(0, 107, 227, 255));border:0px; color:#fff}
+QHeaderView::section:horizontal{
+	background-color: #D371A9;border:0;color:#C2D2D5;padding:8 3 8 3;}
+#wResumen,#wResumen QCheckBox ,QHeaderView{
+	background-color: #D371A9;border:0px; color:#fff}	
+#admin QHeaderView,#admin 	QHeaderView::section:horizontal{
+	background-color: 
+	rgb(159,159,159);border:0;color:#333;font-size:12px}
+	
+
+/*
+QTableView{ 
+	selection-background-color:qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));alternate-background-color: #F8F8F4;border:0px;selection-color:#fff;} 
+*/
+QLineEdit,QSpinBox,QDoubleSpinBox,QDateTimeEdit{
+padding:2px;background:#fff;border-radius:4px;border:1px solid #999;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));}
+QMenu {
+	color:#333;
+     background-color: white;
+     margin: 5px; /* some spacing around the menu */
+ }
+#admin QMenu::item {
+     padding: 2px 25px 2px 20px;
+	 padding-left:30px;
+
+     border: 1px solid transparent; /* reserve space for selection border */
+ }
+
+QMenu::item:selected { 
+color:#fff;	background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));
+ }
+ QMenu::separator {
+     height: 2px;
+     background: lightblue;
+     margin-left: 10px;
+     margin-right: 5px;
+ }
+ QMenu::indicator {
+ 	 padding-left:5px;
+     width: 13px;
+     height: 13px;
+ }
+QSplitter QLabel,QSplitter QGroupBox{color:#fff;}
+#frTablas{border:0px}
+QToolTip{
+	background:#EDEFDB;color:#555}

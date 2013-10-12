@@ -6,3 +6,6 @@ Type=Application
 Terminal=false
 Exec=pyventa
 Icon=pyventa
+Categories=Office;Gnome;Python;Utility
+StartupNotify=false
+

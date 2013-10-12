@@ -605,6 +605,7 @@
     <file>images/actions/color_18/zoom.png</file>
   </qresource>
   <qresource prefix="modulos">
+    <file>images/png/pyventa.vende.bien.png</file>
     <file>images/png/elegant/faltantes.png</file>
     <file>images/png/elegant/config.png</file>
     <file>images/png/elegant/check.png</file>

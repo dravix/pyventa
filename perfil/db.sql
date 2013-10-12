@@ -115,6 +115,19 @@ CREATE TABLE IF NOT EXISTS `compras` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `conexiones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `servidor` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `esquema` varchar(30) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `version` float NOT NULL DEFAULT '1',
+  `usuarios` varchar(100) DEFAULT NULL,
+  `clave` varchar(100) DEFAULT NULL,
+  `principal` tinyint(1) NOT NULL DEFAULT '0',
+  `ultima_conexion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 --
 -- Table structure for table `consultas`
 --

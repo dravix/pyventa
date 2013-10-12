@@ -11,10 +11,11 @@ class QModeloTablaSql(QAbstractTableModel):
 	    self.headerdata = header
 	    qry=qry.replace('\\\'','').replace('`','').replace('\\','')
 	    self.cursor.execute(qry)
-	    nres=self.cursor.rowcount
-	    if nres>0:
-		    table=self.cursor.fetchall()
-		    if table!=None and len(table)>0 and len(table[0])==len(header):
+	    #nres=self.cursor.rowcount
+	    table=self.cursor.fetchall()
+	    #if nres>0:
+		    
+	    if table!=None and len(table)>0 and len(table[0])==len(header):
 			    self.arraydata=table
 	    else:
 	      self.arraydata=[]

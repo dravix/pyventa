@@ -1,0 +1,14 @@
+<center>
+<h1>Venta global del dia</h1>
+<h2><nombre/></h2>
+<p>RFC:<rfc/>
+<direccion/>, <ciudad/>, <estado/>
+Fecha: <fecha/></p></center>
+<hr/><center>
+<notas/> 	  
+<hr/>
+<impuestos/></center>
+Numero de ventas:<h2> <num/> </h2>
+Suma Total : <h2> <total/> </h2>
+
+<corte/>

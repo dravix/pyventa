@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Padmin
+Type=Application
+Terminal=false
+Exec=padmin
+Icon=padmin
+Comment[es]=Administrador de Pyventa.

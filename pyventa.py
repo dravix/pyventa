@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import sys, os, datetime
+import sys, os, datetime, subprocess
 from re import sub
 from lib.librerias.comun import *
-
+import sip
 version=2.340
 aqui=os.getcwd()
 #aqui="/usr/share/pyventa/"
@@ -26,7 +26,7 @@ else:
 #sys.path.append('ui')
 #locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
-sys.path.append(os.path.join(home,'drivers'))
+#sys.path.append(os.path.join(home,'drivers'))
 sys.path.append(os.path.join('lib','extras'))
 import  tempfile, socket
 from PyQt4 import QtCore, QtGui
@@ -53,7 +53,9 @@ from lib.librerias.seguridad import Seguridad
 from lib.libutil import listaHtml, printa
 from lib.factura import Factura
 from lib.librerias.conexion import dicursor
+from perfil.drivers import driver
 #from check import Checador
+from lib.modelos.qmodelotablasql import QModeloTablaSql
 try:
   import win32print
 except:
@@ -87,9 +89,11 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		
 		self.connect(self.actionNueva, QtCore.SIGNAL("triggered()"), self.limpiar)
 		self.connect(self.tbTrash, QtCore.SIGNAL("clicked()"), self.limpiar)
+		self.connect(self.tbBorrar, QtCore.SIGNAL("clicked()"), self.limpiar)
 		self.connect(self.tbFull, QtCore.SIGNAL("clicked()"), self.pantalla)
 		self.connect(self.tbOpen, QtCore.SIGNAL("clicked()"), self.editarNota)
 		self.connect(self.tbSave, QtCore.SIGNAL("clicked()"), self.guardar)
+		self.connect(self.tbRegistrar, QtCore.SIGNAL("clicked()"), self.guardar)
 
         	self.connect(self.bventa, QtCore.SIGNAL("clicked()"), self.insert)
         	self.connect(self.csCliente, QtCore.SIGNAL("clicked()"), self.selCliente)
@@ -137,11 +141,27 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		    self.curser=self.conexion.curser
 		    self.iniciarEstilo()
 		    self.iniciarSesion()
-		    driver=self.cfg.get('ticket','driver')
-		    self.ticketDriver=__import__("perfil.drivers.{0}".format(driver),globals(),locals(),[driver])
+		    self.ticketDriver=driver[self.cfg.get('ticket','driver')]
+		    #print self.ticketDriver
+		    self.modeloC=QModeloTablaSql(self.cursor)
+		    self.completer = QtGui.QCompleter()
+		    self.completer.setCompletionMode(QtGui.QCompleter.UnfilteredPopupCompletion)
+		    self.codigo.setCompleter(self.completer)
+		    #self.lista2.setModel(self.modeloC)
+		    self.completer.setPopup(self.lista2)
+		    self.completer.setModel(self.modeloC)
+		    #self.completer.popup().setColumnHidden(0,True)
+		    self.completer.setMaxVisibleItems(50)
+		    self.completer.setWrapAround(False)
+		    #self.lista2.setColumnHidden(0,True)
+		    #self.connect(self.completer, QtCore.SIGNAL("activated(const QString & text )"), self.seleccionarProducto)
+		    self.connect(self.completer, QtCore.SIGNAL("activated(const QModelIndex&)"), self.busca2)
+		    
+
+		    #self.ticketDriver=__import__("perfil.drivers.{0}".format(driver),globals(),locals(),[driver])
 		else:
 		  print "Error al iniciar configuraciones"
-		#self.conexion()
+		#self.conectar()
 
 		self.iniciarMenus()
 		self.iconset=self.cfg.get("pyventa", "resolucion")+"/"
@@ -174,9 +194,16 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		self.setupActions()
 		#print self.sesion['usuario']['level']
 		self.scan()
+		self.tbmPyventa.setMenu(self.menuPyventa)
+		self.tbmArchivo.setMenu(self.menuArchivo)
+		self.tbmEdicion.setMenu(self.menuEdicion)
+		self.tbmModulos.setMenu(self.menuModulos)
+		self.tbmHerramientas.setMenu(self.menuHerramientas)
+		self.tbmSesion.setMenu(self.menuSesion)
+		self.menubar.hide()
 		self.iniciarCaja()
 		
-    def conexion(self):
+    def conectar(self):
 	self.conexion=Conexion(self,self.cfg)
 	if self.conexion.stat:
 	  self.cursor=self.conexion.cursor
@@ -262,11 +289,10 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 	ui = configurador(self.cfg)
 	dialog=ui.exec_()
 	if (dialog==1):
-	  self.conexion()  
+	  self.conectar()  
 	  
     def iniciarCaja(self):
-      if self.aut(2)>0:
-	
+      #if self.aut(2)>0:
 	  caja=self.cfg.get("pyventa", "caja")
 	  #if caja>0:
 	    #self.cursor.execute("SELECT maquina FROM cajas WHERE estado != {0} and num_caja={1} ;".format(self.hoy,caja))
@@ -299,7 +325,8 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
 		tb.setDefaultAction(clase.action)
 		tb.setAutoRaise(True)
 		tb.setIconSize(QSize(36,36))
-		tb.setToolButtonStyle(3)
+		tb.setToolTip(tb.text())
+		#tb.setToolButtonStyle(3)
 		self.hlm.addWidget(tb)
 	#self.hlm.addWidget(group)
 
@@ -370,17 +397,19 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  self.banderas['modo']=1
 	  #msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Modo de ingreso rapido activado","Ha activado el modo de ingreso rapido con lo que evita ingresar la cantidad de productos manualmente.",QtGui.QMessageBox.Close,self)
 	  #msgBox.exec_()
-	  self.lblModo.setText("Ingreso rapido")
-	  self.lblModo.setToolTip("En \"Ingreso rapido\" no se preguntara la cantidad\nel articulo \"entra\" directo a la canasta de productos. ")  
+	  #self.lblModo.setText("Ingreso rapido")
+	  #self.lblModo.setToolTip("En \"Ingreso rapido\" no se preguntara la cantidad\nel articulo \"entra\" directo a la canasta de productos. ")  
 	  self.codigo.setStyleSheet('color:#900;')
+	  self.fcant.setVisible(False)
 	  
 	else:
 	  self.banderas['modo']=0
 	  #msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Modo manual","Se ha desactivado el modo de ingreso rapido.",QtGui.QMessageBox.Close,self)
 	  #msgBox.exec_()
-	  self.lblModo.setToolTip("En \"Ingreso manual\" los productos no entran a la canasta hasta que se defina la cantidad,\nesto requiere por lo tanto la participacion del teclado. ")  	  
-	  self.lblModo.setText("Ingreso manual")
+	  #self.lblModo.setToolTip("En \"Ingreso manual\" los productos no entran a la canasta hasta que se defina la cantidad,\nesto requiere por lo tanto la participacion del teclado. ")  	  
+	  #self.lblModo.setText("Ingreso manual")
 	  self.codigo.setStyleSheet('color:#333')
+	  self.fcant.setVisible(True)
 	  
     def adomatic(self,txt):
       """Busca el producto por referencia o codigo(s) y lo pone en modo cantidad"""
@@ -413,7 +442,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		#print "SELECT `ref`,`descripcion`,`precio`  FROM productos as p, codigos as c where (ref=%s  OR p.codigo=%s OR c.codigo='%s') and producto=ref limit 1"%(codigo,codigo,codigo)
 	      except MySQLdb.Error, e:
 		if e.args[0] in (2006,2013):
-		  self.conexion()
+		  self.conectar()
 		else:
 		  raise(e)
 	      else:
@@ -426,7 +455,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		    if self.banderas['modo']==0:#modo normal
 		      self.codigo.setText(str(rec['descripcion']))
 		      self.dsbPrecio.setValue(float(rec['precio']))
-		      self.cant.setText("1")
+		      self.cant.setText("1.00")
 		      self.cant.setFocus()
 		      self.cant.selectAll()
 		    else:
@@ -447,10 +476,19 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 		    
     def ingreso(self, tmp=False):
 #Se encarga de visualizar y agregar los datos de una tupla que contenga un producto su cantidad y precio
+      cantidad=str(self.cant.text())
+      if float(cantidad)>99999: #Fix para evitar pasar un codigo por una cantidad
+	  self.cant.setText('1.00')
+	  self.codigo.setFocus()
+	  self.adomatic(cantidad)
+	  return False
+
       if (tmp==False):
 	tmp=self.tutmp
 	self.tutmp=False
-	tmp[1]=float(self.cant.text())
+	tmp[1]=float(cantidad)
+
+	  
       if (tmp!=None):
 	  #tmp[1]=float(self.cant.text())
 	  #self.tabla.setHorizontalHeaderItem(self.tabla.columnCount()+1,QtGui.QTableWidgetItem("Descuento",1))
@@ -465,10 +503,10 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 
 	  self.tabla.scrollToBottom()
 	  self.tabla.resizeColumnsToContents()   
-	  self.tabla.horizontalHeader().setResizeMode(2,1)
+	  #self.tabla.horizontalHeader().setResizeMode(2,1)
 	  tmp=None
 	  self.grant()
-	  self.cant.setText('1')
+	  self.cant.setText('1.00')
   	  self.codigo.clear()
   	  self.dsbPrecio.clear()
 	  self.codigo.setFocus()
@@ -536,24 +574,31 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	    fil=[]
 	    for l in li:
 		  fil.append(" descripcion like '%{0}%' ".format(l))
-	    sql="SELECT `ref`,`descripcion`,`precio` FROM productos where {0} order by vendidas desc  limit 20".format("and".join(fil))
-	    head=['Ref','Descripcion del producto','Precio']
-	    self.cursor.execute(sql)
-	    qry=self.cursor.fetchall()
-	    self.moli2 = MyTableModel(qry, head, self) 
-	    self.lista2.setModel(self.moli2)
-	    #self.tabular(self.lista2,sql,head)
-	    self.lista2.setColumnHidden(0,True)
+	    sql="SELECT `descripcion`,`precio`,ref FROM productos where {0} order by vendidas desc  limit 20".format("and".join(fil))
+	    head=['Descripcion del producto','Precio','Ref']
+	    self.modeloC.query(sql,head)
+	    #self.cursor.execute(sql)
+	    #qry=self.cursor.fetchall()
+	    #self.moli2 = MyTableModel(qry, head, self) 
+	    #self.lista2.setModel(self.moli2)
+	    ##self.tabular(self.lista2,sql,head)
+	    #self.lista2.setColumnHidden(0,True)
 	    self.lista2.resizeColumnsToContents()
-	    #print self.lista2.columnWidth(1)
+	    self.completer.complete(QtGui.QRect(0,0,600,800))
+	    #self.completer.popup().setColumnHidden(0,True)
+	    ##print self.lista2.columnWidth(1)
 	    #self.lista2.resize(self.lista2.columnWidth(1)+self.lista2.columnWidth(2), self.lista2.height() )
-	    self.splitter.moveSplitter(self.lista2.columnWidth(1)+self.lista2.columnWidth(2),1)
+	    #self.splitter.moveSplitter(self.lista2.columnWidth(1)+self.lista2.columnWidth(2)+18,1)
+   
+    def seleccionarProducto(self,texto):
+      print '--',texto,str(texto)
 
-
-    def busca2(self,modelIndex):
-	ref=self.moli2.getCell(modelIndex,0)
-	desc=self.moli2.getCell(modelIndex,1)
-	precio=self.moli2.getCell(modelIndex,2)
+    def busca2(self):
+	modelIndex=self.lista2.currentIndex()
+	
+	ref=str(modelIndex.sibling (modelIndex.row(), 2).data().toString() )
+	desc=str(modelIndex.sibling (modelIndex.row(), 0).data().toString() )
+	precio=modelIndex.sibling (modelIndex.row(), 1).data().toDouble()[0]
 	self.tutmp=[int(ref), 0,desc, float(precio),0]
 	rec=self.adomatic(ref)
 	#self.checkAllPromos(ref)
@@ -605,9 +650,12 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         desc=round(suma-total,1)
         total=round(total,1)
         sub=round(suma,1)
-        self.ltotal.setText("GT: ${0:,.2f}".format(total))        
-	self.resumen.setText("<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:600; font-style:italic;\">Subtotal:</span><span style=\" font-size:11pt;\"> 	</span><span style=\" font-size:11pt; font-weight:600; \">$ "+str(sub)+"</span></p>\
-<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; font-weight:600;\"><span style=\" font-style:italic;\">Descuento:	</span><span style=\" \">$ "+str(desc)+"</span></p>")
+        self.ltotal.setText("""Gran total: <br/><span style="font-size:30pt;font-weight:600;">${0:,.2f}</span>""".format(total))        
+	self.resumen.setText("""<TABLE WIDTH="100%" cellspacing=0 cellpadding:2px style="font-size:13pt;font-weight:300;">
+		      <TR><TD>Articulos:  </TD><TD align="right">#{nart}</TD><TR/>
+		      <TR><TD>Subtotal:   </TD><TD align="right">${sub:,.2f}</TD><TR/>
+		      <TR><TD>Descuentos: </TD><TD align="right">${desc:,.2f}</TD><TR/>
+		      </TABLE>""".format(nart=nart,sub=sub,desc=desc))
 	self.datos['subtotal']=sub
 	self.datos['descuento']=desc
 	self.datos['total']=total
@@ -676,7 +724,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 
 	  for i,prod in enumerate(prods):
 	      try:
-		print prod
+		#print prod
 		self.cursor.execute("SELECT `descripcion`,`precio` FROM productos where `ref`="+str(prod)+" ;")
 	      except:
 		print 'Producto no existe'
@@ -753,8 +801,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	try:
 	  restrict =" "
 	  if edicion:
-	    restrict =" AND DATE(fecha)='{0}' ;".format(self.hoy)
-	  sql="SELECT id,proveedor FROM compras WHERE id=%s %s"%(ide, restrict)
+	    restrict =" AND DATE(fecha)=CURDATE() ;"
+	  sql="SELECT compras.id,proveedor,nombre FROM compras,clientes WHERE proveedor=clientes.id and compras.id=%s "%(ide)
 	  #print sql
 	  self.cursor.execute(sql)
 	  compra=self.cursor.fetchone()
@@ -766,7 +814,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	else:
 	  if compra==None:
 	      msgBox.setText("Error.")
-	      msgBox.setInformativeText("No se puede editar notas de dias anteriores.")
+	      msgBox.setInformativeText("No se puede editar esta compra.")
 	      msgBox.setStandardButtons(QtGui.QMessageBox.Ok )
 	      msgBox.exec_()
 	  else:
@@ -781,7 +829,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	      self.curser.execute(sql)
 	      notas=self.curser.fetchall()
 	      self.cliente['id']=int(compra[1])
-	      self.csCliente.setText("%s"%self.cliente['id'])	      
+	      self.cliente['nombre']=compra[2]
+	      self.csCliente.setText("%s"%self.cliente['nombre'])	      
 	      if notas!=None:
 		notas=dicursor(self.curser,notas)
 		for nota in notas:
@@ -828,7 +877,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
     def delete(self):
       if len(self.basket)>0:
 	ref=self.canasta.getCell(self.tabla.selectedIndexes()[0],0)
-	print ref
+	#print ref
 	for item in self.basket:
 	  if int(ref)==int(item[0]):
 	    self.basket.remove(item)
@@ -842,7 +891,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	    f=tempfile.NamedTemporaryFile(delete=False)
 	  else:
 	    f=open(os.path.normpath(os.path.join(self.home,"tmp.txt")),"w+")
-	  tags=self.ticketDriver.etiquetas
+	  tags=self.ticketDriver
 	  for key,item in tags.iteritems():
 	      ticket=ticket.replace(key,item)
 	  f.write(ticket)
@@ -856,7 +905,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
       else:
 	  if sys.platform == 'linux2':
 	    try:
-	      os.system("lp  %s -d \"%s\" "%(archivo.name,impresora))
+	      subprocess.call(["lp",archivo.name,"-d",impresora])
 	      #os.system("echo  %s "%(archivo.name))
 	    except:
 	      print 'No fue posible imprimir'
@@ -896,7 +945,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  #ticline=ticket.split('\n')
 	  f.close()
 	  try:
-	    tags=self.ticketDriver.etiquetas #carga las etiquetas del driver esc/pos
+	    tags=self.ticketDriver #carga las etiquetas del driver esc/pos
 	  except:
 	    tags={}
 	  prd='';prods=''
@@ -942,7 +991,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  tags['<descuento/>']=str(libutil.cifra(self.grant()[1]))
 	  tags['<total/>']=str(libutil.cifra(self.grant()[2]))
 	  tags['<fecha/>']=str(self.fecha)
-	  tags['<nota/>']=str(self.nota)
+	  try: tags['<nota/>']=str(self.nota)
+	  except: pass
 	  tags['<tletra>']=str(nletras(self.grant()[2]))
 	  tags['<usuario/>']=self.sesion['usuario']['nombre']
 	  
@@ -1022,7 +1072,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	  out.write(str(self.fecha)+'\n')
 	  #out.write(str(self.tipo)+'\n')
 	  for aux in self.basket:
-	      print aux[0]
+	    #  print aux[0]
 	      out.write(str(aux[0])+':'+str(aux[1])+',')	    
 	  out.write('\n'+str(self.grant()[2]))
 	  out.close()
@@ -1096,7 +1146,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	doc.close()
 	tmp.close()	
 	if sys.platform == 'linux2':
-	  os.system("gnome-open '%s' "%new)
+	  subprocess.call(["xdg-open", new])
 	else:
 	  os.startfile(new)
 	
@@ -1191,7 +1241,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	if done==1:
 	  cliente=app.retorno[0]
 	  self.cliente={'id':str(cliente[0]),'nombre':str(cliente[1]),'rfc':str(cliente[2])}
-	  self.csCliente.setText(self.cliente['nombre'])
+	  self.csCliente.setText(self.cliente['nombre'][:18])
 	  self.csCliente.setToolTip(self.cliente['nombre'])
 	  return app.retorno[0][0]
 	else:
@@ -1207,18 +1257,19 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	acceso=dlg.exec_()
 	if acceso>-1:
 	  self.sesion['usuario']=dlg.usuario
+	  self.tbUsuario.setText(self.sesion['usuario']['nombre'])
 	  self.cursor=dlg.cursor
 	  self.curser=dlg.curser
 
     def verCanasta(self):
       #if len(self.basket)<=0:
-	head=['Ref','Ctd','Descripcion del producto','Precio','Importe','c/Dcto']
+	head=['Ref','Ctd','Descripcion del producto','Precio','Sub','Total']
 	if self.canasta==None:
 	  #hacemos un recorte para mostrar solo 6 columnas
 	  tmp=[l[:6] for l in self.basket]
 	  self.canasta = MyTableModel(tmp, head, self) 
 	  self.tabla.setModel(self.canasta)
-	  font = QtGui.QFont("Monospace", 12)
+	  font = QtGui.QFont("Monospace", 11)
 	  self.tabla.setFont(font)
 	else:
 	  self.canasta.setVector([l[:6] for l in self.basket]) 
@@ -1242,7 +1293,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 	return modelo	
 
     def marcarFalta(self):
-      refs=libutil.seleccionar(self.lista2,self.moli2,0)
+      refs=libutil.seleccionar(self.lista2,self.modeloC,2)
       lis=Faltante(self,refs,self.sesion['usuario']['id_usuario'])	
       lis.exec_()
       

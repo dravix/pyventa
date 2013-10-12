@@ -69,9 +69,9 @@ class Cventa(QtGui.QDialog, Ui_Form):
 	      self.parent.limpiar()	
 	      
     def cobrar(self):
-	if self.cobro:
+      recibo=float(self.parent.dsbRecibido.value())
+      if self.cobro and recibo>=self.parent.datos['total']:
 	  self.cobro=False
-	  recibo=float(self.parent.dsbRecibido.value())
 	  if recibo==0:
 	    self.limpiar()
 	  elif len(self.parent.basket)>0 and recibo>0 and recibo>=self.parent.datos['total']:
@@ -134,7 +134,7 @@ class Cventa(QtGui.QDialog, Ui_Form):
     def guardarCompra(self):
       compra=Compra(conexion=self.parent.conexion)
       ret=False
-      if (self.parent.banderas['tipo']=='c'):
+      if (self.parent.banderas['tipo']=='c') :
 	if (self.parent.banderas['edicion']!=False):
 	   ret= compra.actualizar(ide=self.parent.banderas['edicion'],canasta=self.parent.basket,usuario=self.parent.sesion['usuario']['id_usuario'],proveedor=self.parent.cliente['id'])
 	else:
