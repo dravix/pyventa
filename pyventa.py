@@ -607,27 +607,30 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
     def reprint(self):
     	nota =QtGui.QInputDialog.getInteger(self, self.tr("Reimprimir venta"),self.tr("Numero de venta."))
     	if nota[1]:
-    	  self.limpiar()                         
-	  ide=nota[0]	
-	  self.curser.execute('select * from notas where `id`='+str(nota[0]))
-	  nota=self.curser.fetchone()
-	  nota=dicursor(self.curser,nota)
-	  prods=nota['productos']
-	  cant=nota['cant']
-	  prods=prods.split(',')
-	  cant=cant.split(',')
-	  for i,prod in enumerate(prods):
-	      try:
-		self.cursor.execute("SELECT `descripcion`,`precio` FROM productos where `ref`="+str(prod)+" ;")
-	      except:
-		print 'Producto no existe'
-	      else:
-		producto=self.cursor.fetchone()
-		total=float(cant[i])*float(producto[1])
-		tmp=[float(prod),float(cant[i]), producto[0],float(producto[1]),total]
-		self.ingreso(tmp)
-	  self.imprimirTicket()
-	  self.limpiar()
+		  ide=nota[0]	
+		  vnt=self.abrirNota(ide) 
+		  if vnt!=False:
+		  	self.imprimirTicket() 
+		  	self.limpiar()
+             #self.curser.execute('select * from notas where `id`='+str(nota[0]))
+	  #nota=self.curser.fetchone()
+	  #nota=dicursor(self.curser,nota)
+	  #prods=nota['productos']
+	  #cant=nota['cant']
+	  #prods=prods.split(',')
+	  #cant=cant.split(',')
+	  #for i,prod in enumerate(prods):
+		  #try:
+		#self.cursor.execute("SELECT `descripcion`,`precio` FROM productos where `ref`="+str(prod)+" ;")
+		  #except:
+		#print 'Producto no existe'
+		  #else:
+		#producto=self.cursor.fetchone()
+		#total=float(cant[i])*float(producto[1])
+		#tmp=[float(prod),float(cant[i]), producto[0],float(producto[1]),total]
+		#self.ingreso(tmp)
+	  #self.imprimirTicket()
+	  #self.limpiar()
     
     def imprimirArchivada(self):
 	self.abrirVExtempo()
