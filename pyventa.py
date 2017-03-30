@@ -31,7 +31,7 @@ else:
 # sys.path.append(os.path.join(aqui,'plugins'))
 # sys.path.append(os.path.join(aqui,'lib'))
 # sys.path.append('ui')
-locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+# locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 sys.path.append(os.path.join(home, 'drivers'))
 import tempfile

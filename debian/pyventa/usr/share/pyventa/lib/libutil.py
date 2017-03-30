@@ -26,7 +26,7 @@ def odic(adict): ##Ordena los indices de un diccionacio
     return map(adict.get, keys)
 
 def cifra(num):	
-    locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+    # locale.setlocale(locale.LC_ALL, 'en_US.utf8')
     dato=num
     if (str(num)[0].isdigit() or str(num)[0]=='-' or str(num)[0]=='$' or str(num)[0]=='#') and str(num)[-1].isdigit() and len(str(num))<10:
     #cuando detecte que es un numero 
@@ -138,7 +138,7 @@ def setComboModelKey(combo, key): #Establece el combo en el valor de la llave
   
 def listaHtml(lista, titulo='', cabezas=[], color='#fff',fondo="#239AB1", tfuente=10,opc="110",css=""): #opc(titulo:true,cabezas:true,enumerado:false)
   ide=titulo.lower().replace(' ','')
-  locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+  # locale.setlocale(locale.LC_ALL, 'en_US.utf8')
   html="""<style type="text/css">
 table{border-collapse:collapse;}
 #%s .odd{background:#efefef}

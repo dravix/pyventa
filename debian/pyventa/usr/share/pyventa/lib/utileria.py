@@ -38,7 +38,7 @@ def odic(adict): ##Ordena los indices de un diccionacio
     return map(adict.get, keys)
     
 def cifra(num):	
-    locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+    # locale.setlocale(locale.LC_ALL, 'en_US.utf8')
     dato=num
     if (str(num)[0].isdigit() or str(num)[0]=='-' or str(num)[0]=='$' or str(num)[0]=='#') and str(num)[-1].isdigit() and len(str(num))<10:
     #cuando detecte que es un numero 
