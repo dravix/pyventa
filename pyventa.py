@@ -62,6 +62,7 @@ from lib.librerias.seguridad import Seguridad
 from lib.libutil import listaHtml, printa
 from lib.factura import Factura
 from lib.librerias.conexion import dicursor
+from perfil.drivers import epson, star
 # from check import Checador
 try:
     import win32print
@@ -176,8 +177,13 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
                 self.iniciarEstilo()
                 self.iniciarSesion()
                 driver = self.cfg.get('ticket', 'driver')
-                self.ticketDriver = __import__(
-                    "perfil.drivers.{}".format(driver), globals(), locals(), [driver])
+                self.ticketDriver={}
+                if driver == 'epson':
+                    self.ticketDriver= epson
+                elif driver == 'star':
+                    self.ticketDriver=star
+                # self.ticketDriver = __import__(
+                    # "perfil.drivers.{}".format(driver), globals(), locals(), [driver])
         else:
             print "Error al iniciar configuraciones"
         # self.conexion()
