@@ -34,7 +34,6 @@ class Selector(QDialog,Ui_Seleccion):
 	sql="SELECT {0} FROM {1};".format(self.columnas,self.tablename)
       else:
 	sql="SELECT {0} FROM {1} where {2} ;".format(self.columnas,self.tablename,self.filtros.format(texto))
-	
       #print sql
       self.modelo.query(sql,self.heads)
       self.tabla.resizeColumnsToContents()

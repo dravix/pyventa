@@ -4,7 +4,7 @@ class Compra:
     self.conexion=conexion
     self.cursor=conexion.cursor
     
-  def eliminarCompra(self,ide):
+  def eliminar(self,ide):
     try:
       #Corrige el stock_logico 
       self.cursor.execute( "select c.producto,stock_logico-cantidad from comprados as c,existencia as e where compra={0} and c.producto=e.producto; ".format(ide))
@@ -41,19 +41,24 @@ class Compra:
       return True
     
   def guardarComprados(self,ide,canasta):
-
       for item in canasta:
 	  try:
 	    self.cursor.execute("""insert into comprados values({compra},{0},{1},{7},{4})""".format(compra=ide,*item))
 	    sql="UPDATE existencia SET stock_logico=stock_logico+{1} where producto={0}".format(*item)
 	    self.cursor.execute(sql)		
+	  except sqlite3.Error,e:
+	    print(e)
+	    self.conexion.rollback()
+	    return False
+	  except MySQLdb.Error, e:
+	    print(e)
+	    self.conexion.rollback()
+	    return False	  
 	  except:
 	    print "Error al guardar el producto ",item[0]
 	    self.conexion.rollback()
-	    return False
-	  else:
-	    self.conexion.commit()
-	    return True
+      self.conexion.commit()
+      return True
 	  
   def totalizar(self,canasta):
     total=0.0
@@ -63,9 +68,11 @@ class Compra:
   
   def guardar(self,canasta,usuario,proveedor):
     try:      
-      self.cursor.execute("INSERT INTO compras VALUES(NULL,NOW(),{proveedor},{comprador}, {total},0); ".format(proveedor=proveedor,comprador=usuario,total=self.totalizar(canasta)))
+      sql="""INSERT INTO compras VALUES(NULL,NOW(),{proveedor},{comprador}, {total},0); 
+      """.format(proveedor=proveedor, comprador=usuario,total=self.totalizar(canasta))
+      self.cursor.execute(sql)
     except:
-      print "Error al guardar la compra"
+      print "Error al guardar la compra", sql 
       return False
     else:
       self.cursor.execute(self.conexion.lastId())

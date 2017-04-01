@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys, os, datetime, urllib2, tarfile, base64, sqlite3
+import sys, os, sqlite3
 from time import time
 #aqui=os.getcwd()
 aqui="/usr/share/pyventa/"
@@ -32,7 +32,7 @@ from ui.ui_admin import Ui_admin
 import MySQLdb, ConfigParser  
 #from db_conf import configurador
 from PyQt4.QtGui import QMessageBox, QDialog, QMainWindow, QInputDialog, QApplication,QTableWidgetItem
-from PyQt4.QtCore import SIGNAL, Qt,QTimer, QLocale
+from PyQt4.QtCore import SIGNAL, Qt,QTimer, QLocale, QCoreApplication
 from modulos.productos import Productos
 from modulos.impuestos import Impuestos
 from modulos.departamentos import Departamentos
@@ -48,12 +48,12 @@ from modulos.inventario import  Inventario
 from modulos.faltantes import  Faltantes
 from modulos.ofertas import Oferta
 from modulos.conexiones import Conexiones
-from ui.dlg_buscador import buscador
 from lib.utileria import MyListModel, MyTableModel
 from lib import libutil
 from lib.librerias.configurador import Configurador
 from lib.librerias.conexion import Conexion
 from lib.librerias.seguridad import Seguridad
+from lib.config import Configs
 class Administrador(QMainWindow, Ui_admin):  
     def __init__(self):
 		QDialog.__init__(self)
@@ -89,6 +89,10 @@ class Administrador(QMainWindow, Ui_admin):
 		self.inv=Inventario(self)
 		self.faltantes=Faltantes(self)
 		self.compras=Compras(self)
+		self.configs=Configs(self)
+		self.connect(self.tbConfiguraciones,SIGNAL("clicked()"),self.configs.launch)
+		#n=self.stack.addWidget(self.configs)
+		#self.stack.setCurrentIndex(n)
 		try:
 		  self.conexiones=Conexiones(self)
 		except:
@@ -99,7 +103,7 @@ class Administrador(QMainWindow, Ui_admin):
 		self.menuHerramientas.addAction("Recargar estilo",self.iniciarEstilo)
 		self.iniciarEstilo()
     
-    def conexion():
+    def conectar():
       self.conexion=Conexion(self,self.cfg)
       if self.conexion.stat:
 	self.cursor=self.conexion.cursor
@@ -125,12 +129,15 @@ class Administrador(QMainWindow, Ui_admin):
     def iniciarSesion(self):
 	dlg=Seguridad(self,nivel=5,logo=":/actions/images/padmin.simple.logo.png", nombre="Administrador de Pyventa")
 	acceso=dlg.exec_()
-	if acceso>-1:
+	if acceso>0:
+	  
 	  self.usuario=dlg.usuario
 	  self.cursor=dlg.cursor
 	  self.curser=dlg.curser
+	  return True
 	else:
 	  sys.exit()
+	  #return False
 	  
     def iniciarCombos(self):
 	#self.cbpDepartamentos.clear()
@@ -159,7 +166,9 @@ class Administrador(QMainWindow, Ui_admin):
 	#self.tbrProductos.hide()
 
 
-	    
+    #def aut(self,var):
+      #return 6
+    
     def tabular(self,tabla,sql,head):
 #Recibe una consulta de sql la ejecuta y tabula el resultado
 	    lista=[]
@@ -301,17 +310,18 @@ class Administrador(QMainWindow, Ui_admin):
 	return modelo
 	
     def aut(self,nivel):
-    #recibe una clave (key) y un valor requerido (req) para ver si tiene el nivel necesario
-      #if (self.stack.currentIndex()==modulo):
-	Acceso =QInputDialog.getText(self, self.tr("Filtro de Acceso"),self.tr("Ingrese su clave de autorizacion."),QLineEdit.Password)                         
-	key=str(Acceso[0])
-	self.cursor.execute('select id_usuario,nivel from usuarios where clave=MD5(\''+key+'\');')
-	val=self.cursor.fetchone()
-	if val!=None:
-	  if int(val[1])>=int(nivel):
-	    return val[0]
-	  else :
-	    return False
+      return 6
+    ##recibe una clave (key) y un valor requerido (req) para ver si tiene el nivel necesario
+      ##if (self.stack.currentIndex()==modulo):
+	#Acceso =QInputDialog.getText(self, self.tr("Filtro de Acceso"),self.tr("Ingrese su clave de autorizacion."),QLineEdit.Password)                         
+	#key=str(Acceso[0])
+	#self.cursor.execute('select id_usuario,nivel from usuarios where clave=MD5(\''+key+'\');')
+	#val=self.cursor.fetchone()
+	#if val!=None:
+	  #if int(val[1])>=int(nivel):
+	    #return val[0]
+	  #else :
+	    #return False
   
     def setUsuario(self,usuario):
       self.usuario=usuario
@@ -325,7 +335,6 @@ class Administrador(QMainWindow, Ui_admin):
 	    dia.setInformativeText(detail)
 	    # dia.setDetailedText(detail)
 	    dia.setWindowModality(0)
-	    dia.setWindowOpacity(.8)
 	    dia.setStandardButtons(QMessageBox.NoButton)
 	    if tipo=='error':
 		    dia.setStyleSheet(".QMessageBox{background:rgba(250,30,10,255);color:#fff}QLabel{background:transparent;color:#fff}")
@@ -340,15 +349,16 @@ class Administrador(QMainWindow, Ui_admin):
 		    dia.setStyleSheet(".QMessageBox{background:rgba(0,128,0,255);color:#fff}QLabel{background:transparent;color:#fff}")	
 		    dia.setIcon(QMessageBox.Information)
 		    
-	    dia.move(self.width()-dia.width(),104)
+	    dia.move(5,self.height()-dia.height()-30)
 	    # dia.addWidget(QLabel(event))
 	    dia.setWindowFlags(dia.windowFlags()|Qt.FramelessWindowHint)
 	    dia.show()
     
     def closeEvent(self, event): 
 	self.conexion.commit()
-	event.accept()
-	print "Cerrando el administrador" 
+	#event.accept()
+	#print "Cerrando el administrador" 
+	#sys.exit()
 	#self.destory()      
         
 	      
@@ -367,4 +377,5 @@ if __name__=="__main__":
     #aw.setUsuario()
     aw.show()
     app.exec_()
+    
     

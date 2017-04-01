@@ -16,4 +16,4 @@ class Familias(Admin1):
       self.ui.connect(self.ui.verFamilias, QtCore.SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tFamilias, QtCore.SIGNAL("clicked()"), self.iniciar)
       #self.ui.tbrProductos.addAction(self.ui.verFamilias)
-      self.anclar(attached)
+      self.anclar(not attached)

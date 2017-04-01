@@ -6,7 +6,12 @@ class QModeloTabla(QAbstractTableModel):
         self.parent=parent
         self.arraydata = datain
         self.headerdata = headerdata
-        
+    
+    def insertar(self,row):
+      if len(row)==len(self.headerdata):
+	self.arraydata.append(row)
+	self.reset()
+	
     def addRow(self,row):
 		self.beginInsertRows ()
 		self.arraydata.append(row)
@@ -14,6 +19,14 @@ class QModeloTabla(QAbstractTableModel):
 	
     def delRow(self,row):
       self.arraydata.remove(row)
+    
+    def eliminar(self,index):
+      if index<len(self.arraydata):
+	del self.arraydata[index]
+	self.reset()
+	return True
+      else:
+	return False
       
     def rowCount(self, parent): 
         return len(self.arraydata) 

@@ -136,8 +136,8 @@ class Factura:
 	    paint.end()
 	    print "Imprimiendo..."
 	    
-	if sys.platform == 'linux2':
-	    os.system("gnome-open '%s' "%ruta)
-	elif sys.platform == 'win32':
-	    os.system("start '%s'"%ruta)
+	#if sys.platform == 'linux2':
+	    #os.system("gnome-open '%s' "%ruta)
+	#elif sys.platform == 'win32':
+	    #os.system("start '%s'"%ruta)
 	  

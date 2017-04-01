@@ -1,40 +1,11 @@
--- phpMyAdmin SQL Dump
--- version 3.4.5
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Oct 16, 2011 at 05:21 AM
--- Server version: 5.1.58
--- PHP Version: 5.3.8
--- Version 2.36
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `pyventa`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cajas`
---
-
 CREATE TABLE IF NOT EXISTS `cajas` (
-  `num_caja` int(10) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) COLLATE latin1_spanish_ci NOT NULL,
-  `maquina` varchar(15) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `num_caja` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(45)   NOT NULL,
+  `maquina` varchar(15)   DEFAULT NULL,
   `saldo_inicial` float unsigned NOT NULL,
   `estado` date NOT NULL,
-  `efectivo` float unsigned NOT NULL,
-  PRIMARY KEY (`num_caja`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=2 ;
+  `efectivo` float unsigned NOT NULL);
+
 
 --
 -- Dumping data for table `cajas`
@@ -43,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `cajas` (
 INSERT INTO `cajas` (`num_caja`, `nombre`, `maquina`, `saldo_inicial`, `estado`, `efectivo`) VALUES
 (1, 'Caja 1', 'localhost', 0, '0000-00-00', 0);
 
+
 -- --------------------------------------------------------
 
 --
@@ -50,19 +22,19 @@ INSERT INTO `cajas` (`num_caja`, `nombre`, `maquina`, `saldo_inicial`, `estado`,
 --
 
 CREATE TABLE IF NOT EXISTS `clientes` (
-  `id` int(123) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) COLLATE latin1_spanish_ci NOT NULL,
-  `rfc` varchar(15) COLLATE latin1_spanish_ci NOT NULL,
-  `direccion` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
-  `poblacion` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
-  `estado` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
-  `tel` varchar(15) COLLATE latin1_spanish_ci NOT NULL,
-  `correo` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `tipo` int(2) NOT NULL,
-  `credito` float NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `rfc` (`rfc`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=2 ;
+  `id` integer NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar   NOT NULL,
+  `rfc` varchar   NOT NULL,
+  `direccion` varchar   NOT NULL,
+  `poblacion` varchar   NOT NULL,
+  `estado` varchar   NOT NULL,
+  `tel` varchar   NOT NULL,
+  `correo` varchar   NOT NULL,
+  `tipo` INTEGER NOT NULL,
+  `credito` float NOT NULL
+   
+)  ;
+
 
 --
 -- Dumping data for table `clientes`
@@ -70,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 
 INSERT INTO `clientes` (`id`, `nombre`, `rfc`, `direccion`, `poblacion`, `estado`, `tel`, `correo`, `tipo`, `credito`) VALUES
 (1, 'Cliente mostrador', '-', '-', '-', '-', '(000)-000-00-00', '00000', 0, 0);
+
 
 -- --------------------------------------------------------
 
@@ -79,9 +52,10 @@ INSERT INTO `clientes` (`id`, `nombre`, `rfc`, `direccion`, `poblacion`, `estado
 
 CREATE TABLE IF NOT EXISTS `codigos` (
   `producto` int(200) NOT NULL,
-  `codigo` varchar(20) COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`producto`,`codigo`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  `codigo` varchar(20)   NOT NULL,
+  PRIMARY KEY (`producto``codigo`)
+)   ;
+
 
 -- --------------------------------------------------------
 
@@ -95,8 +69,9 @@ CREATE TABLE IF NOT EXISTS `comprados` (
   `cantidad` float NOT NULL,
   `costo` float NOT NULL,
   `total` float NOT NULL,
-  PRIMARY KEY (`compra`,`producto`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+  PRIMARY KEY (`compra``producto`)
+   );
+
 
 -- --------------------------------------------------------
 
@@ -105,13 +80,12 @@ CREATE TABLE IF NOT EXISTS `comprados` (
 --
 
 CREATE TABLE IF NOT EXISTS `compras` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `fecha` datetime NOT NULL,
   `proveedor` INT NOT NULL,
   `comprador` int(11) NOT NULL,
-  `total` float NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=1 ;
+  `total` float NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -120,12 +94,11 @@ CREATE TABLE IF NOT EXISTS `compras` (
 --
 
 CREATE TABLE IF NOT EXISTS `consultas` (
-  `id_consulta` int(11) NOT NULL AUTO_INCREMENT,
+  `id_consulta` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `titulo` varchar(100) NOT NULL,
   `descripcion` text NOT NULL,
-  `query` text NOT NULL,
-  PRIMARY KEY (`id_consulta`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `query` text NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -134,10 +107,9 @@ CREATE TABLE IF NOT EXISTS `consultas` (
 --
 
 CREATE TABLE IF NOT EXISTS `departamentos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=2 ;
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(100) CHARACTER SET latin1   NOT NULL);
+
 
 --
 -- Dumping data for table `departamentos`
@@ -145,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `departamentos` (
 
 INSERT INTO `departamentos` (`id`, `nombre`) VALUES
 (1, 'NINGUNO');
+
 
 -- --------------------------------------------------------
 
@@ -158,8 +131,9 @@ CREATE TABLE IF NOT EXISTS `existencia` (
   `stock_fisico` float NOT NULL,
   `stock_logico` float NOT NULL,
   `inconsistencia` float DEFAULT NULL,
-  PRIMARY KEY (`producto`,`inventario`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  PRIMARY KEY (`producto``inventario`)
+)  ;
+
 
 -- --------------------------------------------------------
 
@@ -168,13 +142,12 @@ CREATE TABLE IF NOT EXISTS `existencia` (
 --
 
 CREATE TABLE IF NOT EXISTS `faltantes` (
-  `producto` int(11) NOT NULL AUTO_INCREMENT,
+  `producto` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `usuario` int(11) NOT NULL,
   `cantidad` float NOT NULL,
   `prioridad` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  PRIMARY KEY (`producto`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=1 ;
+  `fecha` date NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -183,11 +156,10 @@ CREATE TABLE IF NOT EXISTS `faltantes` (
 --
 
 CREATE TABLE IF NOT EXISTS `familias` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `departamento` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `departamento` int(11) NOT NULL);
+
 
 --
 -- Dumping data for table `familias`
@@ -196,6 +168,7 @@ CREATE TABLE IF NOT EXISTS `familias` (
 INSERT INTO `familias` (`id`, `nombre`, `departamento`) VALUES
 (1, 'NINGUNA', 1);
 
+
 -- --------------------------------------------------------
 
 --
@@ -203,16 +176,17 @@ INSERT INTO `familias` (`id`, `nombre`, `departamento`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `gastos` (
-  `num_gasto` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario` int(20) NOT NULL,
-  `caja` int(11) NOT NULL,
+  `num_gasto` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `usuario` INTEGER NOT NULL,
+  `caja` INTEGER NOT NULL,
   `fecha` datetime NOT NULL,
-  `concepto` varchar(200) COLLATE latin1_spanish_ci NOT NULL,
+  `concepto` varchar   NOT NULL,
   `cantidad` float NOT NULL,
-  PRIMARY KEY (`num_gasto`,`usuario`,`caja`),
-  KEY `autorizado_por` (`usuario`),
-  KEY `hecho_en` (`caja`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+  PRIMARY KEY ,
+  KEY `autorizado_por` 
+  KEY `hecho_en` 
+)  ;
+
 
 -- --------------------------------------------------------
 
@@ -221,11 +195,10 @@ CREATE TABLE IF NOT EXISTS `gastos` (
 --
 
 CREATE TABLE IF NOT EXISTS `impuestos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `porcentaje` float NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(100) CHARACTER SET latin1   NOT NULL,
+  `porcentaje` float NOT NULL);
+
 
 --
 -- Dumping data for table `impuestos`
@@ -234,6 +207,7 @@ CREATE TABLE IF NOT EXISTS `impuestos` (
 INSERT INTO `impuestos` (`id`, `nombre`, `porcentaje`) VALUES
 (1, 'I.V.A', 16);
 
+
 -- --------------------------------------------------------
 
 --
@@ -241,16 +215,15 @@ INSERT INTO `impuestos` (`id`, `nombre`, `porcentaje`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `inventarios` (
-  `id_inventario` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inventario` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `fecha` datetime NOT NULL,
   `saldo` float NOT NULL,
-  `dominio` varchar(120) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `orden` varchar(20) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `dominio` varchar(120)   DEFAULT NULL,
+  `orden` varchar(20)   DEFAULT NULL,
   `estado` tinyint(4) NOT NULL,
   `auditor` int(20) NOT NULL,
-  `gerente` int(20) NOT NULL,
-  PRIMARY KEY (`id_inventario`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+  `gerente` int(20) NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -259,15 +232,14 @@ CREATE TABLE IF NOT EXISTS `inventarios` (
 --
 
 CREATE TABLE IF NOT EXISTS `movimientos` (
-  `id_movimiento` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_movimiento` INTEGER unsigned NOT NULL PRIMARY KEY AUTOINCREMENT,
   `usuario` int(20) unsigned NOT NULL,
   `caja` int(10) NOT NULL,
-  `detalle` varchar(100) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `tipo` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
+  `detalle` varchar(100)   DEFAULT NULL,
+  `tipo` VARCHAR(1)   NOT NULL,
   `monto` float NOT NULL,
-  `fecha` datetime NOT NULL,
-  PRIMARY KEY (`id_movimiento`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+  `fecha` datetime NOT NULL);
+ --   `tipo`  ENUM('R','D','T') convertido! 
 
 -- --------------------------------------------------------
 
@@ -276,19 +248,23 @@ CREATE TABLE IF NOT EXISTS `movimientos` (
 --
 
 CREATE TABLE IF NOT EXISTS `notas` (
-  `id` int(30) NOT NULL AUTO_INCREMENT,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `cliente` int(123) NOT NULL,
   `usuario` int(20) NOT NULL,
   `caja` int(11) NOT NULL,
   `total` float NOT NULL,
-  `fecha` datetime NOT NULL,
-  `tipo` tinyint(4) NOT NULL COMMENT '0:Nota;1:Factura; 2: Devolucion',
-  `status` tinyint(4) NOT NULL COMMENT '0:sin pagar; 1:pagado, 2:en credito, 3:devolucion',
+  `fecha` datetime NOT NULL
+  `tipo` tinyint(4) NOT NULL COMMENT '0:Not);
+1:Factura);
+ 2: Devolucion',
+  `status` tinyint(4) NOT NULL COMMENT '0:sin paga);
+ 1:pagado, 2:en credito, 3:devolucion',
   PRIMARY KEY (`id`),
   KEY `fk_notas_clientes1` (`cliente`),
   KEY `fk_notas_usuarios1` (`usuario`),
   KEY `fk_notas_cajas1` (`caja`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+)   DEFAULT CHARSET=latin1 AUTO_INCREMENT=1);
+
 
 -- --------------------------------------------------------
 
@@ -297,11 +273,11 @@ CREATE TABLE IF NOT EXISTS `notas` (
 --
 
 CREATE TABLE IF NOT EXISTS `notas_cobradas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nota` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nota` (`nota`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nota` INTEGER NOT NULL,
+  UNIQUE KEY `nota` 
+)   DEFAULT CHARSET=latin1 PRIMARY KEY AUTOINCREMENT=1);
+
 
 -- --------------------------------------------------------
 
@@ -313,8 +289,9 @@ CREATE TABLE IF NOT EXISTS `ofertas` (
   `promocion` int(11) NOT NULL,
   `conjunto` int(11) NOT NULL,
   `tipo` int(3) NOT NULL,
-  PRIMARY KEY (`promocion`,`conjunto`,`tipo`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`promocion`,`conjunto``tipo`)
+)    ;
+
 
 -- --------------------------------------------------------
 
@@ -323,9 +300,9 @@ CREATE TABLE IF NOT EXISTS `ofertas` (
 --
 
 CREATE TABLE IF NOT EXISTS `productos` (
-  `codigo` bigint(20) NOT NULL DEFAULT '0',
-  `ref` int(200) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
+  `codigo` bigINTEGER NOT NULL DEFAULT '0',
+  `ref` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `descripcion` varchar(100)   NOT NULL,
   `familia` int(5) DEFAULT '0',
   `costo` double NOT NULL,
   `ganancia` double NOT NULL,
@@ -334,9 +311,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `unidad` int(5) NOT NULL,
   `vendidas` float NOT NULL,
   `impuesto` int(11) NOT NULL,
-  `ultima_modificacion` datetime NOT NULL,
-  PRIMARY KEY (`ref`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+  `ultima_modificacion` datetime NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -345,15 +321,14 @@ CREATE TABLE IF NOT EXISTS `productos` (
 --
 
 CREATE TABLE IF NOT EXISTS `promociones` (
-  `id` int(13) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(50) CHARACTER SET latin1   NOT NULL,
   `descuento` FLOAT NOT NULL,
   `inicio` date NOT NULL,
   `fin` date NOT NULL,
   `minimo` float NOT NULL,
-  `maximo` FLOAT NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `maximo` FLOAT NOT NULL);
+
 
 -- --------------------------------------------------------
 
@@ -365,8 +340,9 @@ CREATE TABLE IF NOT EXISTS `subproductos` (
   `subproducto` int(11) NOT NULL,
   `cantidad` float NOT NULL,
   `producto` int(200) NOT NULL,
-  PRIMARY KEY (`subproducto`,`producto`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ 
+)    ;
+
 
 -- --------------------------------------------------------
 
@@ -375,10 +351,9 @@ CREATE TABLE IF NOT EXISTS `subproductos` (
 --
 
 CREATE TABLE IF NOT EXISTS `unidades` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(20) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(20) CHARACTER SET latin1   NOT NULL);
+
 
 --
 -- Dumping data for table `unidades`
@@ -387,6 +362,7 @@ CREATE TABLE IF NOT EXISTS `unidades` (
 INSERT INTO `unidades` (`id`, `nombre`) VALUES
 (1, 'PZA');
 
+
 -- --------------------------------------------------------
 
 --
@@ -394,14 +370,14 @@ INSERT INTO `unidades` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `id_usuario` int(20) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `usuario` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `clave` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `nivel` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `usuario_UNIQUE` (`usuario`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=3 ;
+  `id_usuario` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar   NOT NULL,
+  `usuario` varchar   NOT NULL,
+  `clave` varchar   NOT NULL,
+  `nivel` INTEGER NOT NULL,
+  UNIQUE KEY `usuario_UNIQUE` 
+)   PRIMARY KEY AUTOINCREMENT=3);
+
 
 --
 -- Dumping data for table `usuarios`
@@ -410,6 +386,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `usuario`, `clave`, `nivel`) VALUES
 (1, 'Usuario', 'user', 'd41d8cd98f00b204e9800998ecf8427e', 1),
 (2, 'Administrador', 'admin', '1ddff545424249df81f3c4ab552dbb3d', 5);
+
 
 -- --------------------------------------------------------
 
@@ -423,9 +400,10 @@ CREATE TABLE IF NOT EXISTS `vendidos` (
   `tipo` tinyint(1) NOT NULL,
   `cantidad` float NOT NULL,
   `total` float NOT NULL,
-  PRIMARY KEY (`venta`,`producto`,`tipo`),
-  KEY `fk_vendidos_productos1` (`producto`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`venta`,`producto`,`tipo`)
+ 
+)    ;
+
 
 -- --------------------------------------------------------
 
@@ -438,10 +416,5 @@ CREATE TABLE IF NOT EXISTS `ventas` (
   `subtotal` float unsigned NOT NULL,
   `descuentos` float unsigned NOT NULL,
   `total` float unsigned NOT NULL,
-  `efectivo` float unsigned NOT NULL,
-  PRIMARY KEY (`fecha`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  `efectivo` float unsigned NOT NULL);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

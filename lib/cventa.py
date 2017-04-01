@@ -52,14 +52,15 @@ class Cventa(QtGui.QDialog, Ui_Form):
 	if self.parent.banderas['tipo']=='c' and self.parent.aut(2)>0: #si es compra
 	    self.guardarCompra()
 	elif (self.parent.banderas['tipo']=='v' or self.parent.banderas['tipo']=='f') and self.parent.aut(1)>0:  #si es venta   
-	    if int(self.cfg.getDato('pyventa','caja'))>0 and int(self.cfg.getDato("pyventa","cobra"))==2:	#Si puede cobrar la venta
+	    if int(self.cfg.getDato('pyventa','caja'))>0 and int(self.cfg.getDato("pyventa","cobra"))>0:	#Si puede cobrar la venta
 	      self.parent.wResumen.setVisible(True)
 	      self.parent.dsbRecibido.setFocus()
 	      self.parent.dsbRecibido.selectAll()
 	    else:
 	      if self.parent.banderas['tipo']=='v':
 		ide=self.allocate(0,0)
-		if int(self.parent.cfg.get('ticket','default'))>1 and float(self.parent.cfg.get('ticket','trigger'))<self.parent.datos['total']:
+		self.parent.nota=ide
+		if int(self.parent.cfg.get('ticket','default'))>=1 and float(self.parent.cfg.get('ticket','trigger'))<self.parent.datos['total']:
 		  self.parent.imprimirTicket({"<nota/>":str(ide)})
 		  if int(self.parent.cfg.get('ticket','copia'))>1 and float(self.parent.cfg.get('ticket','copia-trigger'))<self.parent.datos['total']:
 		    self.parent.imprimirTicket({"<nota/>":str(ide)})
@@ -68,9 +69,9 @@ class Cventa(QtGui.QDialog, Ui_Form):
 	      self.parent.limpiar()	
 	      
     def cobrar(self):
-	if self.cobro:
+      recibo=float(self.parent.dsbRecibido.value())
+      if self.cobro and recibo>=self.parent.datos['total']:
 	  self.cobro=False
-	  recibo=float(self.parent.dsbRecibido.value())
 	  if recibo==0:
 	    self.limpiar()
 	  elif len(self.parent.basket)>0 and recibo>0 and recibo>=self.parent.datos['total']:
@@ -133,7 +134,7 @@ class Cventa(QtGui.QDialog, Ui_Form):
     def guardarCompra(self):
       compra=Compra(conexion=self.parent.conexion)
       ret=False
-      if (self.parent.banderas['tipo']=='c'):
+      if (self.parent.banderas['tipo']=='c') :
 	if (self.parent.banderas['edicion']!=False):
 	   ret= compra.actualizar(ide=self.parent.banderas['edicion'],canasta=self.parent.basket,usuario=self.parent.sesion['usuario']['id_usuario'],proveedor=self.parent.cliente['id'])
 	else:

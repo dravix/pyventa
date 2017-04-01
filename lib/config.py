@@ -3,13 +3,16 @@ import sys,os, base64, datetime, tarfile, ftplib
 from os import listdir
 from os.path import isfile, join, expanduser, exists, basename
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtGui import QMessageBox
 from ui.ui_config import Ui_Form
 from lib.utileria import Respaldo, editorSimple
 from lib.librerias.configurador import Configurador
-import MySQLdb
+from lib.librerias.conexion import Conexion
+import MySQLdb, sqlite3
 import ConfigParser
 from ui.ui_editor_ticket import Ui_Dialog as Editor
-from lib.buscador_pop import buscadorPop
+from lib.selector import Selector
+
 if sys.platform == 'linux2':
   import cups
 class Configs(QtGui.QDialog, Ui_Form):
@@ -60,7 +63,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 	self.connect(self.rsPeriod, QtCore.SIGNAL("valueChanged ( int )"), lambda: self.setCambio('respaldo','autoremoto',self.rsPeriod.value()))
 	self.connect(self.bprobar, QtCore.SIGNAL("clicked()"), self.conexion )
 	self.connect(self.bset, QtCore.SIGNAL("clicked()"), self.setDB )
-	self.connect(self.bclose, QtCore.SIGNAL("clicked()"), self.close )
+	#self.connect(self.bclose, QtCore.SIGNAL("clicked()"), self.guardar )
 	self.connect(self.bcreate, QtCore.SIGNAL("clicked()"), self.crearDB )
 	self.connect(self.brecargar, QtCore.SIGNAL("clicked()"),lambda: self.recargar('empresa') )
 	self.connect(self.cbEstilos,QtCore.SIGNAL("activated(const QString)"),self.cambiarEstilo)
@@ -151,6 +154,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 		  pass
 	    self.sbCaja.setValue(float(self.kfg.getDato("pyventa","caja")))
 	    self.chbRecibePagos.setCheckState(int(self.kfg.getDato("pyventa","cobra")))
+	    print int(self.kfg.getDato("pyventa","cobra"))
 	    #self.gbTickets.setChecked(bool(int(self.kfg.getDato("ticket","default"))))
 	    #self.gbFacturas.setChecked(bool(int(self.kfg.getDato("factura","default"))))
 	    self.gbBox.setChecked(bool(int(self.kfg.getDato("pyventa","caja"))))
@@ -184,15 +188,18 @@ class Configs(QtGui.QDialog, Ui_Form):
 
 	
     def setupMenus(self):
-      respaldos=self.parent.menuPyventa.addMenu("Respaldos")
-      respaldos.addAction("Generar respaldo",self.respaldarLocal)
-      respaldos.addAction("Restaurar todo",lambda:self.restaurar(True,True))
-      
-      respaldos.addSeparator()
-      respaldos.addAction("Restaurar base de datos",lambda:self.restaurar(True,False))
-      respaldos.addAction("Restaurar configuraciones",lambda:self.restaurar(False,True))
-      
-      self.parent.menuHerramientas.addAction("Configuraciones",self.launch)
+      try:
+	respaldos=self.parent.menuPyventa.addMenu("Respaldos")
+	respaldos.addAction("Generar respaldo",self.respaldarLocal)
+	respaldos.addAction("Restaurar todo",lambda:self.restaurar(True,True))
+	
+	respaldos.addSeparator()
+	respaldos.addAction("Restaurar base de datos",lambda:self.restaurar(True,False))
+	respaldos.addAction("Restaurar configuraciones",lambda:self.restaurar(False,True))
+	
+	self.parent.menuHerramientas.addAction("Configuraciones",self.launch)
+      except:
+	pass
 
       
     def cambiarLogo(self):
@@ -236,7 +243,7 @@ class Configs(QtGui.QDialog, Ui_Form):
 	self.cfg.set('mysql','pass',base64.b64encode(self.mysql['pass']))
 	self.cfg.set('mysql','db',self.mysql['db'])
 	self.cfg.guardar()
-	self.parent.conexion()
+	self.parent.conectar()
 	self.display.setText("<h1>Se ha guardado correctamente.</h1><p>Su conexion ha sido guardada y esta lista para su uso. </p>")
 	msgBox=QtGui.QMessageBox()
 	msgBox.setText("Se ha establecido la base de datos.")
@@ -244,18 +251,46 @@ class Configs(QtGui.QDialog, Ui_Form):
 	msgBox.setStandardButtons(QtGui.QMessageBox.Ok | QtGui.QMessageBox.Cancel)
 	ret=msgBox.exec_()
 	if ret==QtGui.QMessageBox.Ok:
-	  self.parent.insert()
+	  self.hide()
+	  #self.parent.insert()
 	    
     def crearDB(self):
-		fi=open('./perfil/db.sql')
-		tpv=fi.read()
-		self.mysql['host']=str(self.tserver.text())
-		self.mysql['user']=str(self.tuser.text())
-		self.mysql['pass']=str(self.tpass.text())  
-                db = MySQLdb.connect(self.mysql['host'], self.mysql['user'], self.mysql['pass'])
-		stout=db.query(tpv)
-               	self.display.setText('<p>'+str(stout)+'</p>')
+      self.display.setText("")
+      datos={'host':str(self.tserver.text()),'user':str(self.tuser.text()),'pass':str(self.tpass.text()),'schema':False}
+      con=Conexion(self.parent,datos=datos,driver='mysql')
+      if con.stat:
+	self.parent.cursor
+	self.setCursor(QtGui.QCursor(3))
+	con.db.query("CREATE SCHEMA {0}".format(self.tdb.text()))
+	con.db.query("USE {0}".format(self.tdb.text()))
+	out=con.importar(join(self.parent.raiz,'perfil','db.sql'),con.db)
+	self.setCursor(QtGui.QCursor(0))
+	if out==True:
+	  msgBox=QMessageBox(QMessageBox.Question,"Base de datos activa",
+	  "Desea usar esta base de datos como predeterminada?",QMessageBox.Yes|QMessageBox.No,self.parent)
+	  if msgBox.exec_()==QMessageBox.Yes:
+	    self.cfg.set('mysql','host',datos['host'])
+	    self.cfg.set('mysql','user',datos['user'])
+	    self.cfg.set('mysql','pass',base64.b64encode(datos['pass']))
+	    self.cfg.set('mysql','db',str(self.tdb.text()))
+	    self.cfg.set('pyventa','motor',"mysql")
+	    self.parent.conectar()
+	    self.display.setText("<h3>Conexion establecida</h3>La nueva base de datos esta conectada y lista para funcionar.")
+	else:
+	  self.display.setText(out)
+	
+		#fi=open()
+		#tpv=fi.read()
+		#self.mysql['host']=str(self.tserver.text())
+		#self.mysql['user']=str(self.tuser.text())
+		#self.mysql['pass']=str(self.tpass.text())  
+                #db = MySQLdb.connect(self.mysql['host'], self.mysql['user'], self.mysql['pass'])
+		#stout=db.cursor().executemany(tpv)
+               	#self.display.setText('<p>'+str(stout)+'</p>')
                	
+
+	
+	
     def conexion(self):
 		host=str(self.tserver.text())
 		user=str(self.tuser.text())
@@ -382,14 +417,24 @@ class Configs(QtGui.QDialog, Ui_Form):
 
     def restaurar(self,database=True,config=True):
 	  File = QtGui.QFileDialog()
-	  saveFile = File.getOpenFileName(self, "Escoga el archivo de respaldo",self.kfg.getDato('respaldo','lpath'),self.tr("Respaldos (*.tar.gz *.tar.bz2 *.zip)"))
+	  saveFile = File.getOpenFileName(self, "Escoga el archivo de respaldo",self.kfg.getDato('respaldo','lpath'),self.tr("Respaldos (*.tar.bz2)"))
+	  print saveFile
 	  if (saveFile!=""):
 	    rs=Respaldo()
 	    self.setCursor(QtGui.QCursor(3))
+	    #if database:
+	      #tar = tarfile.open(str(saveFile), "r:bz2") 
+	      #tar.extract("respaldo.sql",self.parent.home)
+	      #out=self.parent.conexion.importar(join(self.parent.home,"respaldo.sql"),self.parent.conexion.db)
+	      #if out==True:
 	    if rs.restaurar(saveFile,database,config):
 		self.setCursor(QtGui.QCursor(0))
 	      	msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"El respaldo ha sido restaurado.","La base de datos ha sido restaurada, todos los cambios hechos desde la fecha del respaldo, han sido eliminados.",QtGui.QMessageBox.Close,self)
 		msgBox.exec_()
+	      #else:
+		#print out
+	    #if config:
+	      #rs.restaurar(saveFile,database,config)
 
     def editarTicket(self):
 	editor=editorSimple(self.parent,join(self.parent.home,"ticket.xml"))
@@ -418,11 +463,11 @@ class Configs(QtGui.QDialog, Ui_Form):
 	
     def buscador(self):
       sql="SELECT num_caja, caja, maquina from cajas;"
-      app=buscadorPop(self,'',1,['Num_caja','Nombre','Maquina'],'cajas')
-      #Proceso padre, texto a buscar, numero de columna, arreglo de columnas, tabla sql, seleccion multiple bool
-      ret=app.exec_()
-      if ret>0:
-	caja=app.selected()
+      app=Selector(self.parent,"Caja","cajas",'num_caja,nombre,maquina','Id,Nombre ,Equipo',
+      "(`nombre` like '%{0}%') order by nombre  ")
+      done=app.exec_()
+      if done==1:
+	caja=app.retorno
 	if len(caja)>0 and len(caja[0])>0:
 	  self.sbCaja.setValue(int(caja[0][0]))
 	  self.setCambio('pyventa','caja',self.sbCaja.value())		
@@ -439,7 +484,7 @@ class Configs(QtGui.QDialog, Ui_Form):
       self.datos['nivel']=nivel
     
     def setRecibePagos(self,bo):
-	self.setCambio('pyventa','cobra',bo)		
+	self.setCambio('pyventa','cobra',bo)
 	
     def setPrinter(self,st):
 	self.setCambio('ticket','impresora',st)
@@ -467,6 +512,9 @@ class Configs(QtGui.QDialog, Ui_Form):
        self.setCambio('ticket','copia-trigger',str(self.dsbCopia.value()))
       
       #====GETTERS====
+      
+    def _getRecibePagos(self,bo):
+	self.chbRecibePagos.setCheckState(self.cfg.get('pyventa','cobra'))     
 	
     def datos(self):
       return self.datos

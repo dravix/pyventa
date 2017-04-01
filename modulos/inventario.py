@@ -405,7 +405,7 @@ class AsistInventario(QtGui.QDialog, Ui_Asistente):
 	   ut.entablar(self.tablaDeps,qry,['id','Nombre'])
 	   
     def cancelar(self):
-      self.cursor.execute("ROLLBACK")
+      self.ui.conexion.rollback()
       self.done(2)
       
     def setStock(self):

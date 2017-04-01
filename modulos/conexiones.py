@@ -22,4 +22,4 @@ class Conexiones(Admin1):
       self.ui.connect(self.ui.actionConexiones, SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tConexiones, SIGNAL("clicked()"), self.iniciar)
       #self.ui.tbrProductos.addAction(self.ui.verFamilias)
-      self.anclar(attached)
+      self.anclar(not attached)

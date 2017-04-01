@@ -61,7 +61,11 @@ class EditorOferta(QDialog, Ui_Editor):
 	    
     def cargarLista(self): #Carga la lista desde la base de datos 
 	  conjuntos=['PRODUCTO','FAMILIA','DEPARTAMENTO']
-      	  sql=""" select conjunto,CASE  WHEN tipo=0 THEN (SELECT descripcion from productos where ref=conjunto) WHEN tipo =2 THEN (SELECT nombre from familias where id=conjunto)  WHEN tipo =3 THEN (SELECT nombre from departamentos where id=conjunto) END AS nombre,tipo, tipo from ofertas where promocion=%s group by conjunto"""%self.ide
+      	  sql=""" select conjunto,CASE  
+      	  WHEN tipo=0 THEN (SELECT descripcion from productos where ref=conjunto) 
+      	  WHEN tipo =1 THEN (SELECT nombre from familias where id=conjunto)  
+      	  WHEN tipo =2 THEN (SELECT nombre from departamentos where id=conjunto) 
+      	  END AS nombre,tipo, tipo from ofertas where promocion=%s group by conjunto"""%self.ide
       	  self.cursor.execute(sql)
 	  rows=self.cursor.fetchall()
 	  self.lista=[]

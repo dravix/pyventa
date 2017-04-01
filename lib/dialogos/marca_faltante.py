@@ -28,6 +28,7 @@ class Faltante(QDialog, Ui_Faltante):
 	self.ide=[self.ide]
 	self.lbProducto.setText("Productos seleccionados")
       self.dsbCantidad.setFocus(True)
+      self.dsbCantidad.selectAll()
       self.setWindowFlags(self.windowFlags()|Qt.FramelessWindowHint)
       #self.dsbCantidad.setValue()
       
@@ -37,7 +38,9 @@ class Faltante(QDialog, Ui_Faltante):
 	    try:
 	      sql="INSERT INTO faltantes VALUES(%s,%s,%s,%s,CURDATE());"%(ref,self.usuario,float(self.dsbCantidad.value()),int(self.cbPrioridad.currentIndex()))
 	      #print sql
-	      self.cursor.execute("DELETE FROM faltantes where producto=%s"%ref)
+	      delete="DELETE FROM faltantes where producto='%s'"%ref
+	      #print delete
+	      self.cursor.execute(delete)
 	      self.cursor.execute(sql)
 	    except MySQLdb.Error, e:
 	      print "Error al marcar como faltante",e

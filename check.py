@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-import sys, os
-#aqui=os.getcwd()
-#sys.path.append(os.path.join(aqui,'dialogos'))
-aqui="/usr/share/pyventa/"    
+import sys, os  
 home=os.path.join(os.path.expanduser('~'),"pyventa")
 if sys.platform == 'linux2':
     home=os.path.join(os.path.expanduser('~'),".pyventa")

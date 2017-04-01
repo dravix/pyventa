@@ -40,7 +40,7 @@ def odic(adict): ##Ordena los indices de un diccionacio
     return map(adict.get, keys)
     
 def cifra(num):	
-    # locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+    locale.setlocale(locale.LC_ALL, 'en_US.utf8')
     dato=num
     if (str(num)[0].isdigit() or str(num)[0]=='-' or str(num)[0]=='$' or str(num)[0]=='#') and str(num)[-1].isdigit() and len(str(num))<10:
     #cuando detecte que es un numero 
@@ -88,7 +88,7 @@ class editorSimple(QtGui.QDialog, Editor):
       nombre=nombre.replace(" ","\\ ")
       #Esta instruccion se encarga llamar al sistema para que el archivo sea abierto por el programa designado para leer PDF
       if sys.platform == 'linux2':
-	  os.system("gnome-open %s"%nombre)
+	  os.system("xdg-open %s"%nombre)
       elif sys.platform == 'win32':
 	  os.system("start %s"%nombre)
 	
@@ -313,33 +313,16 @@ class Respaldo:
 	  data = self.con.data
 	  respaldo=os.path.join(home,"respaldo.sql")
 	  if os.path.exists(respaldo):
-	    try:
-		retcode = call("mysql -u{0} -h{1} -p{2} {3} < {4}".format(user,host,password,data,respaldo), shell=True)
-		if retcode < 0:
-		    print >>sys.stderr, "Child was terminated by signal", -retcode
-		    return False
-		else:
-		    print >>sys.stderr, "Child returned", retcode
-		    #os.unlink(respaldo)
-		    return True
-	    except OSError as e:
-		print >>sys.stderr, "Execution failed:", e
-		return False
-		#print "No se ha restaurado la base de datos, asegurese que tiene instalado mysql y que esta en variables globales de su sistema operativo."
-		#os.unlink(respaldo)
-	    ##Importacion de base de datos
-	    #try:
-	      #if sys.platform == 'linux2':
-		
-		##os.system("mysql -u%s -h%s -p%s %s < %s"%(user,host,password,data,respaldo))
-	      #else:
-		#os.system("%MYSQL% -u%s -h%s -p%s %s < %s"%(user,host,password,data,respaldo))	  
-	    #except:
-	      #ret=False
-	      #print "No se ha restaurado la base de datos, asegurese que tiene instalado mysql y que esta en variables globales de su sistema operativo."
-	    #else:
-	      #os.unlink(respaldo)
-	      #return True
+
+	      print "Intentando restaurar..."
+	      retcode = call("mysql -u {0} -h {1} -p{2} {3} < '{4}' ".format(user,host,password,data,respaldo), shell=True)
+	      if retcode < 0:
+		  print >>sys.stderr, "Importacion interrumpida", retcode
+		  return False
+	      else:
+		  print >>sys.stderr, "Importacion completada", retcode
+		  #os.unlink(respaldo)
+		  return True
 	  else: 
 	      print "El archivo de configuracion no es valido"
 	      return False
@@ -456,7 +439,7 @@ class VisorNotas(QtGui.QDialog, Ui_Resumen):
 		    head=['ref','Descripcion','Cantidad','Precio','Total']
 		    col=','.join(head).lower()
 		    sql="select "+col+" from productos,vendidos where ref=producto and venta="+str(ide)
-		    self.parent.tabular(self.twProductos,sql,head)
+		    tabular(self.twProductos,sql,head)
 		    self.nota=nota
 		  else:
 		    self.lbResumen.setText("No se encontro la nota")

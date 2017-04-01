@@ -2,7 +2,6 @@
 from PyQt4 import  Qt
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from ui.dlg_buscador import buscador
 import MySQLdb as my
 import lib.libutil
 from lib.selector import Selector
@@ -21,7 +20,7 @@ class Compras:
         	self.ui.connect(self.ui.tbcoLimpiar, SIGNAL("clicked()"), self.limpiar)		
         	self.ui.connect(self.ui.verCompras, SIGNAL("triggered()"), self.ver)		
         	#self.ui.connect(self.ui.tNCompras, SIGNAL("clicked()"), self.agregar)		
-        	self.ui.connect(self.ui.tbcoNuevo, SIGNAL("clicked()"), self.agregar)
+        	#self.ui.connect(self.ui.tbcoNuevo, SIGNAL("clicked()"), self.agregar)
         	self.ui.connect(self.ui.pbncAgregar, SIGNAL("clicked()"), self.ingresarProducto)
         	self.ui.connect(self.ui.tbcoGuardar, SIGNAL("clicked()"), self.guardarCompra)
 		self.ui.connect(self.ui.tvCompras,SIGNAL('customContextMenuRequested(const QPoint)'),self.ocm)
@@ -303,9 +302,6 @@ class Compras:
     def ocmNC(self, point):
          self.popMenuNC.exec_(self.ui.twNCompra.mapToGlobal(point) )
          	
-    def buscarProducto(self):
-	dlg=buscador(self.ui,self.ui.lencCodigo.text())
-	self.ui.lencCodigo.setText(str(dlg.exec_()))
 
     def nuevaOrden(self):
 

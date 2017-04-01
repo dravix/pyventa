@@ -27,7 +27,7 @@ class Clientes(Admin1):
       ['tel','Telefono:','str',tel,True],
       ['correo','E-mail:','str',cp,True],
       ['tipo','Tipo:','hide',0,True],
-      ['credito','Limite de credito:','double',None,True]],
+      ['credito','Credito:','hide',0,False]],
       info="",logo=":/modulos/images/png/elegant/clientes.png",ide=-1,ancla=True,cond=" WHERE tipo=0 order by nombre"
       )
       self.ui=parent

@@ -3,7 +3,6 @@ from PyQt4.QtCore import SIGNAL, QTimer
 from PyQt4.QtGui import QDialog, QPixmap, QCursor
 from lib.librerias.conexion import dicursor
 from lib.librerias.comun import *
-import md5
 import MySQLdb
 class Seguridad(QDialog, Ui_Acceso):
     def __init__(self,parent=None, nivel=1,logo=False, nombre="Pyventa"):
@@ -95,12 +94,9 @@ class Seguridad(QDialog, Ui_Acceso):
     def autentificar(self):
 	if self.changeConection(self.cbServidores.currentIndex()):
 	  usuario=str(self.leUsuario.text())
-	  clave=str(self.leClave.text())
-	  m=md5.new(clave)
-	  clave=m.hexdigest()
-	  
+	  clave=str(self.leClave.text())  
 	  if len(usuario)>0:
-	      self.curser.execute("SELECT * from usuarios where usuario='{0}' and clave='{1}'".format(usuario,clave))    
+	      self.curser.execute("SELECT * from usuarios where usuario='{0}' and clave=MD5('{1}')".format(usuario,clave))    
 	      user=self.curser.fetchone()
 	      if user!=None:
 	      	user=dicursor(self.curser,user)
@@ -111,7 +107,7 @@ class Seguridad(QDialog, Ui_Acceso):
 		    self.usuario=user
 		    self.done(int(user['id_usuario']))
 		  else:
-		      self.notify("Su nivel de acceso es menor al necesario, consulte con su superior.")
+		      self.notify("No tiene el acceso necesario,\nconsulte con su superior.")
 		else:
 		    if self.count<2:
 		      self.notify("El usuario/clave son incorrectos\nIntentelo nuevamente (Intentos {0}).".format(self.count))

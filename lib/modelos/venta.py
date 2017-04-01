@@ -5,23 +5,31 @@ class Venta:
     self.conexion=conexion
     self.cursor=conexion.cursor
     
-    def eliminar(self,nota):
-      try:
-	self.cursor.execute( "select v.producto,stock_logico+cantidad from vendidos as v,existencia as e where venta={0} and v.producto=e.producto; ".format(ide))
-	ff=self.cursor.fetchall()
-	for f in ff:
-	  self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
-	self.cursor.execute("DELETE FROM vendidos where venta={venta}".format(venta=nota))  
-	self.cursor.execute("DELETE FROM notas where `id`={venta}".format(venta=nota))
-      except MySQLdb.Error, e:
-	print "Error al eliminar nota %s"%nota,e
-	return False
-      except:
-	return False
-      else:	
-	self.conexion.commit()
-	return True
+  def eliminar(self,nota):
+    try:
+      self.cursor.execute( "select v.producto,stock_logico+cantidad from vendidos as v,existencia as e where venta={0} and v.producto=e.producto; ".format(nota))
+      ff=self.cursor.fetchall()
+      for f in ff:
+	self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
+      self.cursor.execute("DELETE FROM vendidos where venta={venta}".format(venta=nota))  
+      self.cursor.execute("DELETE FROM notas where `id`={venta}".format(venta=nota))
+    except MySQLdb.Error, e:
+      print "Error al eliminar nota %s"%nota,e
+      return False
+    except:
+      return False
+    else:	
+      self.conexion.commit()
+      return True
 
+  def eliminarMuchas(self,lista):
+    for li in lista:
+      if self.eliminar(str(li)):
+	print "Eliminacion de venta: {0} completa.".format(li)
+      else:
+	print "Error, eliminacion de venta: {0} incompleta.".format(li)
+
+       
   def guardarVendidos(self,ide,canasta):
       for item in canasta:
 	  try:
@@ -30,11 +38,11 @@ class Venta:
 	    self.cursor.execute("UPDATE existencia SET stock_logico=stock_logico-{1} where producto={0}".format(*item))		
 	    self.cursor.execute("UPDATE productos set vendidas=vendidas+1, ultima_modificacion=NOW() WHERE ref={0}".format(item[0]))
 	  except sqlite3.Error,e:
-	    raise(e)
+	    print(e)
 	    self.conexion.rollback()
 	    return False
 	  except MySQLdb.Error, e:
-	    raise(e)
+	    print(e)
 	    self.conexion.rollback()
 	    return False	  
 	  except:
@@ -58,10 +66,10 @@ class Venta:
 	self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
       self.cursor.execute("""DELETE FROM vendidos where venta=%s """%ide)	    
     except sqlite3.Error,e:
-      raise(e)
+      print e
       return False
     except MySQLdb.Error, e:
-      raise(e)
+      print e
       return False
     except:
       return False
@@ -75,10 +83,10 @@ class Venta:
     try:      
       self.cursor.execute("INSERT INTO `notas`  VALUES(NULL,{cliente},{vendedor},{caja},{total},NOW(),{tipo},{status})".format(cliente=cliente,vendedor=usuario,caja=caja,total=self.totalizar(canasta),tipo=tipo,status=status))
     except sqlite3.Error,e:
-      raise(e)
+      print(e)
       return False
     except MySQLdb.Error, e:
-      raise(e)
+      print(e)
       return False      
     except:
       print "Error al guardar la venta"
