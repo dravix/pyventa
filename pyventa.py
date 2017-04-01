@@ -75,7 +75,7 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
         self.setupUi(self)
         self.showMaximized()
         self.home = home
-        self.raiz = os.path.dirname(os.path.realpath(__file__))
+        self.raiz = os.path.dirname(os.path.realpath('__file__'))
         self.datosModulos = {}
         self.stack.setCurrentIndex(0)
         self.lista2.setSortingEnabled(True)
