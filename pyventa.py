@@ -117,8 +117,8 @@ class Pyventa(QtGui.QMainWindow, Ui_Principal):
         self.connect(self.bventa, QtCore.SIGNAL("clicked()"), self.insert)
         self.connect(
             self.csCliente, QtCore.SIGNAL("clicked()"), self.selCliente)
-        self.connect(self.actionImprimir, QtCore.SIGNAL(
-            "triggered()"), self.imprimirTicket)
+        # self.connect(self.actionImprimir, QtCore.SIGNAL(
+        #     "triggered()"), self.imprimirTicket)
         self.connect(self.actionReimprimir,
                      QtCore.SIGNAL("triggered()"), self.reprint)
         self.connect(self.actionPunto_de_venta,
@@ -1066,92 +1066,92 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         tedit.print_(printer)
 
     def imprimirTicket(self, extraTags={}):
-    	if self.aut(2) > 0:
+    	# if self.aut(2) > 0:
 	        # try:
-	        f = open(os.path.join(home, 'ticket.xml'), 'r+')
-	        ticline = f.readlines()
-	                              # Lee el archivo en lineas y lo guarda en un arreglo
-	        # ticline=ticket.split('\n')
-	        f.close()
-	        try:
-	            tags = self.ticketDriver.etiquetas  # carga las etiquetas del driver esc/pos
-	        except:
-	            tags = {}
-	        prd = ''
-	        prods = ''
-	        #|Para el caso de manejar la edicion individual de los datos de los productos
-	        dataf = ['', '']
-	        for i, linea in enumerate(ticline):
-	            # print linea
-	            if linea.find("<importe/>") >= 0 or linea.find("<idesc/>") >= 0:
-	            # En la linea donde encuentre el importe lo toma como la segunda
-	            # linea
-	                dataf[1] = linea
-	                ticline.remove(linea)
-	            if linea.find("<producto/>") >= 0:
-	            # En la linea donde encuentre la etiqueta producto lo toma como la
-	            # primera linea
-	                dataf[0] = linea
-	                ticline[i] = "<producto/>"
-	        ticket = ''.join(ticline)
-	        # Aqui es donde el ticket se convierte en una sola cadena
-	#['Ref','Ctd','Descripcion del producto','Precio','Importe','C/Dcto']
-	        for prod in self.basket:  # por cada articulos de la canasta va llenando de acuerdo al formato de dataf
-	            if prod[1] > 0:
-	                microtags = {'<cantidad/>': str(libutil.cifra(prod[1])), '<producto/>': str(prod[2]), '<precio/>': str(libutil.cifra(prod[3])), "<importe/>": str(
-	                    libutil.cifra(prod[4])), "<ref/>": str(prod[0]), "<idesc/>": str(libutil.cifra(prod[5])), "<pdesc/>": str(libutil.cifra(prod[5] / prod[1]))}
-	                disc = prod[5] - prod[4]
-	                if disc != 0:
-	                    microtags['<descontado/>'] = str(libutil.cifra(disc))
-	                lineas = [dataf[0], dataf[1]]
-	                    # "lineas" guarda de manera temporal una copia de los formatos esta sera modificada con los datos
-	                for key, item in microtags.iteritems():  # Se reemplazan las etiquetas por los datos de cada producto
-	                    lineas[0] = lineas[0].replace(key, item)
-	                    lineas[1] = lineas[1].replace(key, item)
-	                prods += ''.join(lineas)
-	                prd += "#%s | %s\n %s\t*\t $%s \t\t= \t$%s\n" % (
-	                    str(prod[0]), str(prod[2]), str(prod[1]), str(prod[3]), str(prod[4]))
-	        # print prods
-	        tags['<cantidad/>'] = ''
-	        tags['<precio/>'] = ''
-	        tags['<importe/>'] = ''
-	        tags['<idesc/>'] = ''
-	        tags['<pdesc/>'] = ''
-	        tags['<ref/>'] = ''
-	        tags['<numero-productos/>'] = str(len(self.basket))
-	        tags['<productos/>'] = prd
-	        tags['<producto/>'] = prods
-	        tags['<subtotal/>'] = str(libutil.cifra(self.grant()[0]))
-	        tags['<impuestos/>'] = ''  # self.cfg.get('empresa','impuestos')+"%"
-	        tags['<descuento/>'] = str(libutil.cifra(self.grant()[1]))
-	        tags['<total/>'] = str(libutil.cifra(self.grant()[2]))
-	        tags['<fecha/>'] = str(self.fecha)
-	        tags['<nota/>'] = str(self.nota)
-	        tags['<tletra>'] = str(nletras(self.grant()[2]))
-	        tags['<usuario/>'] = self.sesion['usuario']['nombre']
+        f = open(os.path.join(home, 'ticket.xml'), 'r+')
+        ticline = f.readlines()
+                              # Lee el archivo en lineas y lo guarda en un arreglo
+        # ticline=ticket.split('\n')
+        f.close()
+        try:
+            tags = self.ticketDriver.etiquetas  # carga las etiquetas del driver esc/pos
+        except:
+            tags = {}
+        prd = ''
+        prods = ''
+        #|Para el caso de manejar la edicion individual de los datos de los productos
+        dataf = ['', '']
+        for i, linea in enumerate(ticline):
+            # print linea
+            if linea.find("<importe/>") >= 0 or linea.find("<idesc/>") >= 0:
+            # En la linea donde encuentre el importe lo toma como la segunda
+            # linea
+                dataf[1] = linea
+                ticline.remove(linea)
+            if linea.find("<producto/>") >= 0:
+            # En la linea donde encuentre la etiqueta producto lo toma como la
+            # primera linea
+                dataf[0] = linea
+                ticline[i] = "<producto/>"
+        ticket = ''.join(ticline)
+        # Aqui es donde el ticket se convierte en una sola cadena
+#['Ref','Ctd','Descripcion del producto','Precio','Importe','C/Dcto']
+        for prod in self.basket:  # por cada articulos de la canasta va llenando de acuerdo al formato de dataf
+            if prod[1] > 0:
+                microtags = {'<cantidad/>': str(libutil.cifra(prod[1])), '<producto/>': str(prod[2]), '<precio/>': str(libutil.cifra(prod[3])), "<importe/>": str(
+                    libutil.cifra(prod[4])), "<ref/>": str(prod[0]), "<idesc/>": str(libutil.cifra(prod[5])), "<pdesc/>": str(libutil.cifra(prod[5] / prod[1]))}
+                disc = prod[5] - prod[4]
+                if disc != 0:
+                    microtags['<descontado/>'] = str(libutil.cifra(disc))
+                lineas = [dataf[0], dataf[1]]
+                    # "lineas" guarda de manera temporal una copia de los formatos esta sera modificada con los datos
+                for key, item in microtags.iteritems():  # Se reemplazan las etiquetas por los datos de cada producto
+                    lineas[0] = lineas[0].replace(key, item)
+                    lineas[1] = lineas[1].replace(key, item)
+                prods += ''.join(lineas)
+                prd += "#%s | %s\n %s\t*\t $%s \t\t= \t$%s\n" % (
+                    str(prod[0]), str(prod[2]), str(prod[1]), str(prod[3]), str(prod[4]))
+        # print prods
+        tags['<cantidad/>'] = ''
+        tags['<precio/>'] = ''
+        tags['<importe/>'] = ''
+        tags['<idesc/>'] = ''
+        tags['<pdesc/>'] = ''
+        tags['<ref/>'] = ''
+        tags['<numero-productos/>'] = str(len(self.basket))
+        tags['<productos/>'] = prd
+        tags['<producto/>'] = prods
+        tags['<subtotal/>'] = str(libutil.cifra(self.grant()[0]))
+        tags['<impuestos/>'] = ''  # self.cfg.get('empresa','impuestos')+"%"
+        tags['<descuento/>'] = str(libutil.cifra(self.grant()[1]))
+        tags['<total/>'] = str(libutil.cifra(self.grant()[2]))
+        tags['<fecha/>'] = str(self.fecha)
+        tags['<nota/>'] = str(self.nota)
+        tags['<tletra>'] = str(nletras(self.grant()[2]))
+        tags['<usuario/>'] = self.sesion['usuario']['nombre']
 
-	        for key in self.modulos['config'].modulos['empresa']:
-	            try:
-	                tags['<' + key + '/>'] = self.cfg.get('empresa', key)
-	            except:
-	                pass
-	        for key, item in extraTags.iteritems():
-	            ticket = ticket.replace(key, item)
-	        for key, item in tags.iteritems():
-	            ticket = ticket.replace(key, item)
-	        for key, item in tags.iteritems():
-	            ticket = ticket.replace(key, item)
-	        if sys.platform == 'linux2':
-	            f = tempfile.NamedTemporaryFile(delete=False)
-	        else:
-	            f = open(
-	                os.path.normpath(os.path.join(self.home, "tmp.txt")), "w+")
-	        # print ticket
-	        f.write(ticket)
-	        f.close()
-	        # print ticket
-	        self.imprimir(f, self.cfg.get('ticket', 'impresora'))
-	        os.unlink(f.name)
+        for key in self.modulos['config'].modulos['empresa']:
+            try:
+                tags['<' + key + '/>'] = self.cfg.get('empresa', key)
+            except:
+                pass
+        for key, item in extraTags.iteritems():
+            ticket = ticket.replace(key, item)
+        for key, item in tags.iteritems():
+            ticket = ticket.replace(key, item)
+        for key, item in tags.iteritems():
+            ticket = ticket.replace(key, item)
+        if sys.platform == 'linux2':
+            f = tempfile.NamedTemporaryFile(delete=False)
+        else:
+            f = open(
+                os.path.normpath(os.path.join(self.home, "tmp.txt")), "w+")
+        # print ticket
+        f.write(ticket)
+        f.close()
+        # print ticket
+        self.imprimir(f, self.cfg.get('ticket', 'impresora'))
+        os.unlink(f.name)
 
     def autDescuento(self):
         if self.aut(2) > 0:
