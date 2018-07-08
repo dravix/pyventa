@@ -1,7 +1,7 @@
 #!/bin/sh
-BASE="/home/dave/devel/pyventa/2.3"
+BASE=$(pwd)
 cd $BASE;
-BUILDER=$BASE"/../builder"
+BUILDER="$BASE/../builder"
 VERSION=$(zenity --width 200 --entry --title "Debianizando Pyventa" --text "Indica la version que sera publicada:" );
 ov=$(cat $BUILDER/debian/changelog |awk -F '[()]' '{print $2}')
 if [ "$(echo $ov" <= "$VERSION|bc)" -eq 1 ]; then 
