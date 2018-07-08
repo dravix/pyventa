@@ -1,0 +1,3 @@
+#!/bin/sh
+# Lanza Padmin
+exec /usr/share/pyventa/padmin.py $@
