@@ -15,35 +15,39 @@ WORKDIR=${1:-/usr/share/pyventa}
 mkdir -p $WORKDIR &&
 #remove all unused files
 #find . -name ".py[a-z]" -print0 | xargs -0 rm -rf
-cp -r ./{lib,ui,images,perfil,images,modulos,*.py,app.metadata} $WORKDIR &&
+cp -r {lib,ui,images,perfil,modulos,*.py,app.metadata} $WORKDIR &&
 cp ./{pyventa,padmin} /usr/bin/ &&
 chmod +x /usr/bin/{pyventa,padmin} &&
-cp ./*.desktop /usr/share/application/ 
+cp ./*.desktop /usr/share/applications/ 
 
 }
 
 install_local(){
 echo "Instalacion local"
-WORKDIR=${1:-~/pyventa}
+HP=$(readlink -f ~/pyventa)
+WORKDIR=$(readlink -f ${1:-~/pyventa})
 echo "WORKDIR: "$WORKDIR 
 #Making directories
-mkdir -p $1 && mkdir -p ~/bin
+mkdir -p $WORKDIR && mkdir -p ~/bin
 #remove all unused files
 #find . -name ".py[a-z]" -print0 | xargs -0 rm -rf
-cp -r ./{lib/,ui/,images/,perfil/,images/,modulos/,*.py,app.metadata} $1 &&
+cp -r {lib,ui,images,perfil,modulos} $WORKDIR &&
+cp {pyventa.py,padmin.py,check.py,app.metadata} $WORKDIR &&
 cp {pyventa,padmin} ~/bin/ &&
 chmod +x ~/bin/{pyventa,padmin} &&
+sed -i "s~/usr/share/pyventa/~$WORKDIR/~g" ~/bin/{pyventa,padmin}
 cp *.desktop ~/.local/share/applications/ 
  }
 
 configuration(){
+	echo "Configurando..."
 	cp -R -u -p perfil ~/.pyventa 	
 }
 
 install_deps(){
 echo "Intentando instalar dependencias..."
 if [ -f /etc/redhat-release ]; then
-  sudo dnf install python2.7 python-mysqldb libqtcore4 python-qt4
+  sudo dnf install python2.7 python-mysqldb libqtcore4 python-qt4 python-cups
 fi
 
 if [ -f /etc/lsb-release ]; then
@@ -72,9 +76,6 @@ while [ $# -gt 0 ]; do
       configuration
       ;; 
     *)
-      echo "***************************\n"
-      echo "* Error: Invalid argument.*\n"
-      echo "***************************\n"
       exit 1
   esac
   shift
