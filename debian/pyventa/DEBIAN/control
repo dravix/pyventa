@@ -1,9 +1,9 @@
 Package: pyventa
-Version: 2.346
-Architecture: i386
-Maintainer: dave <david@pyventa.com>
+Version: 2.348
+Architecture: all
+Maintainer: David Osorio <david@pyventa.com>
 Installed-Size: 4227
-Depends: python-mysqldb (>= 1.2), libqtcore4 (>= 4.4.3), python-qt4
+Depends: python (>= 2.7), python-mysqldb (>= 1.2), libqtcore4 (>= 4.4.3), python-qt4
 Section: publishing
 Priority: extra
 Homepage: pyventa.com

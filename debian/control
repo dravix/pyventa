@@ -1,14 +1,14 @@
 Source: pyventa
 Section: publishing
 Priority: extra
-Maintainer: dave <david@pyventa.com>
+Maintainer: David Osorio <david@pyventa.com>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.8.1
 Homepage: pyventa.com
 
 Package: pyventa
-Architecture: i386
-Depends:  python-mysqldb(>=1.2), libqtcore4 (>= 4.4.3), python-qt4
+Architecture: all
+Depends:  python(>=2.7), python-mysqldb(>=1.2), libqtcore4 (>= 4.4.3), python-qt4
 Description: Punto de venta para pequenos negocios
  Pyventa es un software administrativo disenado para su facil utilizacion
  en el control de productos, ventas, clientes. Pyventa permite generar registros

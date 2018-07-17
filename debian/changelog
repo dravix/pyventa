@@ -1,6 +1,6 @@
-pyventa (2.346) quantal; urgency=medium
+pyventa (2.348) quantal; urgency=medium
 
-  * Correccion en contro de codigos alternativos
+  * Rebuild version for new packages
 
 
- -- dave <david@pyventa.com>  Tue, 01 April 2013 15:30:17 -0600
+ -- David Osorio <david@pyventa.com>  Sun, 08 April 2018 11:30:17 -0600
