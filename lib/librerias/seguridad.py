@@ -1,6 +1,6 @@
 from ui.ui_acceso import Ui_Acceso
 from PyQt4.QtCore import SIGNAL, QTimer
-from PyQt4.QtGui import QDialog, QPixmap, QCursor
+from PyQt4.QtGui import QDialog, QPixmap
 from lib.librerias.conexion import dicursor
 from lib.librerias.comun import *
 import md5
@@ -58,7 +58,6 @@ class Seguridad(QDialog, Ui_Acceso):
 	  self.adjustSize()
       
     def changeConection(self, index):
-      self.setCursor(QCursor(3))
       if index>0:#Si no es local
 	conexion=self.conexiones[index-1]
 	#if 
@@ -66,7 +65,6 @@ class Seguridad(QDialog, Ui_Acceso):
 	try:
 	  db = MySQLdb.connect(conn['host'], conn['user'], conn['pass'],conn['schema'])
 	except MySQLdb.Error,e:
-	  self.setCursor(QCursor(0))
 	  if (e.args[0]==1045):
 	    self.notify("Acceso denegado. \nPor favor verifique su clave de servidor")
 	  elif (e.args[0] in range(2001,2006)):
@@ -77,7 +75,6 @@ class Seguridad(QDialog, Ui_Acceso):
 	    print e.args[0],"\nError al conectar a la base de datos"#,(self._host, self._user, self._pass,self._schema)
 	  return False
 	else: 
-	  self.setCursor(QCursor(0))
 	  self.cursor = db.cursor()
 	  self.curser=  db.cursor(MySQLdb.cursors.DictCursor)	
 	  return True

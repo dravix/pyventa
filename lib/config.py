@@ -10,8 +10,8 @@ import MySQLdb
 import ConfigParser
 from ui.ui_editor_ticket import Ui_Dialog as Editor
 from lib.buscador_pop import buscadorPop
-if sys.platform == 'linux2':
-  import cups
+import cups
+
 class Configs(QtGui.QDialog, Ui_Form):
     def __init__(self,parent,id=0):
 	QtGui.QDialog.__init__(self)

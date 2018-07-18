@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-install(){
+install_glob(){
 echo "***********************************\n"
 echo "* Instalacion generica de Pyventa.*\n"
 echo "***********************************\n"
@@ -64,7 +64,7 @@ while [ $# -gt 0 ]; do
       ;;
     --all*)
       install_deps
-      install $2
+      install_glob $2
       configuration
       ;;
     --local*)
@@ -72,7 +72,7 @@ while [ $# -gt 0 ]; do
       configuration
       ;;   
     --glob*)
-      sudo install $2
+      install_glob $2
       configuration
       ;; 
     *)
