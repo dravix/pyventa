@@ -18,7 +18,8 @@ mkdir -p $WORKDIR &&
 cp -r {lib,ui,images,perfil,modulos,*.py,app.metadata} $WORKDIR &&
 cp ./{pyventa,padmin} /usr/bin/ &&
 chmod +x /usr/bin/{pyventa,padmin} &&
-cp ./*.desktop /usr/share/applications/ 
+cp ./*.desktop /usr/share/applications/ &&
+cp ./images/{pyventa.png,padmin.png} /usr/share/icons/ 
 
 }
 
@@ -37,6 +38,8 @@ cp {pyventa,padmin} ~/bin/ &&
 chmod +x ~/bin/{pyventa,padmin} &&
 sed -i "s~/usr/share/pyventa/~$WORKDIR/~g" ~/bin/{pyventa,padmin}
 cp *.desktop ~/.local/share/applications/ 
+mkdir -p ~/.icons/
+cp ./images/{pyventa.png,padmin.png} ~/.icons/ 
  }
 
 configuration(){
