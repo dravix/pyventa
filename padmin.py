@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import sys, os, datetime, urllib2, tarfile, base64, sqlite3
 from time import time
-#aqui=os.getcwd()
-aqui="/usr/share/pyventa/"
+aqui=os.getcwd()
+#aqui="/usr/share/pyventa/"
 
 #sys.path.append(os.path.join("/usr/share/pyventa/admin"))
 home=os.path.join(os.path.expanduser('~'),"pyventa")
