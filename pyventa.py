@@ -20,18 +20,20 @@ if sys.platform == 'linux2':
     except:
         pass
 
+    locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 else:
-    sys.stdout = open(os.path.join(
-        os.path.expanduser('~'), "pyventa.salida.log"), "w")
-    sys.stderr = open(os.path.join(
-        os.path.expanduser('~'), "pyventa.error.log"), "w")
+    # sys.stdout = open(os.path.join(
+    #     os.path.expanduser('~'), "pyventa.salida.log"), "w")
+    # sys.stderr = open(os.path.join(
+    #     os.path.expanduser('~'), "pyventa.error.log"), "w")
     home = os.path.join(os.path.expanduser('~'), "pyventa")
+    locale.setlocale(locale.LC_ALL, '')
 
     # home=os.path.join(aqui,'perfil')
 # sys.path.append(os.path.join(aqui,'plugins'))
 # sys.path.append(os.path.join(aqui,'lib'))
 # sys.path.append('ui')
-locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+    
 
 sys.path.append(os.path.join(home, 'drivers'))
 import tempfile
