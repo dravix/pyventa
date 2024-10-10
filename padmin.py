@@ -17,9 +17,9 @@ if sys.platform == 'linux2':
     except:
         pass
 else:
-	sys.stdout = open(os.path.join(os.path.expanduser('~'),"pad_salida.log"),"w")
-	sys.stderr = open(os.path.join(os.path.expanduser('~'),"pad_error.log"),"w")
-	
+	# sys.stdout = open(os.path.join(os.path.expanduser('~'),"pad_salida.log"),"w")
+	# sys.stderr = open(os.path.join(os.path.expanduser('~'),"pad_error.log"),"w")
+	home=os.path.join(os.path.expanduser('~'),"pyventa")
 #sys.path.append(os.path.join(aqui,'plugins'))
 #sys.path.append(os.path.join(aqui,'import'))
 #sys.path.append(os.path.join(aqui,"admin"))
