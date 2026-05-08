@@ -91,19 +91,19 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
     tmp=float(self.dsbCant.value())*float(self.sub['prop'])
     viejos=int(self.dsbCant.value())-((tmp-int(tmp))*float(self.sub['cantidad']))
     if float(self.producto['stock_logico'])>=viejos:
-	antes=libutil.listaHtml([
-	[self.prod['descripcion'],self.prod['stock_logico']],
-	[self.sub['descripcion'],self.sub['stock_logico']]
-	], "Existencias antes.",["Producto","Existencias"],anchos=[80,20])
+    antes=libutil.listaHtml([
+    [self.prod['descripcion'],self.prod['stock_logico']],
+    [self.sub['descripcion'],self.sub['stock_logico']]
+    ], "Existencias antes.",["Producto","Existencias"],anchos=[80,20])
 
-	despues=libutil.listaHtml([
-	  [self.prod['descripcion'],self.prod['stock_logico']-viejos],
-	  [self.sub['descripcion'],float(self.sub['stock_logico'])+(nuevos)]
-	  ], "Existencias despues.",["Producto","Existencias"],anchos=[80,20])
-	  
-	tabla=libutil.listaHtml([antes,despues],"Tabla comparativa",[],'#fff',"#239AB1", tfuente=10,opc="100")
-	self.lbResulta.setText(str(self.lbResulta.text())%(viejos,self.prod['descripcion'],nuevos,self.sub['descripcion'],antes,despues))
-	self.stack.setCurrentIndex(1)
+    despues=libutil.listaHtml([
+      [self.prod['descripcion'],self.prod['stock_logico']-viejos],
+      [self.sub['descripcion'],float(self.sub['stock_logico'])+(nuevos)]
+      ], "Existencias despues.",["Producto","Existencias"],anchos=[80,20])
+      
+    tabla=libutil.listaHtml([antes,despues],"Tabla comparativa",[],'#fff',"#239AB1", tfuente=10,opc="100")
+    self.lbResulta.setText(str(self.lbResulta.text())%(viejos,self.prod['descripcion'],nuevos,self.sub['descripcion'],antes,despues))
+    self.stack.setCurrentIndex(1)
     else:
       em=QtGui.QErrorMessage(self)
       em.showMessage( "No hay suficientes unidades, hay %s unidades se requieren %s"%(float(self.producto['stock_logico']),viejos))

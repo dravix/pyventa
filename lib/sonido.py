@@ -21,8 +21,8 @@ if os.name == 'nt':
     import winsound
 
     def play(path):
-	for i in range(3):
-	  winsound.Beep(500,100)
+    for i in range(3):
+      winsound.Beep(500,100)
         #winsound.PlaySound("SystemQuestion", winsound.SND_FILENAME)
 elif os.name == 'posix':
     try:

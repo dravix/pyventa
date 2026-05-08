@@ -26,16 +26,16 @@ class Cobrador(QDialog,Ui_Cobrador):
     total=venta.sumaTotales(" id in ({ide}) and status=0".format(ide=",".join(self.ventas)))
     if total!=None:
       if total[0]==None:
-	print "Todas las ventas ya estan pagadas"
-	self.reject()
+    print "Todas las ventas ya estan pagadas"
+    self.reject()
       else:
-	self.total=float(total[0])
-	self.dsbTotal.setValue(self.total)
-	self.modelo.query("""Select notas.id, usuarios.usuario, cajas.nombre,total from notas,usuarios,cajas 
-	where status=0 and notas.id in ({ide}) and id_usuario=notas.usuario and cajas.num_caja=caja """.format(ide=",".join(self.ventas)),
-	    "id,usuario,caja,total".split(','))
-	self.tabla.resizeColumnsToContents()  
-	self.leRecibo.selectAll()
+    self.total=float(total[0])
+    self.dsbTotal.setValue(self.total)
+    self.modelo.query("""Select notas.id, usuarios.usuario, cajas.nombre,total from notas,usuarios,cajas 
+    where status=0 and notas.id in ({ide}) and id_usuario=notas.usuario and cajas.num_caja=caja """.format(ide=",".join(self.ventas)),
+        "id,usuario,caja,total".split(','))
+    self.tabla.resizeColumnsToContents()  
+    self.leRecibo.selectAll()
 
 
   def cobrar(self):
@@ -43,17 +43,17 @@ class Cobrador(QDialog,Ui_Cobrador):
       recibo=float(self.leRecibo.text())
       cambio=recibo-self.total
       if cambio<0:
-	self.leRecibo.selectAll()
+    self.leRecibo.selectAll()
       else:
-	venta=Venta(self.conexion)
-	self.retorno=venta.cambiarEstado(self.ventas,1)
-	if self.retorno:
-	  self.dsbCambio.setValue(cambio)
-	  self.wCambio.setVisible(True)
-	  self.leRecibo.setEnabled(False)
-	  self.tbCobrar.setEnabled(False)
-	  #self.tbCerrar.setFocus(True)
-	  QTimer.singleShot(10000,self.accept)
+    venta=Venta(self.conexion)
+    self.retorno=venta.cambiarEstado(self.ventas,1)
+    if self.retorno:
+      self.dsbCambio.setValue(cambio)
+      self.wCambio.setVisible(True)
+      self.leRecibo.setEnabled(False)
+      self.tbCobrar.setEnabled(False)
+      #self.tbCerrar.setFocus(True)
+      QTimer.singleShot(10000,self.accept)
   
     
   #def seleccionado(self):
@@ -62,7 +62,7 @@ class Cobrador(QDialog,Ui_Cobrador):
       #ret = [range(self.modelo.columnCount(self)) for i in range(nrow)]
       #offset=self.tabla.selectedIndexes()[0].row()
       #for index in self.tabla.selectedIndexes():
-	  ##print index.row(),index.column()
-	  #ret[index.row()-offset][index.column()]=str(index.data().toString())
+      ##print index.row(),index.column()
+      #ret[index.row()-offset][index.column()]=str(index.data().toString())
       #self.retorno=ret
       #self.done(1)

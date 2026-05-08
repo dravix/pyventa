@@ -1,7 +1,13 @@
-#!/usr/bin/env python
-### Librerias.common.py ###
-### Este modulo incluye las variables y funciones de acceso comun
-import os,sys
-home=os.path.join(os.path.expanduser('~'),"pyventa")
-if sys.platform == 'linux2':
-	home=os.path.join(os.path.expanduser('~'),".pyventa")
+#!/usr/bin/env python3
+# lib/librerias/comun.py
+# Common variables and functions shared across the application.
+
+import os
+import sys
+
+# Resolve the per-user data directory based on platform.
+# Replaces the old sys.platform == 'linux2' branching.
+if sys.platform == "linux":
+    home = os.path.join(os.path.expanduser("~"), ".pyventa")
+else:
+    home = os.path.join(os.path.expanduser("~"), "pyventa")

@@ -1,5 +1,5 @@
 import sqlite3,MySQLdb
-#		id_movimiento, usuario, caja,'detalle','tipo', monto,fecha
+#       id_movimiento, usuario, caja,'detalle','tipo', monto,fecha
 class Movimiento(object):
   def __init__(self,conexion,tipo=''):
     self.conexion=conexion
@@ -27,9 +27,9 @@ class Movimiento(object):
   def buscar(self,columnas="*",condicion=""):
     try:
       if self.tipo!='':
-	tipo=" tipo= '{0}' and ".format(self.tipo)
+    tipo=" tipo= '{0}' and ".format(self.tipo)
       else:
-	tipo=''	
+    tipo='' 
       sql="""SELECT {columnas} FROM movimientos,usuarios,cajas WHERE {tipo} usuarios.id_usuario=movimientos.usuario and 
        cajas.num_caja=caja and {condicion}
       """.format(columnas=columnas,condicion=condicion,tipo=tipo)
@@ -46,9 +46,9 @@ class Movimiento(object):
   def suma(self, condicion):
     try:
       if self.tipo!='':
-	tipo=" tipo ='{0}' and ".format(self.tipo)
+    tipo=" tipo ='{0}' and ".format(self.tipo)
       else:
-	tipo=''
+    tipo=''
       sql="""SELECT ROUND(SUM(monto),2) FROM movimientos WHERE {tipo} {condicion}""".format(condicion=condicion,tipo=tipo)
       #print sql
       self.cursor.execute(sql)
@@ -63,6 +63,6 @@ class Movimiento(object):
     else:
       ff=self.cursor.fetchone()
       if ff!=None and ff[0]!=None:
-	return float(ff[0])    
+    return float(ff[0])    
       else:
-	return 0
+    return 0

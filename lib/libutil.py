@@ -15,32 +15,32 @@ def conectar():  #Crea la conexion a la base de datos
   cursor=con.cursor
   return cursor
 
-def home():	
+def home(): 
   home=os.path.join(os.path.expanduser('~'),"pyventa")
   if sys.platform == 'linux2':
       home=os.path.join(os.path.expanduser('~'),".pyventa")
   return home
  
-	
+    
 def odic(adict): ##Ordena los indices de un diccionacio
     keys = adict.keys()
     keys.sort()
     return map(adict.get, keys)
 
-def cifra(num):	
+def cifra(num): 
     locale.setlocale(locale.LC_ALL, 'en_US.utf8')
     dato=num
     if (str(num)[0].isdigit() or str(num)[0]=='-' or str(num)[0]=='$' or str(num)[0]=='#') and str(num)[-1].isdigit() and len(str(num))<10:
     #cuando detecte que es un numero 
       if str(num)[0].isdigit() or str(num)[0]=='-':
-	dato=locale.format("%.2f",float(num),grouping=True)
+    dato=locale.format("%.2f",float(num),grouping=True)
       elif str(num)[0]=='$':
-	dato="$%s"%locale.format("%.2f",float(num[1:]),grouping=True)
+    dato="$%s"%locale.format("%.2f",float(num[1:]),grouping=True)
     return dato 
 
 def tabular(tabla, vector,head, padre=None): #Tabula con respecto a una lista
       if padre==None:
-	padre=tabla.parent()
+    padre=tabla.parent()
       modelo = MyTableModel(vector, head, padre) 
       tabla.setModel(modelo)
       #tabular(tabla,sql,head)
@@ -66,8 +66,8 @@ def seleccionar(tabla,modelo,col=0): #regresa las referencias seleccionadas
   lastrow=-1
   for li in lista:
       if (li.row()!=lastrow) :
-	lastrow=li.row()
-	refs.append(str(modelo.getCell(li,col)))      
+    lastrow=li.row()
+    refs.append(str(modelo.getCell(li,col)))      
   return list(set(refs))
 
 def seleccionarFilas(tabla,modelo): #regresa las filas seleccionadas 
@@ -76,33 +76,33 @@ def seleccionarFilas(tabla,modelo): #regresa las filas seleccionadas
   lastrow=-1
   for li in lista:
       if (li.row()!=lastrow) :
-	lastrow=li.row()
-	refs.append(str(modelo.getFila(li)))      
+    lastrow=li.row()
+    refs.append(str(modelo.getFila(li)))      
   return list(set(refs))
 
 def listaTabla(tabla,header,lista,padre,modelo=None):
   #tabla, header, lista, modelo
       if header==None:
-	header=['1']*len(lista[0])
+    header=['1']*len(lista[0])
       if lista!=None:
-	#print lista
-	if modelo==None:
-	  modelo = MyTableModel(lista, header, padre) 
-	  tabla.setModel(modelo)
-	else:
-	  modelo.setVector(lista) 
-	return modelo
+    #print lista
+    if modelo==None:
+      modelo = MyTableModel(lista, header, padre) 
+      tabla.setModel(modelo)
+    else:
+      modelo.setVector(lista) 
+    return modelo
 
 def enTabla(tabla,lista,header=None,modelo=None):
   #tabla, header, lista, modelo
       if header==None:
-	header=['Columna']*len(lista[0])
-	if modelo==None:
-	  modelo = MyTableModel(lista, header, tabla.parent()) 
-	  tabla.setModel(modelo)
-	else:
-	  modelo.setVector(lista) 
-	return modelo
+    header=['Columna']*len(lista[0])
+    if modelo==None:
+      modelo = MyTableModel(lista, header, tabla.parent()) 
+      tabla.setModel(modelo)
+    else:
+      modelo.setVector(lista) 
+    return modelo
 
  
 #def entabla(tabla,header,query,modelo=None): #Tabula con respecto a un query
@@ -116,13 +116,13 @@ def enTabla(tabla,lista,header=None,modelo=None):
       #print "Problema al ejecutar el query"
     #else:
       #if lista!=None:
-	#if modelo==None:
-	  #modelo = MyTableModel(lista, header, lista.) 
-	  #tabla.setModel(modelo)
-	#else:
-	  #modelo.setVector(lista)
-	##tabla.resizeColumnsToContents()  
-    #return modelo	
+    #if modelo==None:
+      #modelo = MyTableModel(lista, header, lista.) 
+      #tabla.setModel(modelo)
+    #else:
+      #modelo.setVector(lista)
+    ##tabla.resizeColumnsToContents()  
+    #return modelo  
     
 def odic(adict): ##Ordena los indices de un diccionacio
     keys = adict.keys()
@@ -168,9 +168,9 @@ table.{ide} {{border-style:solid; font-size:{fuente}px;}}
   if opc[1]=='1' and len(cabezas)>0: #si se quiere mostrar las cabezas
     html+="""<tr class="cab"> """       
     for i,item in enumerate(cabezas):
-	if i>=len(anchos):
-	  anchos.append('')
-	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente,dato=item)
+    if i>=len(anchos):
+      anchos.append('')
+    html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente,dato=item)
     html+="""</tr>"""
 
   for j,li in enumerate(lista):
@@ -180,23 +180,23 @@ table.{ide} {{border-style:solid; font-size:{fuente}px;}}
       html+="""\t<tr class="odd" valign='top'>\n"""
     for i,col in enumerate(li):
       if col!=None :
-	if isinstance(col,float):
-	    html+="""\t\t<td align="right" {ancho} class="celda" >{dato:,.2f}</td>\n""".format(dato=col,ancho=anchos[i])
-	elif isinstance(col,int):
-	    html+="""\t\t<td align="right"  {ancho} class="celda">{dato:,}</td>\n""".format(dato=col,ancho=anchos[i])
-	elif isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
-	#cuando detecte que es un numero 
-	  if isinstance(col,int):
-	    dato=str(col)
-	  if str(col)[0].isdigit() or str(col)[0]=='-':
-	    dato=locale.format("%.2f",float(col),grouping=True)
-	  elif str(col)[0]=='$':
-	    dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
-	  else:
-	    dato=col
-	  html+="""\t<td align="right"  {ancho} class="celda">{dato}</td>\n""".format(dato=dato,ancho=anchos[i])
-	else: # Es una cadena
-	  html+="""\t\t<td align="left"  {ancho} class="celda">{dato}</td>\n""".format(dato=col,ancho=anchos[i])
+    if isinstance(col,float):
+        html+="""\t\t<td align="right" {ancho} class="celda" >{dato:,.2f}</td>\n""".format(dato=col,ancho=anchos[i])
+    elif isinstance(col,int):
+        html+="""\t\t<td align="right"  {ancho} class="celda">{dato:,}</td>\n""".format(dato=col,ancho=anchos[i])
+    elif isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
+    #cuando detecte que es un numero 
+      if isinstance(col,int):
+        dato=str(col)
+      if str(col)[0].isdigit() or str(col)[0]=='-':
+        dato=locale.format("%.2f",float(col),grouping=True)
+      elif str(col)[0]=='$':
+        dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
+      else:
+        dato=col
+      html+="""\t<td align="right"  {ancho} class="celda">{dato}</td>\n""".format(dato=dato,ancho=anchos[i])
+    else: # Es una cadena
+      html+="""\t\t<td align="left"  {ancho} class="celda">{dato}</td>\n""".format(dato=col,ancho=anchos[i])
     html+="""\t</tr>\n"""
   html+="""</table>\n"""
   return html
@@ -222,7 +222,7 @@ table{border-style:solid}
   if opc[1]=='1' and len(cabezas)>0: #si se quiere mostrar las cabezas
     html+="""<tr class="cab"> """       
     for item in cabezas:
-	html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente+1,dato=item[1])
+    html+="""<th {ancho}><span style="font-size:{tfuente}px;">{dato}</span></th>""".format(ancho=anchos[i],tfuente=tfuente+1,dato=item[1])
     html+="""</tr>"""
 
   for j,li in enumerate(lista):
@@ -232,22 +232,22 @@ table{border-style:solid}
       html+="""<tr  valign='top'>"""
     for i,col in enumerate(li):
       if col!=None :
-	if isinstance(col,float):
-	    dato=str(col)
-	if isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
-	#cuando detecte que es un numero 
-	  if isinstance(col,int):
-	    dato=str(col)
-	  
-	  if str(col)[0].isdigit() or str(col)[0]=='-':
-	    dato=locale.format("%.2f",float(col),grouping=True)
-	  elif str(col)[0]=='$':
-	    dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
-	  else:
-	    dato=col
-	  html+="""<td align="right" {ancho} class="celda"><span style="font-size:{tfuente}px;">{dato}</span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=dato)
-	else: # Es una cadena
-	  html+="""<td align="left" {ancho} class="celda" ><span style="font-size:{tfuente}px;"> {dato} </span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=col)
+    if isinstance(col,float):
+        dato=str(col)
+    if isinstance(col,str) and len(col)>0 and (str(col)[0].isdigit() or str(col)[0]=='-' or str(col)[0]=='$' or str(col)[0]=='#') and str(col)[-1].isdigit() and len(str(col))<10:
+    #cuando detecte que es un numero 
+      if isinstance(col,int):
+        dato=str(col)
+      
+      if str(col)[0].isdigit() or str(col)[0]=='-':
+        dato=locale.format("%.2f",float(col),grouping=True)
+      elif str(col)[0]=='$':
+        dato="$ %s"%locale.format("%.2f",float(col[1:]),grouping=True)
+      else:
+        dato=col
+      html+="""<td align="right" {ancho} class="celda"><span style="font-size:{tfuente}px;">{dato}</span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=dato)
+    else: # Es una cadena
+      html+="""<td align="left" {ancho} class="celda" ><span style="font-size:{tfuente}px;"> {dato} </span></td>""".format(ancho=anchos[i],tfuente=tfuente,dato=col)
     html+="""</tr>"""
   html+="""</table>"""
   return html
@@ -257,7 +257,7 @@ def printb(parent,titulo,plantilla,campos):
     plantilla=f.read()
     #campos={'%fecha%':self.parent.fecha}
     for key,item in campos.iteritems():
-	plantilla=plantilla.replace(key,item)
+    plantilla=plantilla.replace(key,item)
     printa(plantilla,titulo,parent)
 
 def printa(string,titulo="Lista",parent=None,orientacion=0):
@@ -277,9 +277,9 @@ def printa(string,titulo="Lista",parent=None,orientacion=0):
       printer.setOutputFileName(saveFile)
       tedit.print_(printer)
       if sys.platform == 'linux2':
-	  os.system("gnome-open '%s'"%saveFile)
+      os.system("gnome-open '%s'"%saveFile)
       elif sys.platform == 'win32':
-	  os.startfile(saveFile)	
+      os.startfile(saveFile)    
 
 def printc(tedit,titulo="Reporte",orientacion=0,margen=[5,10,5,10,0]):
   printer=QtGui.QPrinter(QPrinter.HighResolution)

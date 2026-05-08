@@ -611,18 +611,18 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
 
     def checkPromo(self, prod, cant):
         self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	  tipo=0 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
-	  maximo>={1} order by P.descuento desc """.format(prod['ref'], cant, hoy=self.hoy))
+      tipo=0 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
+      maximo>={1} order by P.descuento desc """.format(prod['ref'], cant, hoy=self.hoy))
         oferta = self.curser.fetchone()
         if oferta == None:
             self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	    tipo=1 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
-	    maximo>={1} order by P.descuento desc""".format(prod['familia'], cant, hoy=self.hoy))
+        tipo=1 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1} AND 
+        maximo>={1} order by P.descuento desc""".format(prod['familia'], cant, hoy=self.hoy))
             oferta = self.curser.fetchone()
             if oferta == None:
                 self.curser.execute("""SELECT * FROM ofertas as O,promociones as P WHERE conjunto={0} AND 
-	      tipo=2 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1}  AND 
-	      maximo>={1} order by P.descuento desc""".format(prod['departamento'], cant, hoy=self.hoy))
+          tipo=2 AND O.promocion=P.id AND {hoy} BETWEEN P.inicio AND P.fin AND minimo<={1}  AND 
+          maximo>={1} order by P.descuento desc""".format(prod['departamento'], cant, hoy=self.hoy))
                 oferta = self.curser.fetchone()
                 if oferta == None:
                     return False
@@ -644,8 +644,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         if prod != None:
             prod = dicursor(self.curser, prod)
             self.cursor.execute("""SELECT nombre,minimo, descuento, {precio}-({precio}*descuento*0.01) FROM ofertas as O,promociones as P
-	    WHERE ((tipo=0 and conjunto={ref}) OR (tipo=1 and conjunto={familia}) OR (tipo=2 and conjunto={departamento})) AND 
-	    O.promocion=P.id AND date({hoy}) BETWEEN P.inicio AND P.fin  order by P.descuento desc """.format(hoy=self.hoy, **prod))
+        WHERE ((tipo=0 and conjunto={ref}) OR (tipo=1 and conjunto={familia}) OR (tipo=2 and conjunto={departamento})) AND 
+        O.promocion=P.id AND date({hoy}) BETWEEN P.inicio AND P.fin  order by P.descuento desc """.format(hoy=self.hoy, **prod))
             oferta = self.cursor.fetchall()
             if oferta != None:
                 # oferta=list(oferta)
@@ -726,8 +726,8 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         total = round(total, 1)
         sub = round(suma, 1)
         self.ltotal.setText("GT: ${:,.2f}".format(total))
-        self.resumen.setText("<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:600; font-style:italic;\">Subtotal:</span><span style=\" font-size:11pt;\"> 	</span><span style=\" font-size:11pt; font-weight:600; \">$ "+str(sub)+"</span></p>\
-<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; font-weight:600;\"><span style=\" font-style:italic;\">Descuento:	</span><span style=\" \">$ "+str(desc)+"</span></p>")
+        self.resumen.setText("<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:600; font-style:italic;\">Subtotal:</span><span style=\" font-size:11pt;\">   </span><span style=\" font-size:11pt; font-weight:600; \">$ "+str(sub)+"</span></p>\
+<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; font-weight:600;\"><span style=\" font-style:italic;\">Descuento:    </span><span style=\" \">$ "+str(desc)+"</span></p>")
         self.datos['subtotal'] = sub
         self.datos['descuento'] = desc
         self.datos['total'] = total
@@ -1179,7 +1179,7 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
         filas = ""
         for item in self.basket:
             filas += """
-	  <table:table-row table:style-name="tabla.3">
+      <table:table-row table:style-name="tabla.3">
      <table:table-cell table:style-name="tabla.A3" office:value-type="string" >
       <text:p text:style-name="P43">{0} {2}</text:p>
      </table:table-cell>
@@ -1265,30 +1265,30 @@ empresas.<p/> <p>Version %s<br/>Libreria visual: Qt4<br/>Plataforma: %s <br/> De
                          css="table, tr, td, th{border:0px;border:0px solid #000}, table, tr{width:100%;align:center; margin:auto;} hr{border:1px solid #bbb} ", anchos=[10, 10, 45, 10, 10, 15])
         campos['%tabla%'] = html
         head = """<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
-		<tr valign='top'>
-			<td width="50%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
-			    <span style=" font-size:large; font-weight:800; 
-			    color:#222;">{nombre}</span><br/>
-			    <span>{slogan}</span></td>
-		  <td width="25%" style="font-size:80%"></td>
-		  <td width=25%>
-		  <span style=" font-size:xx-large; font-weight:800; color:#294e5e;">Presupuesto</span><br/>
-		  <span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>	""".format(**campos)
+        <tr valign='top'>
+            <td width="50%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
+                <span style=" font-size:large; font-weight:800; 
+                color:#222;">{nombre}</span><br/>
+                <span>{slogan}</span></td>
+          <td width="25%" style="font-size:80%"></td>
+          <td width=25%>
+          <span style=" font-size:xx-large; font-weight:800; color:#294e5e;">Presupuesto</span><br/>
+          <span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>  """.format(**campos)
         foot = """<hr/><table border="0" width="100%" cellspacing="5px" cellpadding="5px">
-			<tr><td rowspan="3" width="70%" valign="middle">{nletra}</td>
-			    <td style="font-size:large; font-weight:600;">Subtotal:</td>
-			    <td style="font-size:large; font-weight:600;" align="right">{sub}</td>
-			</tr><tr>
-			  <td style="font-size:large; font-weight:600;">Descuento:</td>
-			  <td style="font-size:large; font-weight:600;" align="right">{descuento}</td>
-			</tr><tr>
-			  <td style="font-size:large; font-weight:600;">Total:</td>
-			  <td style="font-size:large; font-weight:600;"align="right">{total}</td>
-			</tr>
-			</table>
-			<hr align="center"/>
-			<p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
-			""".format(**campos)
+            <tr><td rowspan="3" width="70%" valign="middle">{nletra}</td>
+                <td style="font-size:large; font-weight:600;">Subtotal:</td>
+                <td style="font-size:large; font-weight:600;" align="right">{sub}</td>
+            </tr><tr>
+              <td style="font-size:large; font-weight:600;">Descuento:</td>
+              <td style="font-size:large; font-weight:600;" align="right">{descuento}</td>
+            </tr><tr>
+              <td style="font-size:large; font-weight:600;">Total:</td>
+              <td style="font-size:large; font-weight:600;"align="right">{total}</td>
+            </tr>
+            </table>
+            <hr align="center"/>
+            <p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
+            """.format(**campos)
         printa(head+html+foot, "Presupuesto", self)
         #print head+html+foot
         # doc=Documento(self,os.path.join("perfil","formas","presupuesto.html"),campos)

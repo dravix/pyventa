@@ -14,9 +14,9 @@ class Caja:
     else:
       ff=self.cursor.fetchone()
       if ff!=None and ff[0]!=None:
-	return float(ff[0])    
+    return float(ff[0])    
       else:
-	return 0 
+    return 0 
       
   def setSaldoInicial(self,caja,saldo):
     try:

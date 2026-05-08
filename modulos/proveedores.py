@@ -34,4 +34,4 @@ class Proveedores(Admin1):
       self.ui.connect(self.ui.actionProveedores, QtCore.SIGNAL("triggered()"), self.iniciar)
       self.ui.connect(self.ui.tProveedores, QtCore.SIGNAL("clicked()"), self.iniciar)
       self.anclar(attached)
-	
+    

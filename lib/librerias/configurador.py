@@ -1,101 +1,157 @@
-#!/usr/bin/env python
-# Configurador global de Pyventa . Manipula el archivo de configuracion
+#!/usr/bin/env python3
+# lib/librerias/configurador.py
+# Global configuration manager for Pyventa.
+# Replaces Python 2 ConfigParser + PyQt4 with Python 3 configparser + platformdirs.
+
 import os
 import sys
+import shutil
+import logging
+import configparser
 
-import ConfigParser as Cp
-from lib.librerias.comun import *
-from PyQt4.QtGui import QMessageBox
+from platformdirs import user_config_dir, user_data_dir
+
+logger = logging.getLogger(__name__)
 
 
-class Configurador():
-    # Esta clase se encarga de hacer la interfaz del archivo de configuracion
-    home = os.path.join(os.path.expanduser('~'), "pyventa")
-    def __init__(self, parent, configFile=False):
+def get_homedir() -> str:
+    """Return the per-user pyventa data directory, platform-aware."""
+    if sys.platform == "linux":
+        return os.path.join(os.path.expanduser("~"), ".pyventa")
+    return os.path.join(os.path.expanduser("~"), "pyventa")
+
+
+class Configurador:
+    """
+    Interface to the pyventa configuration file (config.cfg).
+
+    Backward-compatible replacement for the Python 2 version:
+    - Uses stdlib configparser (was ConfigParser in Python 2)
+    - Uses platformdirs for home-dir resolution
+    - No longer imports PyQt4; Qt dialogs are handled by callers
+    """
+
+    def __init__(self, parent=None, configFile: str = None):
         self.parent = parent
-        home = self.get_homedir()
-        if not configFile:
-            self.ruta = os.path.join(home, "config.cfg")
-        else:
+        home = get_homedir()
+
+        if configFile:
             self.ruta = configFile
-        cfg = Cp.ConfigParser()
+        else:
+            self.ruta = os.path.join(home, "config.cfg")
+
+        cfg = configparser.ConfigParser()
         if os.path.exists(self.ruta) and cfg.read([self.ruta]):
             self.cfg = cfg
             self.stat = True
         else:
-            self.stat = self.setupInitConfig()
+            self.stat = self._setup_init_config()
 
-    def recargar(self):
-        self.__init__(self.parent, self.ruta)
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
 
-    def setupInitConfig(self):
-        if not os.path.exists(self.ruta):
-            msgBox = QMessageBox(QMessageBox.Question, "No se ha detectado el archivo de configuracion",
-                                 "Desea que el sistema asigne  una configuracion por defecto? ", QMessageBox.Yes | QMessageBox.No, self.parent)
-            ret = msgBox.exec_()
-            if ret == QMessageBox.Yes:
-                if sys.platform == 'linux2':
-                    os.system(
-                        "cp -r /usr/share/pyventa/perfil {0}".format(home))
-                else:
-                    os.system("xcopy perfil \"%s\" /i /a /e /k" % self.home)
-                msgBox = QMessageBox(QMessageBox.Information, "Reinicio programado",
-                                     "<h2>La operacion ha tenido exito</h2><br><p>Se han cargado las configuraciones por defecto, ahora usted puede configurar el sistema. Gracias.</p>.", QMessageBox.Close, self.parent)
-                msgBox.exec_()
-                self.__init__(self.parent)
-                return True
-            else:
-                print "El programa no puede continuar porque no existe el archivo de configuracion."
-                return False
+    def _setup_init_config(self) -> bool:
+        """
+        Copy the bundled default profile when no config file is found.
 
-    def add_section(self, section):
-        self.cfg.add_section(section)
+        Returns True when a config was successfully copied and loaded,
+        False when the config file is still missing.
+        """
+        if os.path.exists(self.ruta):
+            # File exists but is empty / unreadable — reload
+            return self._reload_from_disk()
 
-    def get_homedir(self):
-        if sys.platform == 'linux2':
-            return os.path.join(os.path.expanduser('~'), ".pyventa")
-        else:
-            return os.path.join(os.path.expanduser('~'), "pyventa")
+        home_dir = get_homedir()
+        # Locate bundled default profile relative to this file
+        module_dir = os.path.dirname(os.path.abspath(__file__))
+        perfil_src = os.path.join(module_dir, "..", "..", "perfil")
+        perfil_src = os.path.normpath(perfil_src)
 
-    def has_option(self, modulo, propiedad):
-        return self.cfg.get(modulo, propiedad)
-
-    def get(self, modulo, propiedad):
-        if self.cfg.has_option(modulo, propiedad):
-            return self.cfg.get(modulo, propiedad)
-        else:
-            self.setCambio(modulo, propiedad, 0)
-            return 'False'
-
-    def set(self, modulo, propiedad,valor):
-    #Registra el valor de un campo(propiedad) de un modulo
         try:
-            self.cfg.set(str(modulo), str(propiedad), str(valor))
-        except ConfigParser.Error, e:
-            raise (e)
-        # else:
-            # self.guardar()
-
-    def getDato(self, modulo, propiedad):
-        if self.cfg.has_option(modulo, propiedad):
-            return self.cfg.get(modulo, propiedad)
-        else:
-            self.setCambio(modulo, propiedad, 0)
+            if os.path.isdir(perfil_src):
+                shutil.copytree(perfil_src, home_dir, dirs_exist_ok=True)
+                logger.info("Default profile copied to %s", home_dir)
+            else:
+                logger.warning("Default profile directory not found at %s", perfil_src)
+                return False
+        except Exception as exc:
+            logger.error("Could not copy default profile: %s", exc)
             return False
 
-    def config(self):
-        return self.cfg
+        return self._reload_from_disk()
 
-    def guardar(self):
-        #Escribe todo el archivo con los cambios que se hayan realizado
-        self.cfg.write(open(self.ruta, "w+"))
-        print "Guardando configuracion"
+    def _reload_from_disk(self) -> bool:
+        cfg = configparser.ConfigParser()
+        if os.path.exists(self.ruta) and cfg.read([self.ruta]):
+            self.cfg = cfg
+            return True
+        return False
 
-    def setCambio(self, modulo, propiedad,valor):
-    #Registra el valor de un campo(propiedad) de un modulo
+    # ------------------------------------------------------------------
+    # Public API  (backward-compatible)
+    # ------------------------------------------------------------------
+
+    def recargar(self):
+        """Reload configuration from disk."""
+        self.__init__(self.parent, self.ruta)
+
+    def get_homedir(self) -> str:
+        return get_homedir()
+
+    def has_option(self, modulo: str, propiedad: str) -> bool:
+        return self.cfg.has_option(modulo, propiedad)
+
+    def get(self, modulo: str, propiedad: str, fallback=None) -> str:
+        """
+        Return the value for (modulo, propiedad).
+        Creates the key with value 0 when missing (legacy behavior).
+        """
+        if self.cfg.has_option(modulo, propiedad):
+            return self.cfg.get(modulo, propiedad)
+        # Legacy: auto-create missing keys
+        self.setCambio(modulo, propiedad, 0)
+        return fallback if fallback is not None else "False"
+
+    def getDato(self, modulo: str, propiedad: str):
+        """
+        Return the value for (modulo, propiedad), or False when absent.
+        Legacy alias for get(); new code should use get() directly.
+        """
+        if self.cfg.has_option(modulo, propiedad):
+            return self.cfg.get(modulo, propiedad)
+        self.setCambio(modulo, propiedad, 0)
+        return False
+
+    def set(self, modulo: str, propiedad: str, valor) -> None:
+        """Update a value in memory (does not write to disk automatically)."""
         try:
             self.cfg.set(str(modulo), str(propiedad), str(valor))
-        except Cp.Error, e:
-            print "No se guardo la configuracion", e
+        except configparser.Error as exc:
+            raise exc
+
+    def setCambio(self, modulo: str, propiedad: str, valor) -> None:
+        """Update a value and immediately persist it to disk."""
+        try:
+            # Add section if it doesn't exist yet
+            if not self.cfg.has_section(modulo):
+                self.cfg.add_section(modulo)
+            self.cfg.set(str(modulo), str(propiedad), str(valor))
+        except configparser.Error as exc:
+            logger.error("Could not save config key %s/%s: %s", modulo, propiedad, exc)
         else:
             self.guardar()
+
+    def add_section(self, section: str) -> None:
+        if not self.cfg.has_section(section):
+            self.cfg.add_section(section)
+
+    def config(self) -> configparser.ConfigParser:
+        return self.cfg
+
+    def guardar(self) -> None:
+        """Write the full configuration to disk."""
+        os.makedirs(os.path.dirname(self.ruta), exist_ok=True)
+        with open(self.ruta, "w", encoding="utf-8") as fh:
+            self.cfg.write(fh)
+        logger.debug("Configuration saved to %s", self.ruta)

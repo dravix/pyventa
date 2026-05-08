@@ -68,14 +68,14 @@ class CambiaPrecios(QDialog, Ui_Form):
 
     for item in self.tmps:
       try:
-	sql="UPDATE productos set costo='{2}' , ganancia='{3}' , precio='{4}' WHERE ref={0}".format(*item)
-	self.cursor.execute(sql)
+    sql="UPDATE productos set costo='{2}' , ganancia='{3}' , precio='{4}' WHERE ref={0}".format(*item)
+    self.cursor.execute(sql)
       except Error, e:
-	print "Error en el producto {0}, e={1}".format(item[0],e.args[0]),e
+    print "Error en el producto {0}, e={1}".format(item[0],e.args[0]),e
       else:
-	self.cursor.execute("COMMIT")
-#	print sql
-	
+    self.cursor.execute("COMMIT")
+#   print sql
+    
       self.done(1)
 
   

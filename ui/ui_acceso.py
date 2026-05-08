@@ -1,210 +1,226 @@
 # -*- coding: utf-8 -*-
+# Form implementation migrated from PyQt4 → PyQt6
+# Original: qt/dialogos/ui_acceso.ui (PyQt4 UI code generator 4.9.3)
+# Migrated: PyQt6 6.x
 
-# Form implementation generated from reading ui file 'qt/dialogos/ui_acceso.ui'
-#
-# Created: Wed Apr 10 04:51:58 2013
-#      by: PyQt4 UI code generator 4.9.3
-#
-# WARNING! All changes made in this file will be lost!
+from PyQt6 import QtCore, QtGui, QtWidgets
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 class Ui_Acceso(object):
     def setupUi(self, Acceso):
-        Acceso.setObjectName(_fromUtf8("Acceso"))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/actions/color_18/id.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Acceso.setWindowIcon(icon)
-        Acceso.setStyleSheet(_fromUtf8(".QWidget{background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(201, 201, 201, 255), stop:1 rgba(228, 228, 228, 255));}\n"
-"QLineEdit{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(150, 150, 150, 255), stop:0.084833 rgba(255, 255, 255, 255), stop:1 rgba(250, 250, 250, 255));padding:0px; border-radius:4px;border:1px solid #999}"))
-        self.verticalLayout = QtGui.QVBoxLayout(Acceso)
+        Acceso.setObjectName("Acceso")
+        Acceso.setStyleSheet(
+            ".QWidget{background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0,"
+            " stop:0 rgba(201,201,201,255), stop:1 rgba(228,228,228,255));}\n"
+            "QLineEdit{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,"
+            " stop:0 rgba(150,150,150,255), stop:0.084833 rgba(255,255,255,255),"
+            " stop:1 rgba(250,250,250,255));padding:0px;border-radius:4px;border:1px solid #999}"
+        )
+
+        self.verticalLayout = QtWidgets.QVBoxLayout(Acceso)
         self.verticalLayout.setSpacing(2)
-        self.verticalLayout.setMargin(5)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.lbInfo = QtGui.QLabel(Acceso)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lbInfo.sizePolicy().hasHeightForWidth())
+        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout.setObjectName("verticalLayout")
+
+        # Info label (welcome / module name)
+        self.lbInfo = QtWidgets.QLabel(Acceso)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Preferred,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
         self.lbInfo.setSizePolicy(sizePolicy)
-        self.lbInfo.setStyleSheet(_fromUtf8("background:none;border:0;"))
-        self.lbInfo.setAlignment(QtCore.Qt.AlignCenter)
+        self.lbInfo.setStyleSheet("background:none;border:0;")
+        self.lbInfo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbInfo.setWordWrap(True)
-        self.lbInfo.setObjectName(_fromUtf8("lbInfo"))
+        self.lbInfo.setObjectName("lbInfo")
         self.verticalLayout.addWidget(self.lbInfo)
-        self.lblAlerta = QtGui.QLabel(Acceso)
-        self.lblAlerta.setStyleSheet(_fromUtf8("background-color: rgb(255, 178, 158);\n"
-"border:2px solid rgb(186, 75, 75);\n"
-"color:rgb(175, 56, 56);\n"
-"padding:5px;"))
-        self.lblAlerta.setText(_fromUtf8(""))
-        self.lblAlerta.setObjectName(_fromUtf8("lblAlerta"))
+
+        # Alert label
+        self.lblAlerta = QtWidgets.QLabel(Acceso)
+        self.lblAlerta.setStyleSheet(
+            "background-color: rgb(255,178,158);\n"
+            "border:2px solid rgb(186,75,75);\n"
+            "color:rgb(175,56,56);\n"
+            "padding:5px;"
+        )
+        self.lblAlerta.setText("")
+        self.lblAlerta.setObjectName("lblAlerta")
         self.verticalLayout.addWidget(self.lblAlerta)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.logo = QtGui.QLabel(Acceso)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.logo.sizePolicy().hasHeightForWidth())
-        self.logo.setSizePolicy(sizePolicy)
-        self.logo.setStyleSheet(_fromUtf8("background:none;border:0;"))
-        self.logo.setText(_fromUtf8(""))
-        self.logo.setPixmap(QtGui.QPixmap(_fromUtf8(":/actions/images/pyventa.simple.logo.png")))
+
+        # Logo + form row
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+
+        self.logo = QtWidgets.QLabel(Acceso)
+        sizePolicy2 = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Preferred,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
+        self.logo.setSizePolicy(sizePolicy2)
+        self.logo.setStyleSheet("background:none;border:0;")
+        self.logo.setText("")
         self.logo.setScaledContents(False)
-        self.logo.setAlignment(QtCore.Qt.AlignCenter)
-        self.logo.setObjectName(_fromUtf8("logo"))
+        self.logo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.logo.setObjectName("logo")
         self.horizontalLayout_2.addWidget(self.logo)
-        self.gridLayout = QtGui.QGridLayout()
+
+        # Form grid
+        self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setContentsMargins(-1, -1, -1, 3)
-        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
-        self.label_19 = QtGui.QLabel(Acceso)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_19.setFont(font)
-        self.label_19.setStyleSheet(_fromUtf8("background:none;border:0;"))
-        self.label_19.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_19.setObjectName(_fromUtf8("label_19"))
+        self.gridLayout.setObjectName("gridLayout")
+
+        bold10 = QtGui.QFont()
+        bold10.setPointSize(10)
+        bold10.setBold(True)
+        bold10.setWeight(75)
+
+        regular10 = QtGui.QFont()
+        regular10.setPointSize(10)
+        regular10.setBold(False)
+        regular10.setWeight(50)
+
+        bold14 = QtGui.QFont()
+        bold14.setPointSize(14)
+        bold14.setBold(True)
+        bold14.setWeight(75)
+
+        align_right = (
+            QtCore.Qt.AlignmentFlag.AlignRight
+            | QtCore.Qt.AlignmentFlag.AlignTrailing
+            | QtCore.Qt.AlignmentFlag.AlignVCenter
+        )
+
+        # "Usuario:" label
+        self.label_19 = QtWidgets.QLabel(Acceso)
+        self.label_19.setFont(bold10)
+        self.label_19.setStyleSheet("background:none;border:0;")
+        self.label_19.setAlignment(align_right)
+        self.label_19.setObjectName("label_19")
         self.gridLayout.addWidget(self.label_19, 0, 0, 1, 1)
-        self.label_20 = QtGui.QLabel(Acceso)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
-        self.label_20.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_20.setFont(font)
-        self.label_20.setStyleSheet(_fromUtf8("background:none;border:0;"))
-        self.label_20.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_20.setObjectName(_fromUtf8("label_20"))
+
+        # "Clave:" label
+        self.label_20 = QtWidgets.QLabel(Acceso)
+        self.label_20.setFont(bold10)
+        self.label_20.setStyleSheet("background:none;border:0;")
+        self.label_20.setAlignment(align_right)
+        self.label_20.setObjectName("label_20")
         self.gridLayout.addWidget(self.label_20, 1, 0, 1, 1)
-        self.leClaveServidor = QtGui.QLineEdit(Acceso)
-        self.leClaveServidor.setEchoMode(QtGui.QLineEdit.Password)
-        self.leClaveServidor.setAlignment(QtCore.Qt.AlignCenter)
-        self.leClaveServidor.setObjectName(_fromUtf8("leClaveServidor"))
-        self.gridLayout.addWidget(self.leClaveServidor, 3, 1, 1, 1)
-        self.lblClaveServidor = QtGui.QLabel(Acceso)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.lblClaveServidor.setFont(font)
-        self.lblClaveServidor.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblClaveServidor.setObjectName(_fromUtf8("lblClaveServidor"))
-        self.gridLayout.addWidget(self.lblClaveServidor, 3, 0, 1, 1)
-        self.leClave = QtGui.QLineEdit(Acceso)
-        self.leClave.setMaximumSize(QtCore.QSize(170, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.leClave.setFont(font)
-        self.leClave.setEchoMode(QtGui.QLineEdit.Password)
-        self.leClave.setAlignment(QtCore.Qt.AlignCenter)
-        self.leClave.setObjectName(_fromUtf8("leClave"))
-        self.gridLayout.addWidget(self.leClave, 1, 1, 1, 1)
-        self.leUsuario = QtGui.QLineEdit(Acceso)
+
+        # Username field
+        self.leUsuario = QtWidgets.QLineEdit(Acceso)
         self.leUsuario.setMaximumSize(QtCore.QSize(170, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.leUsuario.setFont(font)
-        self.leUsuario.setAlignment(QtCore.Qt.AlignCenter)
-        self.leUsuario.setObjectName(_fromUtf8("leUsuario"))
+        self.leUsuario.setFont(bold14)
+        self.leUsuario.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.leUsuario.setObjectName("leUsuario")
         self.gridLayout.addWidget(self.leUsuario, 0, 1, 1, 1)
-        self.cbServidores = QtGui.QComboBox(Acceso)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.cbServidores.sizePolicy().hasHeightForWidth())
-        self.cbServidores.setSizePolicy(sizePolicy)
-        self.cbServidores.setObjectName(_fromUtf8("cbServidores"))
-        self.gridLayout.addWidget(self.cbServidores, 2, 1, 1, 1)
-        self.lblServidor = QtGui.QLabel(Acceso)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.lblServidor.setFont(font)
-        self.lblServidor.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lblServidor.setObjectName(_fromUtf8("lblServidor"))
+
+        # Password field
+        self.leClave = QtWidgets.QLineEdit(Acceso)
+        self.leClave.setMaximumSize(QtCore.QSize(170, 16777215))
+        self.leClave.setFont(bold14)
+        self.leClave.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.leClave.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.leClave.setObjectName("leClave")
+        self.gridLayout.addWidget(self.leClave, 1, 1, 1, 1)
+
+        # "Servidor:" label
+        self.lblServidor = QtWidgets.QLabel(Acceso)
+        self.lblServidor.setFont(regular10)
+        self.lblServidor.setAlignment(align_right)
+        self.lblServidor.setObjectName("lblServidor")
         self.gridLayout.addWidget(self.lblServidor, 2, 0, 1, 1)
+
+        # Remote server combo
+        self.cbServidores = QtWidgets.QComboBox(Acceso)
+        sp_exp = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Fixed,
+        )
+        self.cbServidores.setSizePolicy(sp_exp)
+        self.cbServidores.setObjectName("cbServidores")
+        self.gridLayout.addWidget(self.cbServidores, 2, 1, 1, 1)
+
+        # "Clave servidor" label
+        self.lblClaveServidor = QtWidgets.QLabel(Acceso)
+        self.lblClaveServidor.setFont(regular10)
+        self.lblClaveServidor.setAlignment(align_right)
+        self.lblClaveServidor.setObjectName("lblClaveServidor")
+        self.gridLayout.addWidget(self.lblClaveServidor, 3, 0, 1, 1)
+
+        # Server password field
+        self.leClaveServidor = QtWidgets.QLineEdit(Acceso)
+        self.leClaveServidor.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.leClaveServidor.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.leClaveServidor.setObjectName("leClaveServidor")
+        self.gridLayout.addWidget(self.leClaveServidor, 3, 1, 1, 1)
+
         self.horizontalLayout_2.addLayout(self.gridLayout)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.pbRemoto = QtGui.QPushButton(Acceso)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(10)
-        self.pbRemoto.setFont(font)
-        self.pbRemoto.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
-"}\n"
-"QAbstractButton::checked{\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0.0382775 rgba(159, 11, 0, 255), stop:1 rgba(213, 52, 0, 255));\n"
-"color:#efefef;}\n"
-"QAbstractButton::pressed{\n"
-"color:#fff;\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
-"}"))
+
+        # Button row
+        btn_style = (
+            "QToolButton, QAbstractButton{"
+            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,"
+            " stop:0 rgba(239,239,239,255), stop:0.5 rgba(226,226,226,255),"
+            " stop:0.509091 rgba(219,219,219,255), stop:0.986364 rgba(179,179,179,255),"
+            " stop:1 rgba(207,228,255,255));"
+            "border-radius:4px;border:1px solid #777;padding:2px 9px 2px 9px;color:#333;}"
+            "QAbstractButton::pressed{color:#fff;"
+            "background-color:qlineargradient(spread:reflect,x1:1,y1:1,x2:1,y2:0,"
+            "stop:0 rgba(0,66,255,255),stop:1 rgba(0,107,227,255));}"
+        )
+        remote_style = btn_style + (
+            "QAbstractButton::checked{background-color:qlineargradient(spread:reflect,"
+            "x1:1,y1:1,x2:1,y2:0,stop:0.0382775 rgba(159,11,0,255),stop:1 rgba(213,52,0,255));"
+            "color:#efefef;}"
+        )
+        accept_style = (
+            "QToolButton, QAbstractButton{background-color:qlineargradient(spread:reflect,"
+            "x1:1,y1:1,x2:1,y2:0,stop:0 rgba(10,125,159,255),stop:1 rgba(0,188,255,255));"
+            "color:#fff;border-radius:4px;border:1px solid #777;padding:2px 9px 2px 9px;}"
+            "QAbstractButton::pressed{background-color:qlineargradient(spread:reflect,"
+            "x1:1,y1:1,x2:1,y2:0,stop:0 rgba(0,66,255,255),stop:1 rgba(0,107,227,255));}"
+        )
+
+        font_btn = QtGui.QFont()
+        font_btn.setFamily("Droid Sans")
+        font_btn.setPointSize(10)
+
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+
+        self.pbRemoto = QtWidgets.QPushButton(Acceso)
+        self.pbRemoto.setFont(font_btn)
+        self.pbRemoto.setStyleSheet(remote_style)
         self.pbRemoto.setCheckable(True)
-        self.pbRemoto.setObjectName(_fromUtf8("pbRemoto"))
+        self.pbRemoto.setObjectName("pbRemoto")
         self.horizontalLayout.addWidget(self.pbRemoto)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.pbCerrar = QtGui.QPushButton(Acceso)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(10)
-        self.pbCerrar.setFont(font)
-        self.pbCerrar.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:0.5 rgba(226, 226, 226, 255), stop:0.509091 rgba(219, 219, 219, 255), stop:0.986364 rgba(179, 179, 179, 255), stop:1 rgba(207, 228, 255, 255));\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;color:#333;\n"
-"}\n"
-"QAbstractButton::pressed{\n"
-"color:#fff;\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
-"\n"
-"}"))
-        self.pbCerrar.setObjectName(_fromUtf8("pbCerrar"))
+
+        spacer = QtWidgets.QSpacerItem(
+            40, 20,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Minimum,
+        )
+        self.horizontalLayout.addItem(spacer)
+
+        self.pbCerrar = QtWidgets.QPushButton(Acceso)
+        self.pbCerrar.setFont(font_btn)
+        self.pbCerrar.setStyleSheet(btn_style)
+        self.pbCerrar.setObjectName("pbCerrar")
         self.horizontalLayout.addWidget(self.pbCerrar)
-        self.pbAceptar = QtGui.QPushButton(Acceso)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Droid Sans"))
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        self.pbAceptar.setFont(font)
-        self.pbAceptar.setStyleSheet(_fromUtf8("QToolButton, QAbstractButton{\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(10, 125, 159, 255), stop:1 rgba(0, 188, 255, 255));color:#fff;\n"
-"border-radius:4px;border:1px solid #777; padding:2 9 2 9;\n"
-"}\n"
-"QAbstractButton::pressed{\n"
-"    background-color: qlineargradient(spread:reflect, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(0, 66, 255, 255), stop:1 rgba(0, 107, 227, 255));\n"
-"}"))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/images/actions/sticker/key.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pbAceptar.setIcon(icon1)
+
+        self.pbAceptar = QtWidgets.QPushButton(Acceso)
+        self.pbAceptar.setFont(font_btn)
+        self.pbAceptar.setStyleSheet(accept_style)
         self.pbAceptar.setDefault(True)
-        self.pbAceptar.setObjectName(_fromUtf8("pbAceptar"))
+        self.pbAceptar.setObjectName("pbAceptar")
         self.horizontalLayout.addWidget(self.pbAceptar)
+
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Acceso)
         QtCore.QMetaObject.connectSlotsByName(Acceso)
+
         Acceso.setTabOrder(self.leUsuario, self.leClave)
         Acceso.setTabOrder(self.leClave, self.cbServidores)
         Acceso.setTabOrder(self.cbServidores, self.leClaveServidor)
@@ -213,18 +229,13 @@ class Ui_Acceso(object):
         Acceso.setTabOrder(self.pbRemoto, self.pbCerrar)
 
     def retranslateUi(self, Acceso):
-        Acceso.setWindowTitle(QtGui.QApplication.translate("Acceso", "Inicio de sesion", None, QtGui.QApplication.UnicodeUTF8))
-        self.lbInfo.setText(QtGui.QApplication.translate("Acceso", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\'; font-size:10pt; font-weight:600;\">Punto de venta.</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_19.setText(QtGui.QApplication.translate("Acceso", "Usuario:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_20.setText(QtGui.QApplication.translate("Acceso", "Clave:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblClaveServidor.setText(QtGui.QApplication.translate("Acceso", "Clave servidor", None, QtGui.QApplication.UnicodeUTF8))
-        self.lblServidor.setText(QtGui.QApplication.translate("Acceso", "Servidor:", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbRemoto.setText(QtGui.QApplication.translate("Acceso", "Conexion remota", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbCerrar.setText(QtGui.QApplication.translate("Acceso", "Cancelar", None, QtGui.QApplication.UnicodeUTF8))
-        self.pbAceptar.setText(QtGui.QApplication.translate("Acceso", "Ingresar", None, QtGui.QApplication.UnicodeUTF8))
-
-import icons_rc
+        _t = QtCore.QCoreApplication.translate
+        Acceso.setWindowTitle(_t("Acceso", "Inicio de sesión"))
+        self.lbInfo.setText(_t("Acceso", "<b>Punto de venta.</b>"))
+        self.label_19.setText(_t("Acceso", "Usuario:"))
+        self.label_20.setText(_t("Acceso", "Clave:"))
+        self.lblClaveServidor.setText(_t("Acceso", "Clave servidor"))
+        self.lblServidor.setText(_t("Acceso", "Servidor:"))
+        self.pbRemoto.setText(_t("Acceso", "Conexión remota"))
+        self.pbCerrar.setText(_t("Acceso", "Cancelar"))
+        self.pbAceptar.setText(_t("Acceso", "Ingresar"))

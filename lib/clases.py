@@ -9,14 +9,14 @@ class Mantenimiento:
     
   def crearPefil(self):
       if sys.platform == 'linux2':   
-	os.system("cp -r /usr/share/pyventa/perfil/* "+libutil.home())
+    os.system("cp -r /usr/share/pyventa/perfil/* "+libutil.home())
       else:
-	os.system("xcopy \usr\share\pyventa\perfil \"%s\" /i /a /e /k"%self.home)
+    os.system("xcopy \usr\share\pyventa\perfil \"%s\" /i /a /e /k"%self.home)
       msgBox=QtGui.QMessageBox(QtGui.QMessageBox.Information,"Reinicio programado","<h2>La operacion ha tenido exito</h2><br><p>Ahora se recopilaran los datos necesarios para la base de datos, despues de eso el programa se cerrara para establecer las configuraciones.</p>.",QtGui.QMessageBox.Close,self)
       msgBox.exec_()
       
   
-  def tablaACsv(self,nombre,ruta):	#exporta una tabla a csv
+  def tablaACsv(self,nombre,ruta):  #exporta una tabla a csv
       tabla=os.path.join(ruta,"%s.csv"%nombre)
       tablaF=open(tabla,'wb')
       chivo = csv.writer(tablaF, delimiter=',', quotechar='\'', quoting=csv.QUOTE_MINIMAL)
@@ -28,7 +28,7 @@ class Mantenimiento:
       self.consulta(sql)
       ff=self.cursor.fetchall()
       for row in ff:
-	chivo.writerow(row)
+    chivo.writerow(row)
       tablaF.close()
       return tabla
   

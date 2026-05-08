@@ -24,9 +24,9 @@ class Reporte(QtGui.QDialog, Ui_Reporte):
       inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
       fin=str(self.deHasta.date().toString('yyyy-MM-dd'))
       if (inicio==fin):
-	self.periodo=" date(%s)='%s'"%(campo,inicio)
+    self.periodo=" date(%s)='%s'"%(campo,inicio)
       else:
-	self.periodo=" date(%s) BETWEEN '%s' and  '%s' "%(campo,inicio,fin)
+    self.periodo=" date(%s) BETWEEN '%s' and  '%s' "%(campo,inicio,fin)
       return self.periodo
     
   def ejecutar(self):
@@ -34,10 +34,10 @@ class Reporte(QtGui.QDialog, Ui_Reporte):
       tup=self.con.query(qry.replace('<rango>',self.getPeriodo('fecha')))
       self.header= [key[0] for key in self.con.cursor.description]
       if tup!=None:
-	self.modelo=libutil.tabular(self.tvTabla, tup,self.header)
+    self.modelo=libutil.tabular(self.tvTabla, tup,self.header)
 
-	#for item in tup:
-	  #print item
+    #for item in tup:
+      #print item
   def imprimir(self):
       vector=self.modelo.getVector()
       #head=[[len(row),row] for row in self.header]

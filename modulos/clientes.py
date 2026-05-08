@@ -35,4 +35,4 @@ class Clientes(Admin1):
       self.ui.connect(self.ui.verClientes, QtCore.SIGNAL("triggered()"), self.iniciar)
 
       self.anclar(attached)
-	
+    

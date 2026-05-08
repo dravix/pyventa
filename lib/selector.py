@@ -31,10 +31,10 @@ class Selector(QDialog,Ui_Seleccion):
     texto=str(texto)
     if len(texto)>2 or texto=='*':
       if texto=='*':
-	sql="SELECT {0} FROM {1};".format(self.columnas,self.tablename)
+    sql="SELECT {0} FROM {1};".format(self.columnas,self.tablename)
       else:
-	sql="SELECT {0} FROM {1} where {2} ;".format(self.columnas,self.tablename,self.filtros.format(texto))
-	
+    sql="SELECT {0} FROM {1} where {2} ;".format(self.columnas,self.tablename,self.filtros.format(texto))
+    
       #print sql
       self.modelo.query(sql,self.heads)
       self.tabla.resizeColumnsToContents()
@@ -46,7 +46,7 @@ class Selector(QDialog,Ui_Seleccion):
       ret = [range(self.modelo.columnCount(self)) for i in range(nrow)]
       offset=self.tabla.selectedIndexes()[0].row()
       for index in self.tabla.selectedIndexes():
-	  #print index.row(),index.column()
-	  ret[index.row()-offset][index.column()]=str(index.data().toString())
+      #print index.row(),index.column()
+      ret[index.row()-offset][index.column()]=str(index.data().toString())
       self.retorno=ret
       self.done(1)

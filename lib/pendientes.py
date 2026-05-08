@@ -6,22 +6,22 @@ from lib.modelos.qmodelotablasql import QModeloTablaSql
 from ui.ui_pendientes import Ui_Form
 class Pendientes(QWidget, Ui_Form):
   def __init__(self,parent,id):
-	  QWidget.__init__(self)
-	  self.setupUi(self)
-	  self.datos={'nombre':"Pendientes",'descripcion':"Control de cuentas pendientes",'version':"0.7",'id':id,'nivel':3}
-	  self.id=id
-	  self.action = QAction(self)
-	  self.parent=parent
-	  self.action.setIcon(QIcon(":/modulos/images/png/elegant/pending.png"))
-	  self.action.setIconVisibleInMenu(True)
-	  self.action.setText(self.datos['nombre'])
-	  self.connect(self.action, SIGNAL("triggered()"), self.ver )
-	  self.modelo=QModeloTablaSql(parent.cursor,self)
-	  self.tvCuentas.setModel(self.modelo)
-	  self.init()
-	  self.setupEvents()
-	  
-	  
+      QWidget.__init__(self)
+      self.setupUi(self)
+      self.datos={'nombre':"Pendientes",'descripcion':"Control de cuentas pendientes",'version':"0.7",'id':id,'nivel':3}
+      self.id=id
+      self.action = QAction(self)
+      self.parent=parent
+      self.action.setIcon(QIcon(":/modulos/images/png/elegant/pending.png"))
+      self.action.setIconVisibleInMenu(True)
+      self.action.setText(self.datos['nombre'])
+      self.connect(self.action, SIGNAL("triggered()"), self.ver )
+      self.modelo=QModeloTablaSql(parent.cursor,self)
+      self.tvCuentas.setModel(self.modelo)
+      self.init()
+      self.setupEvents()
+      
+      
   def init(self):
     self.ids=False
     self.cliente=False

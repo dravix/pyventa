@@ -10,7 +10,7 @@ class Compra:
       self.cursor.execute( "select c.producto,stock_logico-cantidad from comprados as c,existencia as e where compra={0} and c.producto=e.producto; ".format(ide))
       ff=self.cursor.fetchall()
       for f in ff:
-	self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
+    self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
       #Eliminacion de los articulos comprados y de la compra en su
       self.cursor.execute("""DELETE FROM comprados where compra={0} """.format(ide))
       self.cursor.execute("""DELETE FROM compras where id={0} """.format(ide))
@@ -26,8 +26,8 @@ class Compra:
       self.cursor.execute( "select c.producto,stock_logico-cantidad from comprados as c,existencia as e where compra={0} and c.producto=e.producto; ".format(ide))
       ff=self.cursor.fetchall()
       for f in ff:
-	self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
-      self.cursor.execute("""DELETE FROM comprados where compra=%s """%ide)	    
+    self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
+      self.cursor.execute("""DELETE FROM comprados where compra=%s """%ide)     
     except sqlite3.Error,e:
       raise(e)
       return False
@@ -43,18 +43,18 @@ class Compra:
   def guardarComprados(self,ide,canasta):
 
       for item in canasta:
-	  try:
-	    self.cursor.execute("""insert into comprados values({compra},{0},{1},{7},{4})""".format(compra=ide,*item))
-	    sql="UPDATE existencia SET stock_logico=stock_logico+{1} where producto={0}".format(*item)
-	    self.cursor.execute(sql)		
-	  except:
-	    print "Error al guardar el producto ",item[0]
-	    self.conexion.rollback()
-	    return False
-	  else:
-	    self.conexion.commit()
-	    return True
-	  
+      try:
+        self.cursor.execute("""insert into comprados values({compra},{0},{1},{7},{4})""".format(compra=ide,*item))
+        sql="UPDATE existencia SET stock_logico=stock_logico+{1} where producto={0}".format(*item)
+        self.cursor.execute(sql)        
+      except:
+        print "Error al guardar el producto ",item[0]
+        self.conexion.rollback()
+        return False
+      else:
+        self.conexion.commit()
+        return True
+      
   def totalizar(self,canasta):
     total=0.0
     for item in canasta:
@@ -71,8 +71,8 @@ class Compra:
       self.cursor.execute(self.conexion.lastId())
       last=int(self.cursor.fetchone()[0])
       if self.guardarComprados(last,canasta):
-	return last
-	
+    return last
+    
   def obtener(self,ide):
     self.cursor.execute("SELECT * FROM compras WHERE id={0};".format(ide))
     compra=self.cursor.fetchone()
@@ -91,6 +91,6 @@ class Compra:
     else:
       ff=self.cursor.fetchone()
       if ff!=None and ff[0]!=None:
-	return float(ff[0])    
+    return float(ff[0])    
       else:
-	return 0    
+    return 0    

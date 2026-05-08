@@ -7,43 +7,43 @@ class Venta:
     
     def eliminar(self,nota):
       try:
-	self.cursor.execute( "select v.producto,stock_logico+cantidad from vendidos as v,existencia as e where venta={0} and v.producto=e.producto; ".format(ide))
-	ff=self.cursor.fetchall()
-	for f in ff:
-	  self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
-	self.cursor.execute("DELETE FROM vendidos where venta={venta}".format(venta=nota))  
-	self.cursor.execute("DELETE FROM notas where `id`={venta}".format(venta=nota))
+    self.cursor.execute( "select v.producto,stock_logico+cantidad from vendidos as v,existencia as e where venta={0} and v.producto=e.producto; ".format(ide))
+    ff=self.cursor.fetchall()
+    for f in ff:
+      self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
+    self.cursor.execute("DELETE FROM vendidos where venta={venta}".format(venta=nota))  
+    self.cursor.execute("DELETE FROM notas where `id`={venta}".format(venta=nota))
       except MySQLdb.Error, e:
-	print "Error al eliminar nota %s"%nota,e
-	return False
+    print "Error al eliminar nota %s"%nota,e
+    return False
       except:
-	return False
-      else:	
-	self.conexion.commit()
-	return True
+    return False
+      else: 
+    self.conexion.commit()
+    return True
 
   def guardarVendidos(self,ide,canasta):
       for item in canasta:
-	  try:
-	    sql="""INSERT INTO `vendidos` VALUES({ide},{0},{tipo},{1},{5})""".format(ide=ide,tipo=0,*item)
-	    self.cursor.execute(sql)
-	    self.cursor.execute("UPDATE existencia SET stock_logico=stock_logico-{1} where producto={0}".format(*item))		
-	    self.cursor.execute("UPDATE productos set vendidas=vendidas+1, ultima_modificacion=NOW() WHERE ref={0}".format(item[0]))
-	  except sqlite3.Error,e:
-	    raise(e)
-	    self.conexion.rollback()
-	    return False
-	  except MySQLdb.Error, e:
-	    raise(e)
-	    self.conexion.rollback()
-	    return False	  
-	  except:
-	    print "Error al guardar el producto ",item[0]
-	    self.conexion.rollback()
-	    return False
+      try:
+        sql="""INSERT INTO `vendidos` VALUES({ide},{0},{tipo},{1},{5})""".format(ide=ide,tipo=0,*item)
+        self.cursor.execute(sql)
+        self.cursor.execute("UPDATE existencia SET stock_logico=stock_logico-{1} where producto={0}".format(*item))     
+        self.cursor.execute("UPDATE productos set vendidas=vendidas+1, ultima_modificacion=NOW() WHERE ref={0}".format(item[0]))
+      except sqlite3.Error,e:
+        raise(e)
+        self.conexion.rollback()
+        return False
+      except MySQLdb.Error, e:
+        raise(e)
+        self.conexion.rollback()
+        return False      
+      except:
+        print "Error al guardar el producto ",item[0]
+        self.conexion.rollback()
+        return False
       self.conexion.commit()
       return True
-	  
+      
   def totalizar(self,canasta):
     total=0.0
     for item in canasta:
@@ -55,8 +55,8 @@ class Venta:
       self.cursor.execute( "select v.producto,stock_logico+cantidad from vendidos as v,existencia as e where venta={0} and v.producto=e.producto; ".format(ide))
       ff=self.cursor.fetchall()
       for f in ff:
-	self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
-      self.cursor.execute("""DELETE FROM vendidos where venta=%s """%ide)	    
+    self.cursor.execute("UPDATE existencia set stock_logico={1} WHERE producto={0}".format(*f))
+      self.cursor.execute("""DELETE FROM vendidos where venta=%s """%ide)       
     except sqlite3.Error,e:
       raise(e)
       return False
@@ -87,7 +87,7 @@ class Venta:
       self.cursor.execute(self.conexion.lastId())
       last=int(self.cursor.fetchone()[0])
       if self.guardarVendidos(last,canasta):
-	return last 
+    return last 
       
   def cambiarTipo(self,ide,tipo):
     try:
@@ -123,6 +123,6 @@ class Venta:
     else:
       ff=self.cursor.fetchone()
       if ff!=None and ff[0]!=None:
-	return float(ff[0])    
+    return float(ff[0])    
       else:
-	return 0       
+    return 0       
