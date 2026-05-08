@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QComboBox
-from PyQt4.QtCore import SIGNAL
+from PyQt6.QtWidgets import QComboBox
+from PyQt6.QtCore import SIGNAL
 from modulos.control1 import Admin1
 
 class Conexiones(Admin1):

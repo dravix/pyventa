@@ -1,7 +1,7 @@
 import libutil
-from PyQt4 import QtCore, QtGui#,  Qt
-from PyQt4.QtCore import Qt,QPointF
-from PyQt4.QtGui import QPolygonF, QFont, QColor
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt, QPointF
+from PyQt6.QtGui import QPolygonF, QFont, QColor
 from lib.modelos.gasto import Gasto 
 from lib.modelos.compra import Compra 
 from lib.modelos.venta import Venta 
@@ -35,16 +35,16 @@ class Chart:
     return pixMap
   
   def popGrafica(self,pixMap):
-    dia=QtGui.QDialog(self.parent)
-    #pix=QtGui.QLabel(self.parent).setPixmap(pixMap)
+    dia=QtWidgets.QDialog(self.parent)
+    #pix=QtWidgets.QLabel(self.parent).setPixmap(pixMap)
     #dia.addWidget(pix)
-    #dia.setLayout(QtGui.QHBoxLayout(self.parent).addWidget())
+    #dia.setLayout(QtWidgets.QHBoxLayout(self.parent).addWidget())
     dia.show()
 
       
   def setGrafica(self,datos,w=450,h=200,label=True):
-    if len(datos[0])>0:
-          self.escena=QtGui.QGraphicsScene()
+        if len(datos[0])>0:
+          self.escena=QtWidgets.QGraphicsScene()
           self.escena.setBackgroundBrush(QtGui.QColor('#fff'))
           rBrush=QtGui.QBrush(QtGui.QColor(101, 163, 255, 100))
           area=QtGui.QBrush(QtGui.QColor(135, 190, 80, 100))
@@ -55,108 +55,108 @@ class Chart:
           shadow=QtGui.QPen()
           shadow.setColor(QtGui.QColor('#555'))
           pen.setColor(QtGui.QColor('#333'))
-          grid=QtGui.QPen(QtGui.QColor("#999"),1,Qt.DashLine)
-          gridThick=QtGui.QPen(QtGui.QColor("#AAA"),2,Qt.SolidLine)
+          grid=QtGui.QPen(QtGui.QColor("#999"),1,QtCore.Qt.PenStyle.DashLine)
+          gridThick=QtGui.QPen(QtGui.QColor("#AAA"),2,QtCore.Qt.PenStyle.SolidLine)
           top=200
           alto=h-20
           width=w
-      ancho=(width-100)/len(datos[1])
-      maxim=max(datos[0])
-      Y=alto-50
-      self.escena.addLine(70,0,70,Y,pen)
-      self.escena.addLine(0,Y,width-10,Y,pen)
-      for i in range(5):
-        self.escena.addLine(60,Y*i*.25,width-20,Y*i*.25,grid)
-        text=self.escena.addSimpleText(str(round(maxim*i*.25,1)))
-        text.setPos(5,Y-(Y*i*.25))
-      puntos=[]
-      for i,val in enumerate(datos[0]):
-        if maxim>0:
-          scale=(float(val)/float(maxim))*(alto-50)
-          #self.escena.addRect((ancho*i)+80, (alto-50)-scale,ancho,scale,pen,rBrush)
-          if len(datos[0])>10:
-          n=round(len(datos[0])*.05)
-          else:
-          n=1
-          if i>0:
-        (x1,y1)=(ax,ay)
-        (x2,y2)=((ancho*i)+85,alto-50-scale)
-        #self.escena.addLine(x1,y1,x2,y2,shadow)
-        #self.escena.addLine(ax,ay,(ancho*i)+85,alto-50-scale,pen)
-        #self.escena.addEllipse((ancho*i)+84,alto-51-scale,4,4,shadow)
-          (x,y)=(ancho*i)+85,alto-50-scale
-          puntos.append(QPointF(x,y))
-          self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,y,grid)
-          if i%n==0:
-        text=self.escena.addSimpleText(str(datos[1][i]))
-        text.setPos((ancho*i)+85,alto-35)
-        self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,alto-35,gridThick)
-          ax=(ancho*i)+85
-          ay=alto-50-scale
-      puntos.append(QPointF(puntos[-1].x(),Y))
-      puntos.append(QPointF(puntos[0].x(),Y))
-      self.area= self.escena.addPolygon(QPolygonF(puntos),pen,area)
-      if label:
-        for i,p in enumerate(puntos[:-2]):
-        lbl=self.escena.addSimpleText("{0:,.2f}".format(datos[0][i]),QFont("Serif", 8, QFont.Bold))
-        lbl.setPos(p.x()+4,p.y())
-        
-      #self.grafica.setScene(self.escena)  
+          ancho=(width-100)/len(datos[1])
+          maxim=max(datos[0])
+          Y=alto-50
+          self.escena.addLine(70,0,70,Y,pen)
+          self.escena.addLine(0,Y,width-10,Y,pen)
+          for i in range(5):
+            self.escena.addLine(60,Y*i*.25,width-20,Y*i*.25,grid)
+            text=self.escena.addSimpleText(str(round(maxim*i*.25,1)))
+            text.setPos(5,Y-(Y*i*.25))
+          puntos=[]
+          for i,val in enumerate(datos[0]):
+            if maxim>0:
+              scale=(float(val)/float(maxim))*(alto-50)
+              #self.escena.addRect((ancho*i)+80, (alto-50)-scale,ancho,scale,pen,rBrush)
+              if len(datos[0])>10:
+                  n=round(len(datos[0])*.05)
+              else:
+                  n=1
+              if i>0:
+                (x1,y1)=(ax,ay)
+                (x2,y2)=((ancho*i)+85,alto-50-scale)
+                #self.escena.addLine(x1,y1,x2,y2,shadow)
+                #self.escena.addLine(ax,ay,(ancho*i)+85,alto-50-scale,pen)
+                #self.escena.addEllipse((ancho*i)+84,alto-51-scale,4,4,shadow)
+              (x,y)=(ancho*i)+85,alto-50-scale
+              puntos.append(QPointF(x,y))
+              self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,y,grid)
+              if i%n==0:
+                text=self.escena.addSimpleText(str(datos[1][i]))
+                text.setPos((ancho*i)+85,alto-35)
+                self.escena.addLine((ancho*i)+85,alto-40,(ancho*i)+85,alto-35,gridThick)
+              ax=(ancho*i)+85
+              ay=alto-50-scale
+          puntos.append(QPointF(puntos[-1].x(),Y))
+          puntos.append(QPointF(puntos[0].x(),Y))
+          self.area= self.escena.addPolygon(QPolygonF(puntos),pen,area)
+          if label:
+            for i,p in enumerate(puntos[:-2]):
+                lbl=self.escena.addSimpleText("{0:,.2f}".format(datos[0][i]),QFont("Serif", 8, QFont.Bold))
+                lbl.setPos(p.x()+4,p.y())
+                
+          #self.grafica.setScene(self.escena)  
   def changeColor(self,color):
     if self.area:
       self.area.setBrush(color)
     
 #--------------------------------------------------------      
   def hoursPlot(self,fecha='DATE(fecha)=CURDATE()'):
-    hours=[]
-    total=[]
-    sql="SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%H') as `hora` FROM `notas` where {fecha} GROUP BY DATE_FORMAT(fecha,'%H')".format(fecha=fecha)
-    #print sql
-    self.parent.cursor.execute(sql)
-    datos=self.parent.cursor.fetchall()
-    for hora in datos:
-        hours.append(hora[1])
-        total.append(round(float(hora[0]),1))
-    data=[total,hours]
+        hours=[]
+        total=[]
+        sql="SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%H') as `hora` FROM `notas` where {fecha} GROUP BY DATE_FORMAT(fecha,'%H')".format(fecha=fecha)
+        #print sql
+        self.parent.cursor.execute(sql)
+        datos=self.parent.cursor.fetchall()
+        for hora in datos:
+            hours.append(hora[1])
+            total.append(round(float(hora[0]),1))
+        data=[total,hours]
         self.setGrafica(data,self.width,self.height)
         
   def dayPlot(self,fecha='DATE(fecha)=CURDATE()'):
-    hours=[]
-    total=[]
-    sql="SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%%d') as `hora` FROM `notas` where %s GROUP BY DATE_FORMAT(fecha,'%%j')"%fecha
-    #print sql
-    self.parent.cursor.execute(sql)
-    datos=self.parent.cursor.fetchall()
-    for hora in datos:
-        hours.append(hora[1])
-        total.append(round(float(hora[0]),1))
-    data=[total,hours]
+        hours=[]
+        total=[]
+        sql="SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%%d') as `hora` FROM `notas` where %s GROUP BY DATE_FORMAT(fecha,'%%j')"%fecha
+        #print sql
+        self.parent.cursor.execute(sql)
+        datos=self.parent.cursor.fetchall()
+        for hora in datos:
+            hours.append(hora[1])
+            total.append(round(float(hora[0]),1))
+        data=[total,hours]
         self.setGrafica(data,self.width,self.height)
 
   def daysPlot(self,fecha='DATE(fecha)=CURDATE()'):
-    hours=[]
-    total=[]
-    sql="""SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%d')  FROM `notas`
-    where {fecha} GROUP BY DATE_FORMAT(fecha,'%j')""".format(fecha)
-    self.parent.cursor.execute(sql)
-    datos=self.parent.cursor.fetchall()
-    for hora in datos:
-        hours.append(hora[1])
-        total.append(round(float(hora[0]),1))
-    data=[total,hours]
+        hours=[]
+        total=[]
+        sql="""SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'%d')  FROM `notas`
+        where {fecha} GROUP BY DATE_FORMAT(fecha,'%j')""".format(fecha)
+        self.parent.cursor.execute(sql)
+        datos=self.parent.cursor.fetchall()
+        for hora in datos:
+            hours.append(hora[1])
+            total.append(round(float(hora[0]),1))
+        data=[total,hours]
         self.setGrafica(data,self.width,self.height)
         
   def xPlot(self,formato,group,fecha='DATE(fecha)=CURDATE()'):
-    hours=[]
-    total=[]
-    sql="""SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'{formato}')  FROM `notas`
-    where {fecha} GROUP BY DATE_FORMAT(fecha,'{formato}')""".format(fecha=fecha,formato=formato)
-    self.parent.cursor.execute(sql)
-    datos=self.parent.cursor.fetchall()
-    for hora in datos:
-        hours.append(hora[1])
-        total.append(round(float(hora[0]),1))
-    data=[total,hours]
+        hours=[]
+        total=[]
+        sql="""SELECT ROUND(sum(total),2) as `total` ,DATE_FORMAT(fecha,'{formato}')  FROM `notas`
+        where {fecha} GROUP BY DATE_FORMAT(fecha,'{formato}')""".format(fecha=fecha,formato=formato)
+        self.parent.cursor.execute(sql)
+        datos=self.parent.cursor.fetchall()
+        for hora in datos:
+            hours.append(hora[1])
+            total.append(round(float(hora[0]),1))
+        data=[total,hours]
         self.setGrafica(data,self.width,self.height)
   
   def setTitle(self,titulo):
@@ -172,27 +172,27 @@ class Ventas:
       self.ventas={}
       
     def resumir(self,fecha='date(fecha)=CURDATE()',caja='1'):
-    resumen={'ventas':0,'gastos':0,'compras':0, 'inicial':0.0}
-    con=self.conexion
-    resumen['ventas']=Venta(con).suma(" {0} and {1} and status>0".format(fecha,caja))
-    resumen['retiros']=Retiro(con).suma("{0} and {1}".format(fecha,caja))
-    resumen['depositos']=Deposito(con).suma("{0} and {1}".format(fecha,caja))
-    resumen['gastos']=Gasto(con).suma("{0} and {1}".format(fecha,caja))
-    resumen['efectivo']=(resumen['ventas']+resumen['compras']+resumen['gastos']+resumen['retiros']+resumen['depositos'])
-    lista=[
-      ['Ventas cobradas:',resumen['ventas']],
-      ['Retiros:',resumen['retiros']],
-      ['Gastos:',resumen['gastos']],
-      ['Depositos:',resumen['depositos']],
-      ['Efectivo final:',resumen['efectivo']]
-      ]
-    return (lista,resumen)
+        resumen={'ventas':0,'gastos':0,'compras':0, 'inicial':0.0}
+        con=self.conexion
+        resumen['ventas']=Venta(con).suma(" {0} and {1} and status>0".format(fecha,caja))
+        resumen['retiros']=Retiro(con).suma("{0} and {1}".format(fecha,caja))
+        resumen['depositos']=Deposito(con).suma("{0} and {1}".format(fecha,caja))
+        resumen['gastos']=Gasto(con).suma("{0} and {1}".format(fecha,caja))
+        resumen['efectivo']=(resumen['ventas']+resumen['compras']+resumen['gastos']+resumen['retiros']+resumen['depositos'])
+        lista=[
+          ['Ventas cobradas:',resumen['ventas']],
+          ['Retiros:',resumen['retiros']],
+          ['Gastos:',resumen['gastos']],
+          ['Depositos:',resumen['depositos']],
+          ['Efectivo final:',resumen['efectivo']]
+          ]
+        return (lista,resumen)
       
     def detalleNotas(self,periodo,caja):
-    sql="""SELECT ELT(tipo+1,'Notas de venta','Factura'),ELT(status+1,'Sin pagar','Pagadas','En credito'),
-    sum(total) from notas where {periodo} and {caja} group by status,tipo;""".format(periodo=self.periodo,caja=caja)
-    self.cursor.execute(sql)
-    return self.cursor.fetchall()
+        sql="""SELECT ELT(tipo+1,'Notas de venta','Factura'),ELT(status+1,'Sin pagar','Pagadas','En credito'),
+        sum(total) from notas where {periodo} and {caja} group by status,tipo;""".format(periodo=self.periodo,caja=caja)
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 
 
     def detallarVentas(self,caja='1',color="#fff",fondo="#1162A7"):
@@ -200,9 +200,9 @@ class Ventas:
       rows=self.cursor.fetchone()
       total=rows[0]
       if total==None:
-      total=0
+          total=0
       dns=self.detalleNotas(periodo=self.periodo,caja=caja)
-      ventas=libutil.listaHtml(dns,'Detalle de ventas',['Tipo','Estado','Valor'],color,fondo,12,anchos=[40,30,30])  
+      ventas=libutil.listaHtml(dns,'Detalle de ventas',['Tipo','Estado','Valor'],color,fondo,12,anchos=[40,30,30])      
       tabla=libutil.listaHtml([],"",['SUMA TOTAL:','$ {0:,.2f}'.format(total)],opc="010",anchos=[70,30])
       return ventas+"\n\n"+tabla
 
@@ -246,27 +246,27 @@ class Ventas:
       return tabla      
     
     def imprimir(self,html):
-    campos={'fecha':self.parent.fecha}
-    for key in self.parent.modulos['config'].modulos['empresa']:
-        try:
-          campos[key]=self.parent.cfg.get('empresa',key)
-        except:
-          pass
-    #print campos
-    #self.dayPlot(self.periodo)
-    #pixMap = QtGui.QPixmap.grabWidget(self.grafica)
-    #pixMap.save("/tmp/plot.png")
+        campos={'fecha':self.parent.fecha}
+        for key in self.parent.modulos['config'].modulos['empresa']:
+            try:
+              campos[key]=self.parent.cfg.get('empresa',key)
+            except:
+              pass
+        #print campos
+        #self.dayPlot(self.periodo)
+        #pixMap = QtGui.QPixmap.grabWidget(self.grafica)
+        #pixMap.save("/tmp/plot.png")
 
-    head="""<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
-        <tr valign='top'>
-            <td width="75%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
-                <span style=" font-size:large; font-weight:800; 
-                color:#222;">{nombre}</span><br/>
-                <span>{slogan}</span></td>
-          <td width=25%>
-          <span style=" font-size:x-large; font-weight:800; color:#294e5e;text-align:right">Reporte de ventas</span><br/>
-          <span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>  """.format(**campos)
-    foot="""    <hr align="center"/>
-            <p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
-            <br/><br/>""".format(**campos)
-    libutil.printa(head+html+foot,"Reporte de ventas",self)    
+        head="""<table border="0" width="100%" cellspacing="5px" cellpadding="5px">
+                <tr valign='top'>
+                        <td width="75%"><img src="{logo}" align="left" valign="top" style="float:left;margin-right:20px;display:inline" />
+                            <span style=" font-size:large; font-weight:800; 
+                            color:#222;">{nombre}</span><br/>
+                            <span>{slogan}</span></td>
+                  <td width=25%>
+                  <span style=" font-size:x-large; font-weight:800; color:#294e5e;text-align:right">Reporte de ventas</span><br/>
+                  <span style=" font-size:normal; font-weight:600; color:#294e5e;">Fecha: {fecha}</span></td></tr></table>      """.format(**campos)
+        foot="""        <hr align="center"/>
+                        <p style="font-size:10px; color:#999;text-align:center" align="center">{nombre}, {slogan}<br/>{direccion} {ciudad}, C.P {cp}<br>{email} Tel: {telefono}<br/>{pagina}</p>
+                        <br/><br/>""".format(**campos)
+        libutil.printa(head+html+foot,"Reporte de ventas",self)    

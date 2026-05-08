@@ -1,7 +1,7 @@
 #['Id','Nombre','rfc','direccion','poblacion','estado','tel','correo','credito']
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QLineEdit,QSpinBox
-from PyQt4 import QtCore
+from PyQt6.QtWidgets import QLineEdit, QSpinBox
+from PyQt6 import QtCore, QtGui, QtWidgets
 from modulos.control1 import Admin1
 
 class Proveedores(Admin1):
@@ -14,9 +14,9 @@ class Proveedores(Admin1):
       tipo.setButtonSymbols(2)
       cp.setInputMask("#####")
       tel.setInputMask("(###)-###-##-##")
-      cp.setAlignment(QtCore.Qt.AlignCenter)
-      tipo.setAlignment(QtCore.Qt.AlignCenter)
-      tel.setAlignment(QtCore.Qt.AlignCenter)
+      cp.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+      tipo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+      tel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
       Admin1.__init__(self,parent,'clientes,proveedores',
       [['id','Id:','str',None,False],
       ['nombre','Nombre:','str',None,True],

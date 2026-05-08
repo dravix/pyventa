@@ -7,87 +7,82 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        Dialog.setObjectName(_fromUtf8("Dialog"))
+        Dialog.setObjectName("Dialog")
         Dialog.resize(288, 155)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../../../../../usr/share/pyventa/images/32/llave.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../../../../usr/share/pyventa/images/32/llave.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         Dialog.setWindowIcon(icon)
-        Dialog.setStyleSheet(_fromUtf8("QWidget{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(180, 180, 180, 255), stop:0.02 rgba(158, 158, 158, 255), stop:1 rgba(124, 124, 124, 255));color:#fff;border:0;}\n"
+        Dialog.setStyleSheet("QWidget{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(180, 180, 180, 255), stop:0.02 rgba(158, 158, 158, 255), stop:1 rgba(124, 124, 124, 255));color:#fff;border:0;}\n"
 "QLabel{ border:0px; background:none}\n"
 "QAbstractButton{ color:#fff;padding:5px; border-radius:5px;\n"
 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(158, 158, 158, 255), stop:0.43 rgba(163, 163, 163, 255), stop:1 rgba(124, 124, 124, 255));\n"
-"}"))
-        self.verticalLayout = QtGui.QVBoxLayout(Dialog)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.label = QtGui.QLabel(Dialog)
+"}")
+        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setWeight(75)
         font.setBold(True)
         self.label.setFont(font)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setWordWrap(True)
         self.label.setMargin(5)
-        self.label.setObjectName(_fromUtf8("label"))
+        self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.frame_2 = QtGui.QFrame(Dialog)
-        self.frame_2.setStyleSheet(_fromUtf8("QWidget{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(41, 41, 41, 255), stop:0.05 #FDFDEE, stop:1 #FDFDEE);border-radius:5px; border:0;}\n"
+        self.frame_2 = QtWidgets.QFrame(Dialog)
+        self.frame_2.setStyleSheet("QWidget{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(41, 41, 41, 255), stop:0.05 #FDFDEE, stop:1 #FDFDEE);border-radius:5px; border:0;}\n"
 "QLineEdit, QDoubleSpinBox,QLabel{background:#FDFDEE;color:#555;}\n"
-""))
-        self.frame_2.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtGui.QFrame.Raised)
-        self.frame_2.setObjectName(_fromUtf8("frame_2"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.frame_2)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.label_3 = QtGui.QLabel(self.frame_2)
+"")
+        self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_2)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label_3 = QtWidgets.QLabel(self.frame_2)
         font = QtGui.QFont()
         font.setWeight(75)
         font.setBold(True)
         self.label_3.setFont(font)
-        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
-        self.dsbInicial = QtGui.QDoubleSpinBox(self.frame_2)
+        self.dsbInicial = QtWidgets.QDoubleSpinBox(self.frame_2)
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setWeight(75)
         font.setBold(True)
         self.dsbInicial.setFont(font)
         self.dsbInicial.setFrame(False)
-        self.dsbInicial.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.dsbInicial.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+        self.dsbInicial.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.dsbInicial.setButtonSymbols(QtWidgets.QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.dsbInicial.setMaximum(99999.99)
-        self.dsbInicial.setObjectName(_fromUtf8("dsbInicial"))
+        self.dsbInicial.setObjectName("dsbInicial")
         self.horizontalLayout.addWidget(self.dsbInicial)
         self.verticalLayout.addWidget(self.frame_2)
-        self.buttonBox = QtGui.QDialogButtonBox(Dialog)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         font = QtGui.QFont()
         font.setPointSize(9)
         self.buttonBox.setFont(font)
-        self.buttonBox.setStyleSheet(_fromUtf8(""))
-        self.buttonBox.setLocale(QtCore.QLocale(QtCore.QLocale.Spanish, QtCore.QLocale.Mexico))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setStyleSheet("")
+        self.buttonBox.setLocale(QtCore.QLocale(QtCore.QLocale.Language.Spanish, QtCore.QLocale.Country.Mexico))
+        self.buttonBox.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Cancel|QtWidgets.QDialogButtonBox.StandardButton.Ok)
         self.buttonBox.setCenterButtons(True)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Apertura de caja", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Dialog", "Apertura de Caja", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Dialog", "Efectivo inicial: ", None, QtGui.QApplication.UnicodeUTF8))
-        self.dsbInicial.setPrefix(QtGui.QApplication.translate("Dialog", "$", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtCore.QCoreApplication.translate("Dialog", "Apertura de caja"))
+        self.label.setText(QtCore.QCoreApplication.translate("Dialog", "Apertura de Caja"))
+        self.label_3.setText(QtCore.QCoreApplication.translate("Dialog", "Efectivo inicial: "))
+        self.dsbInicial.setPrefix(QtCore.QCoreApplication.translate("Dialog", "$"))
 

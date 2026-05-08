@@ -15,14 +15,14 @@ def dummy_play(path):
     """
     dummy method used when no method is available
     """
-    print "can't play", path
+    print("can't play", path)
 
 if os.name == 'nt':
     import winsound
 
     def play(path):
-    for i in range(3):
-      winsound.Beep(500,100)
+        for i in range(3):
+          winsound.Beep(500,100)
         #winsound.PlaySound("SystemQuestion", winsound.SND_FILENAME)
 elif os.name == 'posix':
     try:

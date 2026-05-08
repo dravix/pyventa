@@ -70,21 +70,21 @@ if __name__ == '__main__':
 
 
     # Search and replace
-    print 'Searching for something in a paragraph ...',
+    print('Searching for something in a paragraph ...',)
     if search(body, 'the awesomeness'):
-        print 'found it!'
+        print('found it!')
     else:
-        print 'nope.'
+        print('nope.')
 
-    print 'Searching for something in a heading ...',
+    print('Searching for something in a heading ...',)
     if search(body, '200 lines'):
-        print 'found it!'
+        print('found it!')
     else:
-        print 'nope.'
+        print('nope.')
 
-    print 'Replacing ...',
+    print('Replacing ...',)
     body = replace(body, 'the awesomeness', 'the goshdarned awesomeness')
-    print 'done.'
+    print('done.')
 
     # Add a pagebreak
     body.append(pagebreak(type='page', orient='portrait'))

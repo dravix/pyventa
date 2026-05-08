@@ -7,7 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 qt_resource_data = "\
 \x00\x00\x0e\x4f\

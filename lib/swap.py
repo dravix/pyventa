@@ -1,21 +1,21 @@
 import sys
 from lib import  libutil
 from ui.ui_swap import Ui_Swap
-from PyQt4 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 #cant=input("Ingrese la cantidad")
-class Swaproductos(QtGui.QDialog, Ui_Swap): 
+class Swaproductos(QtWidgets.QDialog, Ui_Swap): 
   def __init__(self, parent,ref=0):
-    QtGui.QDialog.__init__(self)
+    QtWidgets.QDialog.__init__(self)
     self.setupUi(self)
     self.cursor=parent.cursor
     self.curser=parent.curser
     self.parent=parent
-    self.connect(self.leBusca, QtCore.SIGNAL("textChanged(QString)"), self.buscar)
-    self.connect(self.tbAplicar, QtCore.SIGNAL("clicked()"), self.aplicar)
+    self.leBusca.textChanged.connect(self.buscar)
+    self.tbAplicar.clicked.connect(self.aplicar)
     self.connect(self.cbProd, QtCore.SIGNAL("activated (int )"), self.setProp)
     self.connect(self.tbRegresar, QtCore.SIGNAL("clicked()"), lambda:self.regresar())
-    self.connect(self.tbConfirmar, QtCore.SIGNAL("clicked()"), self.commit)
+    self.tbConfirmar.clicked.connect(self.commit)
     #self.connect(self.tbRegresar, QtCore.SIGNAL("clicked()"), lambda:self.stack.setCurrentIndex(0))
 
     
@@ -24,7 +24,7 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
       self.ref=ref
       self.buscarProd(ref)
     else:
-      print "Referencia %s equivocada"%ref
+      print("Referencia %s equivocada"%ref)
     
   def buscar(self,txt):
     txt=str(txt)
@@ -55,7 +55,7 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
     self.cursor.execute(sql)
     tup=self.cursor.fetchall()
     li=[row[0] for row  in tup]
-    self.com=QtGui.QCompleter(li,self)
+    self.com=QtWidgets.QCompleter(li,self)
     self.com.setCaseSensitivity(0)
     self.leBusca.setCompleter(self.com)
     self.connect(self.com, QtCore.SIGNAL("activated (QString )"), self.buscarProd)
@@ -91,23 +91,23 @@ class Swaproductos(QtGui.QDialog, Ui_Swap):
     tmp=float(self.dsbCant.value())*float(self.sub['prop'])
     viejos=int(self.dsbCant.value())-((tmp-int(tmp))*float(self.sub['cantidad']))
     if float(self.producto['stock_logico'])>=viejos:
-    antes=libutil.listaHtml([
-    [self.prod['descripcion'],self.prod['stock_logico']],
-    [self.sub['descripcion'],self.sub['stock_logico']]
-    ], "Existencias antes.",["Producto","Existencias"],anchos=[80,20])
+        antes=libutil.listaHtml([
+        [self.prod['descripcion'],self.prod['stock_logico']],
+        [self.sub['descripcion'],self.sub['stock_logico']]
+        ], "Existencias antes.",["Producto","Existencias"],anchos=[80,20])
 
-    despues=libutil.listaHtml([
-      [self.prod['descripcion'],self.prod['stock_logico']-viejos],
-      [self.sub['descripcion'],float(self.sub['stock_logico'])+(nuevos)]
-      ], "Existencias despues.",["Producto","Existencias"],anchos=[80,20])
-      
-    tabla=libutil.listaHtml([antes,despues],"Tabla comparativa",[],'#fff',"#239AB1", tfuente=10,opc="100")
-    self.lbResulta.setText(str(self.lbResulta.text())%(viejos,self.prod['descripcion'],nuevos,self.sub['descripcion'],antes,despues))
-    self.stack.setCurrentIndex(1)
+        despues=libutil.listaHtml([
+          [self.prod['descripcion'],self.prod['stock_logico']-viejos],
+          [self.sub['descripcion'],float(self.sub['stock_logico'])+(nuevos)]
+          ], "Existencias despues.",["Producto","Existencias"],anchos=[80,20])
+          
+        tabla=libutil.listaHtml([antes,despues],"Tabla comparativa",[],'#fff',"#239AB1", tfuente=10,opc="100")
+        self.lbResulta.setText(str(self.lbResulta.text())%(viejos,self.prod['descripcion'],nuevos,self.sub['descripcion'],antes,despues))
+        self.stack.setCurrentIndex(1)
     else:
-      em=QtGui.QErrorMessage(self)
+      em=QtWidgets.QErrorMessage(self)
       em.showMessage( "No hay suficientes unidades, hay %s unidades se requieren %s"%(float(self.producto['stock_logico']),viejos))
-      print "No hay suficientes unidades ",float(self.producto['stock_logico']),viejos
+      print("No hay suficientes unidades ",float(self.producto['stock_logico']),viejos)
   
   def commit(self):
     nuevos=int(float(self.dsbCant.value())*float(self.sub['prop']))
@@ -155,10 +155,10 @@ if __name__=="__main__":
   #superior(ref)
   #inferior(ref)
   #print tabla
-  app = QtGui.QApplication(sys.argv)
+  app = QtWidgets.QApplication(sys.argv)
   app.processEvents()
   aw = Swaproductos(11754)
   aw.show()
-  app.exec_()
+  app.exec()
 
   

@@ -6,17 +6,17 @@ from utileria import conexion
 import  libutil
 from librepo import Ventas, Chart
 from ui_reportero import Ui_Reporte
-from PyQt4 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 #cant=input("Ingrese la cantidad")
-class Reporte(QtGui.QDialog, Ui_Reporte): 
+class Reporte(QtWidgets.QDialog, Ui_Reporte): 
   def __init__(self):
-    QtGui.QDialog.__init__(self)
+    QtWidgets.QDialog.__init__(self)
     self.setupUi(self)
     self.deDesde.setDate(QtCore.QDate.currentDate())
     self.deHasta.setDate(QtCore.QDate.currentDate())
-    self.connect(self.tbVer, QtCore.SIGNAL("clicked()"), self.ejecutar)
-    self.connect(self.tbPrint, QtCore.SIGNAL("clicked()"), self.imprimir)
+    self.tbVer.clicked.connect(self.ejecutar)
+    self.tbPrint.clicked.connect(self.imprimir)
     self.con=conexion()
     self.consulta={'titulo':'Mejores productos Temporada','descripcion':'Productos con mas ventas','fecha':''}
     
@@ -24,9 +24,9 @@ class Reporte(QtGui.QDialog, Ui_Reporte):
       inicio=str(self.deDesde.date().toString('yyyy-MM-dd'))
       fin=str(self.deHasta.date().toString('yyyy-MM-dd'))
       if (inicio==fin):
-    self.periodo=" date(%s)='%s'"%(campo,inicio)
+        self.periodo=" date(%s)='%s'"%(campo,inicio)
       else:
-    self.periodo=" date(%s) BETWEEN '%s' and  '%s' "%(campo,inicio,fin)
+        self.periodo=" date(%s) BETWEEN '%s' and  '%s' "%(campo,inicio,fin)
       return self.periodo
     
   def ejecutar(self):
@@ -34,10 +34,10 @@ class Reporte(QtGui.QDialog, Ui_Reporte):
       tup=self.con.query(qry.replace('<rango>',self.getPeriodo('fecha')))
       self.header= [key[0] for key in self.con.cursor.description]
       if tup!=None:
-    self.modelo=libutil.tabular(self.tvTabla, tup,self.header)
+        self.modelo=libutil.tabular(self.tvTabla, tup,self.header)
 
-    #for item in tup:
-      #print item
+        #for item in tup:
+          #print item
   def imprimir(self):
       vector=self.modelo.getVector()
       #head=[[len(row),row] for row in self.header]
@@ -51,9 +51,9 @@ if __name__=="__main__":
   #superior(ref)
   #inferior(ref)
   #print tabla
-  app = QtGui.QApplication(sys.argv)
+  app = QtWidgets.QApplication(sys.argv)
   app.processEvents()
   aw = Reporte()
   aw.show()
-  app.exec_()
+  app.exec()
     

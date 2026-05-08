@@ -1,6 +1,7 @@
 #Modulos de cuentas pendientes
-from PyQt4.QtCore import SIGNAL
-from PyQt4.QtGui import QWidget, QAction, QIcon
+from PyQt6.QtCore import SIGNAL
+from PyQt6.QtWidgets import QWidget, QAction
+from PyQt6.QtGui import QIcon
 from lib.modelos.qmodelotablasql import QModeloTablaSql
 
 from ui.ui_pendientes import Ui_Form
@@ -15,7 +16,7 @@ class Pendientes(QWidget, Ui_Form):
       self.action.setIcon(QIcon(":/modulos/images/png/elegant/pending.png"))
       self.action.setIconVisibleInMenu(True)
       self.action.setText(self.datos['nombre'])
-      self.connect(self.action, SIGNAL("triggered()"), self.ver )
+      self.action.triggered.connect(self.ver)
       self.modelo=QModeloTablaSql(parent.cursor,self)
       self.tvCuentas.setModel(self.modelo)
       self.init()
@@ -45,4 +46,4 @@ class Pendientes(QWidget, Ui_Form):
     self.tvCuentas.resizeColumnsToContents()
     
   def setupEvents(self):
-    self.connect(self.ncactualizar,SIGNAL("clicked()"), self.listar)
+    self.ncactualizar.clicked.connect(self.listar)

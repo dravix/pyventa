@@ -9,7 +9,7 @@ class Documento:
     try:
       f=open(ruta,"r")
     except:
-      print "EL archivo '{0}'  no se encontro".format(ruta)
+      print("EL archivo '{0}'  no se encontro".format(ruta))
     else:
       plantilla=f.read().format(**campos)
       f.close()

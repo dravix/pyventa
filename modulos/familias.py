@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QComboBox
-from PyQt4 import QtCore
+from PyQt6.QtWidgets import QComboBox
+from PyQt6 import QtCore, QtGui, QtWidgets
 from modulos.control1 import Admin1
 
 class Familias(Admin1):

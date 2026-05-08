@@ -1,7 +1,8 @@
 #['Id','Nombre','rfc','direccion','poblacion','estado','tel','correo','credito']
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QLineEdit,QSpinBox,QIcon
-from PyQt4 import QtCore
+from PyQt6.QtWidgets import QLineEdit, QSpinBox
+from PyQt6.QtGui import QIcon
+from PyQt6 import QtCore, QtGui, QtWidgets
 from modulos.control1 import Admin1
 
 class Cajas(Admin1):
@@ -12,8 +13,8 @@ class Cajas(Admin1):
       tipo.setMinimum(0)
       tipo.setButtonSymbols(2)
       #ip.setInputMask("000.000.000.000")
-      tipo.setAlignment(QtCore.Qt.AlignCenter)
-      #ip.setAlignment(QtCore.Qt.AlignRight)
+      tipo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+      #ip.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
       info="Las ventas son distribuidas en cajas, asi que debe existir una caja por menos."
       icono=":/actions/images/actions/color_18/monitor.png"
       Admin1.__init__(self,parent,'cajas',

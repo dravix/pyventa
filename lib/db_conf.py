@@ -3,20 +3,20 @@ import sys
 import os
 import base64
 import time
-from PyQt4 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui, QtWidgets
 from ui.ui_bd_config import Ui_Dialog
 import MySQLdb
 import ConfigParser
 
 
-class configurador(QtGui.QDialog, Ui_Dialog):
+class configurador(QtWidgets.QDialog, Ui_Dialog):
     def __init__(self, configFile=-1):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
-        self.connect(self.bprobar, QtCore.SIGNAL("clicked()"), self.conexion)
-        self.connect(self.bset, QtCore.SIGNAL("clicked()"), self.setDB)
-        self.connect(self.bclose, QtCore.SIGNAL("clicked()"), self.close)
-        self.connect(self.bcreate, QtCore.SIGNAL("clicked()"), self.crearDB)
+        self.bprobar.clicked.connect(self.conexion)
+        self.bset.clicked.connect(self.setDB)
+        self.bclose.clicked.connect(self.close)
+        self.bcreate.clicked.connect(self.crearDB)
         self.bcreate.setEnabled(False)
         self.host = ''
         self.user = ''
@@ -42,9 +42,9 @@ class configurador(QtGui.QDialog, Ui_Dialog):
         self.done(1)
 
     def crearDB(self):
-        progress = QtGui.QProgressDialog(
+        progress = QtWidgets.QProgressDialog(
             "Cargando la base de datos", "Cerrar", 0, 4, self)
-        # progress.setWindowModality(Qt.WindowModal)
+        # progress.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
         fi = open('/usr/share/pyventa/perfil/db.sql')
         tpv = fi.read()
         progress.setValue(1)
@@ -55,7 +55,7 @@ class configurador(QtGui.QDialog, Ui_Dialog):
         self.db = str(self.tdb.text())
         try:
             db = MySQLdb.connect(self.host, self.user, self.password, self.db)
-        except MySQLdb.Error, e:
+        except MySQLdb.Error as e:
             if (e.args[0] == 1049):
                 try:
                     db = MySQLdb.connect(self.host, self.user, self.password)
@@ -64,7 +64,7 @@ class configurador(QtGui.QDialog, Ui_Dialog):
                     self.crearDB()
                     return
                 except:
-                    print "Error al tratar de crear una base de datos"
+                    print("Error al tratar de crear una base de datos")
                     return
         else:
             c = db.cursor()
@@ -86,8 +86,8 @@ class configurador(QtGui.QDialog, Ui_Dialog):
                 "UPDATE usuarios  set clave=MD5('%s') where usuario='admin' " % self.password)
             cursor.execute("INSERT INTO `usuarios` (`id_usuario`, `nombre`, `usuario`, `clave`, `nivel`) VALUES (1, 'Usuario Administrador', '%s', '%s', 5); " % (
                 self.user, self.password))
-        except MySQLdb.Error, e:
-            print e, "Linea 88"
+        except MySQLdb.Error as e:
+            print(e, "Linea 88")
         else:
             self.display.setText('<h2>Se creo la base de datos</h2><h2>Cuenta de administrador</h2><p>Se ha establecido como administrador el usuario <b>admin</b> con la misma clave de acceso que tu base de datos, es recomendable que la cambies desde el adminstrador para mejorar la seguridad.</p>')
 
@@ -96,10 +96,10 @@ class configurador(QtGui.QDialog, Ui_Dialog):
         user = str(self.tuser.text())
         password = str(self.tpass.text())
         base = str(self.tdb.text())
-        print "Probando configuracion %s @ %s:3306/%s "%(user,host,base)
+        print("Probando configuracion %s @ %s:3306/%s "%(user,host,base))
         try:
             db = MySQLdb.connect(host, user, password, base)
-        except MySQLdb.Error, e:
+        except MySQLdb.Error as e:
             if (e.args[0] == 1049):
                 self.bcreate.setEnabled(True)
                 self.display.setText('<h1>No se encontro ninguna base de datos en el servidor.</h1>\
@@ -143,7 +143,7 @@ class configurador(QtGui.QDialog, Ui_Dialog):
 
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     aw = configurador()
     aw.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

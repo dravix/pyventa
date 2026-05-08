@@ -8,7 +8,7 @@ _n2 = ( "dieci","veinti","treinta","cuarenta","cincuenta","sesenta",
 _n3 = ( "ciento","dosc","tresc","cuatroc","quin","seisc",
         "setec","ochoc","novec")
 def numerals(nNumero, lFemenino=0):
-    nNumero = long(nNumero)
+    nNumero = int(nNumero)
     if nNumero<0:       cRes = "menos "+_numerals(-nNumero,lFemenino)
     elif nNumero==0:    cRes = "cero"
     else:               cRes = _numerals(nNumero,lFemenino)
@@ -19,7 +19,7 @@ def numerals(nNumero, lFemenino=0):
 # Funcion auxiliar recursiva
 def _numerals(n, lFemenino=0):
     # Localizar los billones    
-    prim,resto = divmod(n,10L**12)
+    prim,resto = divmod(n,10**12)
     if prim!=0:
         if prim==1:     cRes = "un billon"
         else:           cRes = _numerals(prim,0)+" billones" # Billones es masculino
@@ -65,9 +65,9 @@ def _numerals(n, lFemenino=0):
     return cRes
     
 def nletras(numero): #Traduce un entero en letra
-    print numero
+    print(numero)
     numero=round(numero,2)
-    print numero
+    print(numero)
     
     num=str(numero)
     num=num.split('.')
@@ -79,9 +79,9 @@ def nletras(numero): #Traduce un entero en letra
     return ret.upper()  
   
 def nletra(numero): #Traduce un entero en letra
-    print numero
+    print(numero)
     numero=round(numero,2)
-    print numero
+    print(numero)
     
     num=str(numero)
     num=num.split('.')

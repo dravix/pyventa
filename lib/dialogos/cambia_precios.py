@@ -1,5 +1,5 @@
-from PyQt4.QtCore import SIGNAL
-from PyQt4.QtGui import QDialog
+from PyQt6.QtCore import SIGNAL
+from PyQt6.QtWidgets import QDialog
 from ui.ui_cambia_precios import Ui_Form
 from lib.modelos.qmodelotabla import QModeloTabla
 from copy import deepcopy
@@ -15,9 +15,9 @@ class CambiaPrecios(QDialog, Ui_Form):
     self.modelo=QModeloTabla(self.productos,["Ref","Descripcion","Costo","Ganancia","Precio"],self.parent)
     self.tvProductos.setModel(self.modelo)
     self.tvProductos.resizeColumnsToContents()
-    self.connect(self.pbProbar, SIGNAL("clicked()"), self.aplicar)
-    self.connect(self.pbRestaurar, SIGNAL("clicked()"), self.restaurar)
-    self.connect(self.pbGuardar, SIGNAL("clicked()"), self.guardar)
+    self.pbProbar.clicked.connect(self.aplicar)
+    self.pbRestaurar.clicked.connect(self.restaurar)
+    self.pbGuardar.clicked.connect(self.guardar)
     
   def aplicar(self):
     if self.chbCosto.checkState()==2:
@@ -68,14 +68,14 @@ class CambiaPrecios(QDialog, Ui_Form):
 
     for item in self.tmps:
       try:
-    sql="UPDATE productos set costo='{2}' , ganancia='{3}' , precio='{4}' WHERE ref={0}".format(*item)
-    self.cursor.execute(sql)
-      except Error, e:
-    print "Error en el producto {0}, e={1}".format(item[0],e.args[0]),e
+        sql="UPDATE productos set costo='{2}' , ganancia='{3}' , precio='{4}' WHERE ref={0}".format(*item)
+        self.cursor.execute(sql)
+      except Error as e:
+        print("Error en el producto {0}, e={1}".format(item[0],e.args[0]),e)
       else:
-    self.cursor.execute("COMMIT")
-#   print sql
-    
+        self.cursor.execute("COMMIT")
+#       print sql
+        
       self.done(1)
 
   
